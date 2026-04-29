@@ -10,7 +10,7 @@ const instagram = document.getElementById("instagram");
 const messenger = document.getElementById("messenger");
 
 // Load existing contact info
-fetch("/api/admin/contact")
+fetch(`${API_URL}/api/admin/contact`)
   .then(res => res.json())
   .then(data => {
     whatsapp.value = data.whatsapp;
@@ -26,7 +26,7 @@ fetch("/api/admin/contact")
 document.getElementById("contactForm").addEventListener("submit", e => {
   e.preventDefault();
 
-  fetch("/api/admin/contact", {
+  fetch(`${API_URL}/api/admin/contact`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

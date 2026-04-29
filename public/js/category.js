@@ -14,7 +14,7 @@ fetch("footer.html")
   .then(data => document.getElementById("footer").innerHTML = data);
 
 // Fetch categories from backend
-fetch("/api/categories")
+fetch(`${API_URL}/api/categories`)
   .then(res => res.json())
   .then(categories => {
     const container = document.getElementById("categoryContainer");

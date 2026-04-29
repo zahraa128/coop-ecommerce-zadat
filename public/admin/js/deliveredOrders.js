@@ -7,7 +7,7 @@
 const tableBody = document.querySelector("#deliveredOrdersTable tbody");
 
 function loadDeliveredOrders() {
-  fetch("/api/admin/orders/delivered")
+  fetch(`${API_URL}/api/admin/orders/delivered`)
     .then(res => res.json())
     .then(orders => {
       tableBody.innerHTML = "";

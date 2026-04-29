@@ -139,7 +139,7 @@ function submitOrder() {
     return;
   }
 
-  fetch("/api/checkout", {
+  fetch(`${API_URL}/api/checkout`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ customer_id: customerId, cart })

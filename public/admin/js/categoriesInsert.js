@@ -10,7 +10,7 @@ document.getElementById("categoryForm").addEventListener("submit", e => {
   const name = document.getElementById("category_name").value.trim();
   const msg = document.getElementById("message");
 
-  fetch("/api/admin/categories", {
+  fetch(`${API_URL}/api/admin/categories`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name })

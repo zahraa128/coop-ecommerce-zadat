@@ -4,7 +4,7 @@
  * Loads contact info for admin
  */
 
-fetch("/api/admin/contact")
+fetch(`${API_URL}/api/admin/contact`)
   .then(res => res.json())
   .then(data => {
     document.getElementById("whatsapp").textContent = data.whatsapp;

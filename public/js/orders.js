@@ -11,7 +11,7 @@ if (!customerId) {
   tableBody.innerHTML =
     "<tr><td colspan=\"7\">Please login to view your orders.</td></tr>";
 } else {
-  fetch(`/api/orders?customer_id=${customerId}`)
+  fetch(`${API_URL}/api/orders?customer_id=${customerId}`)
     .then(res => res.json())
     .then(orders => {
       tableBody.innerHTML = "";

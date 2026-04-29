@@ -1,27 +1,26 @@
-// backend/routes/adminAuth.js
 const express = require("express");
 const router = express.Router();
-const db = require("../connect");
+const pool = require("../db");
 
 // POST /api/admin/auth/login
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
-  const sql = "SELECT * FROM admin WHERE username = ? AND password = ?";
-  db.query(sql, [username, password], (err, results) => {
-    if (err) {
-      console.error("DB error:", err);
-      return res.status(500).json({ success: false, message: "Server error" });
-    }
+  try {
+    const result = await pool.query(
+      "SELECT * FROM admins WHERE username = $1 AND password = $2 LIMIT 1",
+      [username, password]
+    );
 
-    if (results.length >= 1) {
-      // Valid login
-      res.json({ success: true, username: results[0].username });
+    if (result.rows.length >= 1) {
+      res.json({ success: true, username: result.rows[0].username });
     } else {
-      // Wrong username / password
       res.json({ success: false, message: "Invalid username or password" });
     }
-  });
+  } catch (err) {
+    console.error("DB error:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 });
 
 module.exports = router;

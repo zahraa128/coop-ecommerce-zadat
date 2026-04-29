@@ -12,7 +12,7 @@ document.getElementById("loginForm").addEventListener("submit", e => {
   const password = document.getElementById("password").value.trim();
   const errorMsg = document.getElementById("errorMsg");
 
-  fetch("/api/login", {
+  fetch(`${API_URL}/api/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password })

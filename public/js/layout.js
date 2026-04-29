@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const today = new Date().toISOString().slice(0, 10);
   const lastVisit = localStorage.getItem("last_visit_date");
   if (lastVisit !== today) {
-    fetch("/api/track-visit", { method: "POST" })
+    fetch(`${API_URL}/api/track-visit`, { method: "POST" })
       .then(() => {
         localStorage.setItem("last_visit_date", today);
       })

@@ -9,7 +9,7 @@ const message = document.getElementById("message");
 const categorySelect = document.getElementById("categorySelect");
 
 // Load categories
-fetch("/api/admin/categories-list")
+fetch(`${API_URL}/api/admin/categories-list`)
   .then(res => res.json())
   .then(categories => {
     categories.forEach(cat => {
@@ -26,7 +26,7 @@ form.addEventListener("submit", e => {
 
   const formData = new FormData(form);
 
-  fetch("/api/admin/products", {
+  fetch(`${API_URL}/api/admin/products`, {
     method: "POST",
     body: formData
   })

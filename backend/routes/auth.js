@@ -1,50 +1,41 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../connect");
+const pool = require("../db");
 
-
-/* =========================
-   REGISTER (optional)
-   ========================= */
-router.post("/register", (req, res) => {
+router.post("/register", async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
     return res.status(400).json({ success: false, message: "Missing data" });
   }
 
-  const sql = "INSERT INTO admin (username, password) VALUES (?, ?)";
-
-  db.query(sql, [username, password], (err) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ success: false });
-    }
-
+  try {
+    await pool.query("INSERT INTO admins (username, password) VALUES ($1, $2)", [username, password]);
     res.json({ success: true });
-  });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false });
+  }
 });
 
-/* =========================
-   LOGIN
-   ========================= */
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
-  const sql = "SELECT * FROM admin WHERE username = ? AND password = ?";
+  try {
+    const result = await pool.query(
+      "SELECT * FROM admins WHERE username = $1 AND password = $2 LIMIT 1",
+      [username, password]
+    );
 
-  db.query(sql, [username, password], (err, results) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ success: false });
-    }
-
-    if (results.length === 1) {
+    if (result.rows.length === 1) {
       res.json({ success: true });
     } else {
       res.json({ success: false, message: "Invalid credentials" });
     }
-  });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false });
+  }
 });
 
 module.exports = router;

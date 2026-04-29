@@ -14,7 +14,7 @@ if (new URLSearchParams(window.location.search).get("updated") === "true") {
 }
 
 // Load products
-fetch("/api/admin/products")
+fetch(`${API_URL}/api/admin/products`)
   .then(res => res.json())
   .then(products => {
     tableBody.innerHTML = "";
@@ -47,7 +47,7 @@ fetch("/api/admin/products")
 function deleteProduct(id) {
   if (!confirm("Are you sure?")) return;
 
-  fetch(`/api/admin/products/${id}`, {
+  fetch(`${API_URL}/api/admin/products/${id}`, {
     method: "DELETE"
   })
     .then(res => res.json())

@@ -2,13 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 require("dotenv").config();
-const db = require("./connect"); // This line makes connect.js run
+const pool = require("./db"); // Initialize PostgreSQL connection
 
 const app = express();
 
-if (process.env.NODE_ENV !== "production") {
-  app.use(cors());
-}
+app.use(cors());
 app.use(express.json());
 
 // static files if needed
@@ -50,5 +48,5 @@ app.get(/.*/, (req, res) => {
 });
 
 app.listen(process.env.PORT || 3000, () => {
-  console.log(`Server running on http://localhost:${process.env.PORT || 3000}`);
+  console.log(`Server running on port ${process.env.PORT || 3000}`);
 });

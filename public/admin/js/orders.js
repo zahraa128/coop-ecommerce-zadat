@@ -13,7 +13,7 @@ function loadOrders() {
   const search = searchInput.value.trim();
   const sort = sortSelect.value;
 
-  let url = `/api/admin/orders?sort=${sort}`;
+  let url = `${API_URL}/api/admin/orders?sort=${sort}`;
   if (search) {
     url += `&search=${encodeURIComponent(search)}`;
   }
@@ -63,7 +63,7 @@ function loadOrders() {
         select.addEventListener("change", () => {
           const id = select.getAttribute("data-id");
           const status = select.value;
-          fetch(`/api/admin/orders/${id}/status`, {
+          fetch(`${API_URL}/api/admin/orders/${id}/status`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ status })
@@ -75,7 +75,7 @@ function loadOrders() {
         btn.addEventListener("click", () => {
           const id = btn.getAttribute("data-id");
           if (!confirm("Delete this order?")) return;
-          fetch(`/api/admin/orders/${id}`, {
+          fetch(`${API_URL}/api/admin/orders/${id}`, {
             method: "DELETE"
           })
             .then(() => loadOrders())

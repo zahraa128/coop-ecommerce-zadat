@@ -26,7 +26,7 @@ document.getElementById("registerForm").addEventListener("submit", e => {
     confirm_password: confirmPassword
   };
 
-  fetch("/api/register", {
+  fetch(`${API_URL}/api/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)

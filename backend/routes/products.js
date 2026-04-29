@@ -6,53 +6,48 @@
 
 const express = require("express");
 const router = express.Router();
-const db = require("../connect");
+const pool = require("../db");
 
-// GET products (all or by category)
-router.get("/products", (req, res) => {
+router.get("/products", async (req, res) => {
   const categoryId = req.query.category_id;
 
   let sql = "SELECT * FROM products";
-  let params = [];
+  const params = [];
 
   if (categoryId) {
-    sql += " WHERE category_id = ?";
+    sql += " WHERE category_id = $1";
     params.push(categoryId);
   }
 
-  db.query(sql, params, (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-    res.json(results);
-  });
+  sql += " ORDER BY p_id DESC";
+
+  try {
+    const result = await pool.query(sql, params);
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// GET categories
-router.get("/categories", (req, res) => {
-  db.query("SELECT * FROM categories", (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-    res.json(results);
-  });
-});
-// Get product by ID
-router.get("/products/:id", (req, res) => {
-  const id = req.params.id;
-
-  db.query(
-    "SELECT * FROM products WHERE p_id = ?",
-    [id],
-    (err, result) => {
-      if (err) return res.status(500).json(err);
-      if (result.length === 0)
-        return res.status(404).json({ message: "Product not found" });
-
-      res.json(result[0]);
-    }
-  );
+router.get("/categories", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM categories ORDER BY name");
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-module.exports = router;
+router.get("/products/:id", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM products WHERE p_id = $1", [req.params.id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;

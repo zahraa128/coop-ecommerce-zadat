@@ -13,7 +13,7 @@ if (!productId) {
 }
 
 // Load categories
-fetch("/api/admin/categories-list")
+fetch(`${API_URL}/api/admin/categories-list`)
   .then(res => res.json())
   .then(categories => {
     const select = document.getElementById("categorySelect");
@@ -26,7 +26,7 @@ fetch("/api/admin/categories-list")
   });
 
 // Load product
-fetch(`/api/admin/products/${productId}`)
+fetch(`${API_URL}/api/admin/products/${productId}`)
   .then(res => res.json())
   .then(p => {
     document.getElementById("product_id").value = p.p_id;
@@ -44,7 +44,7 @@ document.getElementById("editProductForm").addEventListener("submit", e => {
 
   const formData = new FormData(e.target);
 
-  fetch(`/api/admin/products/${productId}`, {
+  fetch(`${API_URL}/api/admin/products/${productId}`, {
     method: "PUT",
     body: formData
   })

@@ -39,7 +39,7 @@ const bindAllButton = () => {
 };
 
 // Load categories
-fetch("/api/categories")
+fetch(`${API_URL}/api/categories`)
   .then(res => res.json())
   .then(categories => {
     const filter = document.getElementById("categoryFilter");
@@ -63,7 +63,7 @@ fetch("/api/categories")
 bindAllButton();
 
 // Load products
-let productUrl = "/api/products";
+let productUrl = `${API_URL}/api/products`;
 if (categoryId) {
   productUrl += `?category_id=${categoryId}`;
 }

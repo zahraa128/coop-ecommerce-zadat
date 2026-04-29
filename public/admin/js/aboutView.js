@@ -4,7 +4,7 @@
  * Loads About Us content for admin
  */
 
-fetch("/api/admin/about")
+fetch(`${API_URL}/api/admin/about`)
   .then(res => res.json())
   .then(data => {
     document.getElementById("aboutContent").innerHTML =

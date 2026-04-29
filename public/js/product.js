@@ -24,7 +24,7 @@ if (!productId) {
 }
 
 // Fetch product details
-fetch(`/api/products/${productId}`)
+fetch(`${API_URL}/api/products/${productId}`)
   .then(res => res.json())
   .then(product => {
     document.getElementById("productName").textContent = product.name;

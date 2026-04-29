@@ -7,7 +7,7 @@
 const tableBody = document.querySelector("#categoriesTable tbody");
 
 // Load categories
-fetch("/api/admin/categories")
+fetch(`${API_URL}/api/admin/categories`)
   .then(res => res.json())
   .then(categories => {
     tableBody.innerHTML = "";
@@ -32,7 +32,7 @@ fetch("/api/admin/categories")
 function deleteCategory(id) {
   if (!confirm("Are you sure?")) return;
 
-  fetch(`/api/admin/categories/${id}`, {
+  fetch(`${API_URL}/api/admin/categories/${id}`, {
     method: "DELETE"
   })
     .then(res => res.json())

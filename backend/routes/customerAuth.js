@@ -1,10 +1,9 @@
 const express = require("express");
-const db = require("../connect");
+const pool = require("../db");
 
 const router = express.Router();
 
-// CUSTOMER REGISTER
-router.post("/register", (req, res) => {
+router.post("/register", async (req, res) => {
   const {
     full_name,
     phone,
@@ -22,59 +21,49 @@ router.post("/register", (req, res) => {
     return res.status(400).json({ message: "Passwords do not match" });
   }
 
-  db.query(
-    "SELECT c_id FROM customers WHERE email = ? LIMIT 1",
-    [email],
-    (err, results) => {
-      if (err) {
-        return res.status(500).json({ message: "Server error" });
-      }
-
-      if (results.length > 0) {
-        return res.status(400).json({ message: "Email already registered" });
-      }
-
-      db.query(
-        "INSERT INTO customers (full_name, phone, email, address, password) VALUES (?, ?, ?, ?, ?)",
-        [full_name, phone, email, address, password],
-        err2 => {
-          if (err2) {
-            return res.status(500).json({ message: "Server error" });
-          }
-          res.json({ message: "Registration successful" });
-        }
-      );
+  try {
+    const existing = await pool.query("SELECT c_id FROM customers WHERE email = $1 LIMIT 1", [email]);
+    if (existing.rows.length > 0) {
+      return res.status(400).json({ message: "Email already registered" });
     }
-  );
+
+    await pool.query(
+      `INSERT INTO customers (full_name, phone, email, address, password)
+       VALUES ($1, $2, $3, $4, $5)`,
+      [full_name, phone, email, address, password]
+    );
+
+    res.json({ message: "Registration successful" });
+  } catch {
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
-// CUSTOMER LOGIN
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
     return res.status(400).json({ message: "Missing data" });
   }
 
-  db.query(
-    "SELECT c_id, full_name FROM customers WHERE email = ? AND password = ? LIMIT 1",
-    [email, password],
-    (err, results) => {
-      if (err) {
-        return res.status(500).json({ message: "Server error" });
-      }
+  try {
+    const result = await pool.query(
+      "SELECT c_id, full_name FROM customers WHERE email = $1 AND password = $2 LIMIT 1",
+      [email, password]
+    );
 
-      if (results.length === 0) {
-        return res.status(401).json({ message: "Invalid email or password" });
-      }
-
-      res.json({
-        message: "Login successful",
-        customer_id: results[0].c_id,
-        customer_name: results[0].full_name
-      });
+    if (result.rows.length === 0) {
+      return res.status(401).json({ message: "Invalid email or password" });
     }
-  );
+
+    res.json({
+      message: "Login successful",
+      customer_id: result.rows[0].c_id,
+      customer_name: result.rows[0].full_name
+    });
+  } catch {
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 module.exports = router;

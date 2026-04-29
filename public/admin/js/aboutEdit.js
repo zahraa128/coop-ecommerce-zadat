@@ -8,7 +8,7 @@ const contentField = document.getElementById("content");
 const message = document.getElementById("message");
 
 // Load existing content
-fetch("/api/admin/about")
+fetch(`${API_URL}/api/admin/about`)
   .then(res => res.json())
   .then(data => {
     contentField.value = data.content;
@@ -22,7 +22,7 @@ fetch("/api/admin/about")
 document.getElementById("aboutForm").addEventListener("submit", e => {
   e.preventDefault();
 
-  fetch("/api/admin/about", {
+  fetch(`${API_URL}/api/admin/about`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

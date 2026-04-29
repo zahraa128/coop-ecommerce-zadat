@@ -10,7 +10,7 @@ if (adminName) {
   document.getElementById("adminName").textContent = adminName;
 }
 
-fetch("/api/admin/visit-stats")
+fetch(`${API_URL}/api/admin/visit-stats`)
   .then(res => res.json())
   .then(stats => {
     const todayEl = document.getElementById("visitsToday");

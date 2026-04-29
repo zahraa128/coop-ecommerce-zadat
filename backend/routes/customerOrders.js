@@ -1,10 +1,9 @@
 const express = require("express");
-const db = require("../connect");
+const pool = require("../db");
 
 const router = express.Router();
 
-// CUSTOMER ORDERS
-router.get("/orders", (req, res) => {
+router.get("/orders", async (req, res) => {
   const customerId = req.query.customer_id;
 
   if (!customerId) {
@@ -16,16 +15,16 @@ router.get("/orders", (req, res) => {
            products.name AS product_name, products.price
     FROM orders
     JOIN products ON orders.product_id = products.p_id
-    WHERE orders.customers_id = ?
+    WHERE orders.customers_id = $1
     ORDER BY orders.order_date DESC
   `;
 
-  db.query(sql, [customerId], (err, results) => {
-    if (err) {
-      return res.status(500).json({ message: "Failed to fetch orders." });
-    }
-    res.json(results);
-  });
+  try {
+    const result = await pool.query(sql, [customerId]);
+    res.json(result.rows);
+  } catch {
+    res.status(500).json({ message: "Failed to fetch orders." });
+  }
 });
 
 module.exports = router;

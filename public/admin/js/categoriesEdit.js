@@ -13,7 +13,7 @@ if (!categoryId) {
 }
 
 // Load existing category
-fetch(`/api/admin/categories/${categoryId}`)
+fetch(`${API_URL}/api/admin/categories/${categoryId}`)
   .then(res => res.json())
   .then(cat => {
     document.getElementById("category_name").value = cat.name;
@@ -29,7 +29,7 @@ document.getElementById("editCategoryForm").addEventListener("submit", e => {
 
   const name = document.getElementById("category_name").value.trim();
 
-  fetch(`/api/admin/categories/${categoryId}`, {
+  fetch(`${API_URL}/api/admin/categories/${categoryId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name })

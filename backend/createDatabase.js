@@ -1,23 +1,15 @@
-const mysql = require("mysql2");
+const pool = require("./db");
 
-const conn = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "zahraa18*Z@"
-});
-
-conn.connect(err => {
-  if (err) {
-    console.error(err.message);
-    return;
+async function checkDatabaseConnection() {
+  try {
+    const result = await pool.query("SELECT current_database() AS database");
+    console.log(`Connected to PostgreSQL database: ${result.rows[0].database}`);
+  } catch (err) {
+    console.error("Database connection failed:", err.message);
+    process.exitCode = 1;
+  } finally {
+    await pool.end();
   }
+}
 
-  conn.query("CREATE DATABASE cooperation", (err) => {
-    if (err) {
-      console.error(err.message);
-    } else {
-      console.log("✅ Database cooperation created");
-    }
-    conn.end();
-  });
-});
+checkDatabaseConnection();
