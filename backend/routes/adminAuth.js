@@ -1,25 +1,27 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../db");
+const supabase = require("../supabase");
 
 // POST /api/admin/auth/login
 router.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-
   try {
-    const result = await pool.query(
-      "SELECT * FROM admins WHERE username = $1 AND password = $2 LIMIT 1",
-      [username, password]
-    );
+    const { username, password } = req.body;
 
-    if (result.rows.length >= 1) {
-      res.json({ success: true, username: result.rows[0].username });
-    } else {
-      res.json({ success: false, message: "Invalid username or password" });
+    const { data, error } = await supabase
+      .from("admins")
+      .select("*")
+      .eq("username", username)
+      .eq("password", password)
+      .single();
+
+    if (error || !data) {
+      return res.status(401).json({ message: "Invalid login" });
     }
+
+    res.json({ success: true, user: data, username: data.username });
   } catch (err) {
-    console.error("DB error:", err);
-    res.status(500).json({ success: false, message: "Server error" });
+    console.log(err);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
