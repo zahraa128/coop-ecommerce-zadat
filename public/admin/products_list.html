@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Product List</title>
+
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/list_prod.css">
+<script>
+  // redirect to login if admin not logged in
+  if (!localStorage.getItem("adminLoggedIn")) {
+    window.location.href = "login.html";
+  }
+</script>
+
+</head>
+
+<body>
+
+  <!-- ADMIN HEADER -->
+ <div id="admin-header"></div>
+
+  <h2>All Products</h2>
+  <p id="message"></p>
+
+  <table border="1" cellpadding="10" cellspacing="0" id="productsTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price $</th>
+        <th>Image</th>
+        <th>Description</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+<script src="js/adminHeader.js"></script>
+  <script src="js/productsList.js"></script>
+</body>
+</html>

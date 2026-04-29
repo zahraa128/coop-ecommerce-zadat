@@ -1,0 +1,72 @@
+.checkout-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #F6F1E6;
+    padding: 60px 20px;
+    min-height: 100vh;
+}
+
+.checkout-page .container {
+    max-width: 500px;
+    margin: auto;
+    background-color: #FFFFFF;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px #859864;
+}
+
+.checkout-page h2 {
+    text-align: center;
+    color: #5B7917;
+    margin-bottom: 30px;
+}
+
+.checkout-page form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.checkout-page label {
+    font-weight: bold;
+    color: #5B7917;
+}
+
+.checkout-page input[type="text"],
+.checkout-page textarea {
+    padding: 12px;
+    border: 1px solid #859864;
+    border-radius: 8px;
+    font-size: 15px;
+    resize: vertical;
+}
+
+.checkout-page textarea {
+    min-height: 100px;
+}
+
+.checkout-page button {
+    background-color: #5B7917;
+    color: #FFFFFF;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.checkout-page button:hover {
+    background-color: #899D31;
+}
+
+@media (max-width: 600px) {
+    .checkout-page .container {
+        padding: 25px 20px;
+    }
+
+    .checkout-page button {
+        font-size: 14px;
+        padding: 12px;
+    }
+}

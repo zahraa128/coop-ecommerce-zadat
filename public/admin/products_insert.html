@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Insert Product</title>
+
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/inserproduct.css">
+<script>
+  // redirect to login if admin not logged in
+  if (!localStorage.getItem("adminLoggedIn")) {
+    window.location.href = "login.html";
+  }
+</script>
+
+</head>
+
+<body>
+
+  <!-- ADMIN HEADER -->
+  <div id="admin-header"></div>
+
+  <div class="page-wrapper">
+    <div class="container">
+
+      <h2>Please Insert New Product</h2>
+      <p id="message"></p>
+
+      <form id="productForm" enctype="multipart/form-data">
+        <label>Product Name:</label>
+        <input type="text" name="name" required />
+
+        <label>Price:</label>
+        <input type="number" step="0.01" name="price" required />
+
+        <label>Description:</label>
+        <textarea name="description" required></textarea>
+
+        <label>Choose Category:</label>
+        <select name="category_id" id="categorySelect" required></select>
+
+        <label>Upload Product Image:</label>
+        <input type="file" name="image" required />
+
+        <button type="submit">Insert Product</button>
+      </form>
+
+    </div>
+  </div>
+
+  <script src="js/adminHeader.js"></script>
+  <script src="js/productsInsert.js"></script>
+</body>
+</html>

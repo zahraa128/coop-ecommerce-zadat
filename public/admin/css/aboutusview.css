@@ -1,0 +1,88 @@
+/* =========================
+   ABOUT US - ADMIN VIEW
+   ========================= */
+
+.about-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #DAD7CD; /* light natural background */
+    padding: 40px;
+}
+
+/* =========================
+   CONTENT CONTAINER
+   ========================= */
+.about-page .container {
+    max-width: 700px;
+    margin: auto;
+    background-color: #A3B18A; /* soft green card */
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 0 15px rgba(52, 78, 65, 0.35);
+    text-align: center;
+}
+
+/* =========================
+   TITLE
+   ========================= */
+.about-page h2 {
+    color: #3A5A40;
+    margin-bottom: 20px;
+}
+
+/* =========================
+   TEXT CONTENT
+   ========================= */
+.about-page p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #344E41;
+    margin-bottom: 30px;
+    white-space: pre-line;
+    text-align: left;
+}
+
+/* =========================
+   EDIT BUTTON
+   ========================= */
+.edit-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #3A5A40; /* primary button */
+    color: #DAD7CD;            /* text on dark */
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover */
+.edit-button:hover {
+    background-color: #344E41;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 800px) {
+    .about-page {
+        padding: 30px 16px;
+    }
+
+    .about-page .container {
+        padding: 24px;
+    }
+
+    .about-page p {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 520px) {
+    .about-page h2 {
+        font-size: 1.5rem;
+    }
+
+    .edit-button {
+        width: 100%;
+        text-align: center;
+    }
+}

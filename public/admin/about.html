@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>About Us (Admin)</title>
+
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/aboutusview.css">
+<script>
+  // redirect to login if admin not logged in
+  if (!localStorage.getItem("adminLoggedIn")) {
+    window.location.href = "login.html";
+  }
+</script>
+
+</head>
+
+<body>
+
+  <!-- ADMIN HEADER -->
+<div id="admin-header"></div>
+
+  <div class="about-page">
+    <div class="container">
+      <h2>About Us</h2>
+
+      <p id="aboutContent"></p>
+
+      <a href="about_edit.html" class="edit-button">
+        Edit About Us
+      </a>
+    </div>
+  </div>
+
+  <script src="js/adminHeader.js"></script>
+  <script src="js/aboutView.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+/* =========================
+   EDIT ABOUT US - ADMIN
+   ========================= */
+
+.about-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #DAD7CD; /* light natural background */
+    padding: 40px 0;
+    min-height: 100vh;
+    color: #344E41;
+}
+
+/* =========================
+   CONTENT CONTAINER
+   ========================= */
+.about-page .container {
+    max-width: 700px;
+    margin: auto;
+    background-color: #A3B18A; /* soft green card */
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 0 15px rgba(52, 78, 65, 0.35);
+    text-align: center;
+}
+
+/* =========================
+   TITLE
+   ========================= */
+.about-page h2 {
+    color: #3A5A40;
+    margin-bottom: 20px;
+}
+
+/* =========================
+   FORM
+   ========================= */
+.edit-form {
+    width: 100%;
+}
+
+/* Textarea */
+.edit-form textarea {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1.5px solid #3A5A40;
+    resize: vertical;
+    box-sizing: border-box;
+    font-family: inherit;
+    background-color: #DAD7CD;
+    color: #344E41;
+}
+
+/* =========================
+   SUBMIT BUTTON
+   ========================= */
+.edit-form button.edit-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #3A5A40;
+    color: #DAD7CD;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover */
+.edit-form button.edit-button:hover {
+    background-color: #344E41;
+    transform: translateY(-1px);
+}
+
+/* =========================
+   SUCCESS MESSAGE
+   ========================= */
+.success-message {
+    background-color: #cfe3d4;
+    color: #344E41;
+    border: 1px solid #3A5A40;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* =========================
+   ERROR MESSAGE
+   ========================= */
+.error-message {
+    background-color: #f2c9cc;
+    color: #721c24;
+    border: 1px solid #a94442;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+
+@media (max-width: 800px) {
+    .about-page {
+        padding: 30px 0;
+    }
+
+    .about-page .container {
+        margin: 0 16px;
+        padding: 24px;
+    }
+}
+
+@media (max-width: 520px) {
+    .about-page h2 {
+        font-size: 1.5rem;
+    }
+
+    .edit-form button.edit-button {
+        width: 100%;
+    }
+}

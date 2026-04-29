@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>View Orders</title>
+
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/ordersstyle.css">
+<script>
+  // redirect to login if admin not logged in
+  if (!localStorage.getItem("adminLoggedIn")) {
+    window.location.href = "login.html";
+  }
+</script>
+
+</head>
+
+<body>
+
+  <!-- ADMIN HEADER -->
+<div id="admin-header"></div>
+
+  <h2>Customer Orders</h2>
+
+  <form id="filterForm">
+    <input type="text" id="search" placeholder="Search by customer name">
+    <select id="sort">
+      <option value="newest">Newest First</option>
+      <option value="oldest">Oldest First</option>
+    </select>
+    <button type="submit">Filter</button>
+  </form>
+
+  <table border="1" id="ordersTable">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Customer</th>
+        <th>Phone</th>
+        <th>Product</th>
+        <th>Unit Price ($)</th>
+        <th>Quantity</th>
+        <th>Total ($)</th>
+        <th>Order Date</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="js/adminHeader.js"></script>
+  <script src="js/orders.js"></script>
+</body>
+</html>

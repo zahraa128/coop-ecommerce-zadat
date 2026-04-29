@@ -1,0 +1,99 @@
+/* =========================
+   CONTACT INFO - ADMIN VIEW
+   ========================= */
+
+.contact-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #DAD7CD; /* light natural background */
+    padding: 40px;
+    color: #344E41;
+}
+
+/* =========================
+   CONTENT CONTAINER
+   ========================= */
+.contact-page .container {
+    max-width: 600px;
+    margin: auto;
+    background-color: #A3B18A; /* soft green card */
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 0 15px rgba(52, 78, 65, 0.35);
+    text-align: center;
+}
+
+/* =========================
+   TITLE
+   ========================= */
+.contact-page h2 {
+    color: #3A5A40;
+    margin-bottom: 25px;
+}
+
+/* =========================
+   CONTACT LINKS
+   ========================= */
+.contact-links p {
+    font-size: 18px;
+    margin: 15px 0;
+}
+
+/* Links */
+.contact-links a {
+    color: #3A5A40;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.contact-links a:hover {
+    text-decoration: underline;
+    color: #344E41;
+}
+
+/* =========================
+   EDIT BUTTON
+   ========================= */
+.edit-button {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 24px;
+    background-color: #3A5A40;
+    color: #DAD7CD;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover */
+.edit-button:hover {
+    background-color: #344E41;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 800px) {
+    .contact-page {
+        padding: 30px 16px;
+    }
+
+    .contact-page .container {
+        padding: 24px;
+    }
+
+    .contact-links p {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 520px) {
+    .contact-page h2 {
+        font-size: 1.5rem;
+    }
+
+    .edit-button {
+        width: 100%;
+        text-align: center;
+    }
+}

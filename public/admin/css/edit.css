@@ -1,0 +1,143 @@
+/* =========================
+   RESET
+   ========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   BODY
+   ========================= */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #DAD7CD; /* light natural background */
+  color: #344E41;
+  padding: 40px;
+}
+
+/* =========================
+   TITLE
+   ========================= */
+h2 {
+  text-align: center;
+  color: #3A5A40;
+  margin-bottom: 30px;
+}
+
+/* =========================
+   FORM CARD
+   ========================= */
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #A3B18A; /* soft green card */
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(52, 78, 65, 0.35);
+}
+
+/* =========================
+   LABELS
+   ========================= */
+form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: #344E41;
+}
+
+/* =========================
+   INPUTS & TEXTAREA
+   ========================= */
+form input[type="text"],
+form input[type="number"],
+form input[type="file"],
+form select,
+form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1.5px solid #3A5A40;
+  border-radius: 10px;
+  font-size: 15px;
+  background-color: #DAD7CD;
+  color: #344E41;
+}
+
+/* Textarea resize */
+form textarea {
+  resize: vertical;
+}
+
+/* =========================
+   SUBMIT BUTTON
+   ========================= */
+form button {
+  background-color: #3A5A40;
+  color: #DAD7CD;
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Hover */
+form button:hover {
+  background-color: #344E41;
+  transform: translateY(-1px);
+}
+
+/* =========================
+   IMAGE DISPLAY
+   ========================= */
+form img {
+  display: block;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(52, 78, 65, 0.3);
+}
+
+/* =========================
+   BACK LINK
+   ========================= */
+a {
+  display: block;
+  text-align: center;
+  margin-top: 30px;
+  color: #3A5A40;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #344E41;
+  text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+  body {
+    padding: 24px 16px;
+  }
+
+  form {
+    padding: 22px;
+  }
+}
+
+@media (max-width: 520px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  form button {
+    width: 100%;
+  }
+}

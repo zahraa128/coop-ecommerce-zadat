@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="css/adminlogin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <form id="adminLoginForm">
+    <h3>Admin login page</h3><br>
+
+    <label>Username:</label>
+    <input type="text" id="username" required><br><br>
+
+    <label>Password:</label>
+    <div class="password-field">
+      <input type="password" id="password" required>
+      <button type="button" class="toggle-pass" id="togglePassword" aria-label="Show password">
+        <i class="fa-regular fa-eye"></i>
+      </button>
+    </div>
+    <br><br>
+
+    <input type="submit" value="Login">
+    <p id="error-message" style="color:red; margin-top:10px;"></p>
+  </form>
+
+  <script>
+    const form = document.getElementById("adminLoginForm");
+    const errorMessage = document.getElementById("error-message");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      errorMessage.textContent = "";
+
+      try {
+        const res = await fetch("/api/admin/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          // save admin session in browser
+          localStorage.setItem("adminLoggedIn", "true");
+          localStorage.setItem("admin_username", username);
+          // go to dashboard
+          window.location.href = "dashboard.html";
+        } else {
+          errorMessage.textContent = data.message || "Login failed";
+        }
+      } catch (err) {
+        console.error(err);
+        errorMessage.textContent = "Server error. Try again.";
+      }
+    });
+
+    const toggleBtn = document.getElementById("togglePassword");
+    const passwordInput = document.getElementById("password");
+    if (toggleBtn && passwordInput) {
+      toggleBtn.addEventListener("click", () => {
+        const isHidden = passwordInput.type === "password";
+        passwordInput.type = isHidden ? "text" : "password";
+        toggleBtn.innerHTML = isHidden
+          ? '<i class="fa-regular fa-eye-slash"></i>'
+          : '<i class="fa-regular fa-eye"></i>';
+        toggleBtn.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
+      });
+    }
+  </script>
+</body>
+</html>

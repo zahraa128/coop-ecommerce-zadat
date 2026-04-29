@@ -1,0 +1,149 @@
+/* =========================
+   EDIT CONTACT INFO - ADMIN
+   ========================= */
+
+/* Body base style */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #DAD7CD; /* light natural background */
+  color: #344E41;
+  margin: 0;
+  padding: 0;
+}
+
+/* =========================
+   WRAPPER
+   ========================= */
+.contact-page {
+  padding: 40px 20px;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* =========================
+   CONTAINER
+   ========================= */
+.contact-page .container {
+  max-width: 600px;
+  width: 100%;
+  background-color: #A3B18A; /* soft green card */
+  padding: 30px 40px;
+  border-radius: 14px;
+  box-shadow: 0 0 15px rgba(52, 78, 65, 0.35);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* =========================
+   TITLE
+   ========================= */
+.contact-page h2 {
+  color: #3A5A40;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+/* =========================
+   SUCCESS & ERROR MESSAGES
+   ========================= */
+.success-message {
+  background-color: #cfe3d4;
+  color: #344E41;
+  border: 1px solid #3A5A40;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.error-message {
+  background-color: #f2c9cc;
+  color: #721c24;
+  border: 1px solid #a94442;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* =========================
+   LABELS
+   ========================= */
+.contact-page label {
+  display: block;
+  font-weight: 600;
+  color: #344E41;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+/* =========================
+   INPUTS & TEXTAREA
+   ========================= */
+.contact-page input[type="text"],
+.contact-page textarea {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border: 1.5px solid #3A5A40;
+  border-radius: 8px;
+  font-size: 16px;
+  resize: vertical;
+  background-color: #DAD7CD;
+  color: #344E41;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* Focus styles */
+.contact-page input[type="text"]:focus,
+.contact-page textarea:focus {
+  border-color: #344E41;
+  box-shadow: 0 0 6px rgba(52, 78, 65, 0.6);
+}
+
+/* =========================
+   SUBMIT BUTTON
+   ========================= */
+.contact-page button {
+  background-color: #3A5A40;
+  color: #DAD7CD;
+  padding: 14px 0;
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* Hover */
+.contact-page button:hover {
+  background-color: #344E41;
+  transform: translateY(-1px);
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+@media (max-width: 640px) {
+  .contact-page .container {
+    padding: 20px;
+    width: 90%;
+  }
+}
+
+@media (max-width: 520px) {
+  .contact-page {
+    padding: 24px 12px;
+  }
+
+  .contact-page h2 {
+    font-size: 1.5rem;
+  }
+}

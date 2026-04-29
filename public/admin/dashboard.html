@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+
+ <link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/dashboard.css">
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" >
+    <script>
+  // redirect to login if admin not logged in
+  if (!localStorage.getItem("adminLoggedIn")) {
+    window.location.href = "login.html";
+  }
+</script>
+
+</head>
+
+<body>
+
+  <aside class="admin-sidebar">
+    <div class="sidebar-title">Admin Menu</div>
+    <a href="products_list.html"><i class="fas fa-box"></i> Products</a>
+    <a href="products_insert.html"><i class="fas fa-plus-square"></i> Insert Product</a>
+    <a href="categories.html"><i class="fas fa-tags"></i> Categories</a>
+    <a href="categories_insert.html"><i class="fas fa-tags"></i> Insert Category</a>
+    <a href="orders.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+    <a href="about.html"><i class="fas fa-circle-info"></i> About</a>
+    <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+    <a href="#" id="sidebarLogout">Logout</a>
+  </aside>
+
+  <main class="dashboard-main with-sidebar">
+    <section class="dashboard-header">
+      <h1>
+        Welcome,
+        <span id="adminName"></span>!
+      </h1>
+      <p>You are logged in to the <strong>Admin Dashboard</strong>.</p>
+    </section>
+    <section class="dashboard-stats">
+      <div class="stat-card">
+        <span class="stat-label">Visits Today</span>
+        <span class="stat-value" id="visitsToday">0</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Visits This Month</span>
+        <span class="stat-value" id="visitsMonth">0</span>
+      </div>
+    </section>
+    <section class="dashboard-links">
+      <a class="dash-card" href="products_insert.html">
+        <i class="fas fa-plus-square"></i>
+        <span>Insert Product</span>
+      </a>
+
+      <a class="dash-card" href="products_list.html">
+        <i class="fas fa-list-alt"></i>
+        <span>View Products</span>
+      </a>
+
+      <a class="dash-card" href="categories_insert.html">
+        <i class="fas fa-tags"></i>
+        <span>Insert Category</span>
+      </a>
+
+      <a class="dash-card" href="categories.html">
+        <i class="fas fa-tags"></i>
+        <span>View Categories</span>
+      </a>
+
+      <a class="dash-card" href="orders.html">
+        <i class="fas fa-shopping-cart"></i>
+        <span>View Orders</span>
+      </a>
+
+      <a class="dash-card" href="about.html">
+        <i class="fas fa-circle-info"></i>
+        <span>Edit About</span>
+      </a>
+
+      <a class="dash-card" href="contact.html">
+        <i class="fas fa-envelope"></i>
+        <span>Edit Contact</span>
+      </a>
+    </section>
+  </main>
+
+  <!-- ADMIN PROTECTION + HEADER LOGIC -->
+  <script src="js/dashboard.js"></script>
+  <script>
+    const sidebarLogout = document.getElementById("sidebarLogout");
+    if (sidebarLogout) {
+      sidebarLogout.addEventListener("click", e => {
+        e.preventDefault();
+        localStorage.removeItem("adminLoggedIn");
+        localStorage.removeItem("admin_username");
+        window.location.href = "login.html";
+      });
+    }
+  </script>
+</body>
+</html>

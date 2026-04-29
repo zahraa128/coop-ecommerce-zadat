@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Edit Category</title>
+
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/editcateg.css">
+<script>
+  // redirect to login if admin not logged in
+  if (!localStorage.getItem("adminLoggedIn")) {
+    window.location.href = "login.html";
+  }
+</script>
+
+</head>
+
+<body>
+
+  <!-- ADMIN HEADER -->
+  <div id="admin-header"></div>
+
+  <div class="categories-page">
+    <h2>Edit Category</h2>
+
+    <p id="message"></p>
+
+    <form id="editCategoryForm">
+      <label for="category_name">Category Name:</label>
+      <input type="text" id="category_name" required>
+      <br><br>
+
+      <button type="submit">Update Category</button>
+      <a href="categories.html" class="cancel-button">Cancel</a>
+    </form>
+  </div>
+
+  <script src="js/adminHeader.js"></script>
+  <script src="js/categoriesEdit.js"></script>
+</body>
+</html>

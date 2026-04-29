@@ -1,0 +1,98 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #F6F1E6;
+  color: #5B7917;
+  margin: 0;
+  padding: 0;
+}
+
+.orders-page {
+  max-width: 1000px;
+  margin: 40px auto 60px;
+  padding: 0 20px;
+}
+
+.orders-page h2 {
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.orders-subtitle {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #FFFFFF;
+  border: 1px solid #859864;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 12px #859864;
+}
+
+th, td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #859864;
+  text-align: center;
+}
+
+th {
+  background-color: #899D31;
+  color: #FFFFFF;
+}
+
+.status {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status.submitted {
+  color: #5B7917;
+}
+
+.status.shipping {
+  color: #899D31;
+}
+
+.status.delivered {
+  color: #5B7917;
+}
+
+.status.cancelled {
+  color: #5B7917;
+}
+
+@media (max-width: 900px) {
+  .orders-page {
+    margin: 30px auto 50px;
+  }
+}
+
+@media (max-width: 700px) {
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  th,
+  td {
+    white-space: nowrap;
+    font-size: 0.9rem;
+  }
+
+  .orders-page h2 {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .orders-page {
+    padding: 0 14px;
+  }
+
+  .orders-subtitle {
+    font-size: 0.95rem;
+  }
+}

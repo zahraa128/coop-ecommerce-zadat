@@ -1,0 +1,111 @@
+/* =========================
+   GENERIC ADMIN PAGES STYLE
+   ========================= */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #DAD7CD; /* light natural background */
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    color: #344E41;
+}
+
+/* =========================
+   TITLE
+   ========================= */
+h2 {
+    color: #3A5A40;
+    margin-bottom: 30px;
+}
+
+/* =========================
+   TABLES
+   ========================= */
+table {
+    width: min(900px, 100%);
+    margin: 0 auto 40px;
+    border-collapse: collapse;
+    background-color: #F2EFE7;
+    box-shadow: 0 6px 16px rgba(52, 78, 65, 0.18);
+}
+
+th,
+td {
+    padding: 12px 16px;
+    border: 1px solid #A3B18A;
+    text-align: center;
+}
+
+th {
+    background-color: #3A5A40;
+    color: #DAD7CD;
+    font-weight: bold;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #E9E6DD;
+}
+
+tbody tr:hover {
+    background-color: #E4E1D8;
+}
+
+/* =========================
+   BUTTON CONTAINER
+   ========================= */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+/* =========================
+   ACTION BUTTONS
+   ========================= */
+.action-button {
+    background-color: #3A5A40; /* primary button */
+    color: #DAD7CD;
+    padding: 15px 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(52, 78, 65, 0.35);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover */
+.action-button:hover {
+    background-color: #344E41;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 800px) {
+    body {
+        padding: 16px;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    th,
+    td {
+        white-space: nowrap;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 520px) {
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .action-button {
+        width: 100%;
+        text-align: center;
+    }
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Contact Us</title>
+
+  <link rel="stylesheet" href="styles/contactus.css">
+  <link rel="stylesheet" href="styles/header.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div id="header"></div>
+
+  <main class="contact-container">
+    <h2>Contact Us</h2>
+
+    <div class="contact_links">
+      <a href="https://wa.me/96170530807" target="_blank">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+      </a>
+
+      <a href="https://www.instagram.com/zadat.al.khayrat" target="_blank">
+        <i class="fab fa-instagram"></i> Instagram
+      </a>
+
+      <a href="https://m.me/zadatalkyarat" target="_blank">
+        <i class="fab fa-facebook-messenger"></i> Messenger
+      </a>
+    </div>
+
+    <!-- Formspree form (unchanged) -->
+    <form action="https://formspree.io/f/mblyevzp" method="POST">
+      <label for="email">Your Email:</label><br>
+      <input type="email" id="email" name="email" required><br><br>
+
+      <label for="message">Your Message:</label><br>
+      <textarea id="message" name="message" rows="6" required></textarea><br><br>
+
+      <button type="submit">Send</button>
+    </form>
+  </main>
+
+  <!-- FOOTER -->
+  <div id="footer"></div>
+
+<script src="js/contuct.js"></script>
+
+  <script src="js/layout.js"></script>
+</body>
+</html>

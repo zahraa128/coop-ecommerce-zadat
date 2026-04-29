@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home | Cooperative</title>
+
+  <link rel="stylesheet" href="styles/ihome.css">
+  <link rel="stylesheet" href="styles/header.css">
+  <link rel="stylesheet" href="styles/sidebar.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+  <header class="main-header simple-header">
+    <div class="container header-row">
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu">
+        &#9776;
+      </button>
+      <span class="header-brand">Cooperative</span>
+    </div>
+  </header>
+
+  <aside class="site-sidebar" id="siteSidebar" aria-hidden="true">
+    <div class="sidebar-title">Menu</div>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="category.html">Categories</a>
+    <a href="cart.html">Cart</a>
+    <a href="orders.html">My Orders</a>
+    <a href="Aboutus.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="#" id="sidebarAuthLink">Login</a>
+  </aside>
+
+
+  <!-- FLASH MESSAGE -->
+  <div id="flashMessage" class="flash-message"></div>
+
+  <div class="page-shell">
+    <section class="home-hero">
+      <div class="hero-content">
+        <img src="logo.png" alt="Cooperative Logo" class="hero-logo">
+
+        <!-- Welcome text handled by JavaScript -->
+        <h2 id="welcomeTitle">Welcome to our Cooperative!</h2>
+        <h4 id="welcomeSubtitle">Please login for better experience!</h4>
+
+        <p>Natural handmade products made by women with love.</p>
+        <a href="shop.html" class="btn">Browse Products</a>
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER will be loaded here -->
+  <div id="footer"></div>
+
+  <script src="js/home.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/layout.js"></script>
+</body>
+</html>

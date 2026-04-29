@@ -1,0 +1,114 @@
+/* =========================
+   ADMIN VIEW STYLE
+   ========================= */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #DAD7CD;
+    margin: 0;
+    padding: 0;
+    color: #344E41;
+}
+
+/* =========================
+   PAGE TITLE
+   ========================= */
+h2 {
+    text-align: center;
+    margin-top: 30px;
+    color: #3A5A40;
+}
+
+/* =========================
+   NAVBAR (if used)
+   ========================= */
+nav {
+    background-color: #3A5A40;
+    padding: 15px;
+    text-align: center;
+}
+
+nav a {
+    color: #DAD7CD;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #A3B18A;
+}
+
+/* =========================
+   CONTENT BOX
+   ========================= */
+div.content {
+    width: 80%;
+    margin: 30px auto;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(52, 78, 65, 0.25);
+}
+
+div.content p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #344E41;
+}
+
+/* =========================
+   BUTTONS
+   ========================= */
+button {
+    padding: 10px 20px;
+    background-color: #3A5A40;
+    color: #DAD7CD;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #344E41;
+    transform: translateY(-2px);
+}
+
+a button {
+    text-decoration: none;
+}
+
+/* =========================
+   SUCCESS MESSAGE
+   ========================= */
+.success-msg {
+    color: #3A5A40;
+    text-align: center;
+    font-weight: bold;
+}
+
+@media (max-width: 800px) {
+    div.content {
+        width: auto;
+        margin: 20px 16px;
+        padding: 20px;
+    }
+
+    div.content p {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 520px) {
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    button {
+        width: 100%;
+    }
+}

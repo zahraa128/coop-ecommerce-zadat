@@ -1,0 +1,151 @@
+/* =========================
+   ORDERS PAGE
+   ========================= */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #DAD7CD; /* light natural background */
+    margin: 20px;
+    color: #344E41;
+}
+
+/* =========================
+   TITLE
+   ========================= */
+h2 {
+    color: #3A5A40;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* =========================
+   FILTER FORM
+   ========================= */
+form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Inputs & select */
+input[type="text"], 
+select {
+    padding: 8px 10px;
+    border: 1.5px solid #3A5A40;
+    border-radius: 6px;
+    margin: 5px;
+    background-color: #DAD7CD;
+    color: #344E41;
+}
+
+/* =========================
+   SUBMIT BUTTON
+   ========================= */
+input[type="submit"] {
+    background-color: #3A5A40;
+    color: #DAD7CD;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #344E41;
+}
+
+/* =========================
+   TABLE
+   ========================= */
+table {
+    width: 90%;
+    margin: auto;
+    border-collapse: collapse;
+    background-color: #A3B18A; /* soft green table */
+    box-shadow: 0 0 10px rgba(52, 78, 65, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Cells */
+th, td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid rgba(52, 78, 65, 0.2);
+}
+
+.status-select {
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #3A5A40;
+    background-color: #DAD7CD;
+    color: #344E41;
+}
+
+.delete-btn {
+    background-color: #3A5A40;
+    color: #DAD7CD;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #344E41;
+}
+
+/* Header */
+th {
+    background-color: #3A5A40;
+    color: #DAD7CD;
+}
+
+/* Hover row */
+tr:hover {
+    background-color: #DAD7CD;
+}
+
+@media (max-width: 900px) {
+    body {
+        margin: 16px;
+    }
+
+    table {
+        width: 100%;
+    }
+}
+
+@media (max-width: 700px) {
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    th,
+    td {
+        white-space: nowrap;
+        font-size: 0.9rem;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+    }
+
+    input[type="text"],
+    select,
+    input[type="submit"] {
+        width: 100%;
+        max-width: 320px;
+    }
+}
+
+@media (max-width: 520px) {
+    h2 {
+        font-size: 1.5rem;
+    }
+}

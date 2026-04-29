@@ -1,0 +1,144 @@
+/* =========================
+   GENERAL
+   ========================= */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #DAD7CD; /* light natural background */
+  color: #344E41;
+  padding: 30px;
+}
+
+/* =========================
+   PAGE TITLE
+   ========================= */
+h2 {
+  text-align: center;
+  color: #3A5A40; /* strong heading */
+  margin-bottom: 30px;
+}
+
+/* =========================
+   TABLE STYLE
+   ========================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #A3B18A; /* soft green table */
+  box-shadow: 0 0 25px rgba(52, 78, 65, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 15px 12px;
+  text-align: center;
+  border-bottom: 1px solid rgba(52, 78, 65, 0.2);
+}
+
+/* Table headers */
+th {
+  background-color: #3A5A40;
+  color: #DAD7CD;
+  font-size: 16px;
+}
+
+/* Table cells */
+td {
+  font-size: 15px;
+  color: #344E41;
+}
+
+/* Hover row */
+tr:hover {
+  background-color: #DAD7CD;
+}
+
+/* =========================
+   IMAGE
+   ========================= */
+td img {
+  border-radius: 8px;
+  width: 70px;
+  height: auto;
+  box-shadow: 0 0 10px rgba(52, 78, 65, 0.3);
+}
+
+/* =========================
+   ACTION BUTTONS
+   ========================= */
+a {
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+/* Edit button */
+a[href*="edit"] {
+  background-color: #3A5A40;
+  color: #DAD7CD;
+}
+
+a[href*="edit"]:hover {
+  background-color: #344E41;
+  box-shadow: 0 0 10px rgba(52, 78, 65, 0.6);
+}
+
+/* Delete button (kept red for warning) */
+a[href*="delete"] {
+  background-color: #b64545;
+  color: #fff;
+}
+
+a[href*="delete"]:hover {
+  background-color: #8e2f2f;
+  box-shadow: 0 0 10px rgba(182, 69, 69, 0.6);
+}
+
+/* =========================
+   SUCCESS MESSAGE
+   ========================= */
+.success-msg {
+  background-color: #cfe3d4;
+  color: #344E41;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border: 1px solid #3A5A40;
+  text-align: center;
+  font-weight: 600;
+}
+
+@media (max-width: 800px) {
+  body {
+    padding: 16px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  th,
+  td {
+    white-space: nowrap;
+    font-size: 0.95rem;
+  }
+
+  td img {
+    width: 56px;
+  }
+}
+
+@media (max-width: 520px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  a {
+    display: inline-block;
+    margin: 4px 0;
+  }
+}

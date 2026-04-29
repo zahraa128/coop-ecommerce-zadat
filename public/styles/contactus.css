@@ -1,0 +1,138 @@
+/* styles/contactus.css */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #F6F1E6;
+  color: #5B7917;
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  text-align: center;
+  color: #5B7917;
+  font-size: 2rem;
+  margin-top: 40px;
+}
+
+.contact_links {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.contact_links a {
+  display: inline-block;
+  margin: 10px 15px;
+  font-size: 1.05rem;
+  color: #5B7917;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.contact_links a:hover {
+  color: #899D31;
+  text-decoration: underline;
+}
+
+form {
+  max-width: 600px;
+  margin: 0 auto 60px auto;
+  padding: 30px;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px #859864;
+}
+
+form label {
+  font-weight: 600;
+  color: #5B7917;
+  display: block;
+  margin-bottom: 6px;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1.8px solid #859864;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+form input:focus,
+form textarea:focus {
+  border-color: #5B7917;
+  outline: none;
+  box-shadow: 0 0 6px rgba(75, 46, 131, 0.2);
+}
+
+form button {
+  background-color: #5B7917;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+form button:hover {
+  background-color: #899D31;
+}
+.contact_links {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 30px auto;
+  flex-wrap: wrap;
+}
+
+.contact_links a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  color: #5B7917;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+  background-color: #F6F1E6;
+}
+
+.contact_links a:hover {
+  background-color: #F6F1E6;
+  color: #899D31;
+}
+
+.contact_links i {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 800px) {
+  form {
+    margin: 0 16px 50px;
+    padding: 24px;
+  }
+
+  h2 {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .contact_links {
+    gap: 12px;
+  }
+
+  .contact_links a {
+    width: 100%;
+    justify-content: center;
+  }
+}

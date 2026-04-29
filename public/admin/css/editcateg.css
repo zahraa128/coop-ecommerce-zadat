@@ -1,0 +1,128 @@
+/* =========================
+   EDIT CATEGORY - ADMIN
+   ========================= */
+
+.categories-page {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px 40px;
+    background-color: #A3B18A; /* soft green card */
+    border-radius: 14px;
+    box-shadow: 0 0 15px rgba(52, 78, 65, 0.35);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #344E41;
+    text-align: center;
+}
+
+/* =========================
+   TITLE
+   ========================= */
+.categories-page h2 {
+    color: #3A5A40;
+    margin-bottom: 25px;
+}
+
+/* =========================
+   LABELS
+   ========================= */
+.categories-page label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-align: left;
+    color: #344E41;
+}
+
+/* =========================
+   INPUT
+   ========================= */
+.categories-page input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1.5px solid #3A5A40;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: #DAD7CD;
+    color: #344E41;
+}
+
+/* =========================
+   BUTTONS
+   ========================= */
+.categories-page button {
+    background-color: #3A5A40;
+    color: #DAD7CD;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover */
+.categories-page button:hover {
+    background-color: #344E41;
+    transform: translateY(-1px);
+}
+
+/* Cancel link */
+.categories-page .cancel-button {
+    margin-left: 15px;
+    color: #3A5A40;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.categories-page .cancel-button:hover {
+    text-decoration: underline;
+    color: #344E41;
+}
+
+/* =========================
+   SUCCESS MESSAGE
+   ========================= */
+.success-message {
+    background-color: #cfe3d4;
+    border: 1px solid #3A5A40;
+    color: #344E41;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* =========================
+   ERROR MESSAGE
+   ========================= */
+.error-message {
+    background-color: #f2c9cc;
+    border: 1px solid #a94442;
+    color: #721c24;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+    .categories-page {
+        margin: 24px 16px;
+        padding: 24px;
+    }
+}
+
+@media (max-width: 520px) {
+    .categories-page h2 {
+        font-size: 1.5rem;
+    }
+
+    .categories-page button,
+    .categories-page .cancel-button {
+        width: 100%;
+        text-align: center;
+        margin-left: 0;
+        display: inline-block;
+    }
+}

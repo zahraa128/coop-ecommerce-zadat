@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Contact Info</title>
+
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/contactview.css">
+<script>
+  // redirect to login if admin not logged in
+  if (!localStorage.getItem("adminLoggedIn")) {
+    window.location.href = "login.html";
+  }
+</script>
+
+</head>
+
+<body>
+
+  <!-- ADMIN HEADER -->
+ <div id="admin-header"></div>
+
+  <div class="contact-page">
+    <div class="container">
+      <h2>Contact Info</h2>
+
+      <div class="contact-links">
+        <p><strong>WhatsApp:</strong>
+          <a id="whatsapp" target="_blank"></a>
+        </p>
+
+        <p><strong>Instagram:</strong>
+          <a id="instagram" target="_blank"></a>
+        </p>
+
+        <p><strong>Messenger:</strong>
+          <a id="messenger" target="_blank"></a>
+        </p>
+
+        <a href="contact_edit.html" class="edit-button">
+          Edit Contact Info
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/adminHeader.js"></script>
+  <script src="js/contactView.js"></script>
+</body>
+</html>

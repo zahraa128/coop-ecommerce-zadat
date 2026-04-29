@@ -1,0 +1,123 @@
+/* =========================
+   INSERT CATEGORY - ADMIN
+   ========================= */
+
+.insert-category-page {
+    max-width: 500px;
+    margin: 30px auto 60px auto;
+    padding: 25px 30px;
+    background-color: #A3B18A; /* soft green card */
+    border-radius: 14px;
+    box-shadow: 0 0 15px rgba(52, 78, 65, 0.35);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #344E41;
+    text-align: center;
+}
+
+/* =========================
+   TITLE
+   ========================= */
+.insert-category-page h2 {
+    margin-bottom: 25px;
+    font-size: 26px;
+    color: #3A5A40;
+}
+
+/* =========================
+   LABEL
+   ========================= */
+.insert-category-page label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    text-align: left;
+    font-size: 16px;
+    color: #344E41;
+}
+
+/* =========================
+   INPUT
+   ========================= */
+.insert-category-page input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 15px;
+    border: 1.5px solid #3A5A40;
+    border-radius: 8px;
+    background-color: #DAD7CD;
+    color: #344E41;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* Focus */
+.insert-category-page input[type="text"]:focus {
+    border-color: #344E41;
+    box-shadow: 0 0 6px rgba(52, 78, 65, 0.6);
+    outline: none;
+}
+
+/* =========================
+   SUBMIT BUTTON
+   ========================= */
+.insert-category-page input[type="submit"] {
+    background-color: #3A5A40;
+    color: #DAD7CD;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+}
+
+/* Hover */
+.insert-category-page input[type="submit"]:hover {
+    background-color: #344E41;
+    transform: translateY(-1px);
+}
+
+/* =========================
+   MESSAGES
+   ========================= */
+.success-message,
+.error-message {
+    font-size: 16px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 10px 15px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* Success */
+.success-message {
+    background-color: #cfe3d4;
+    color: #344E41;
+    border: 1.5px solid #3A5A40;
+}
+
+/* Error */
+.error-message {
+    background-color: #f2c9cc;
+    color: #721c24;
+    border: 1.5px solid #a94442;
+}
+
+@media (max-width: 600px) {
+    .insert-category-page {
+        margin: 20px 16px 50px;
+        padding: 20px 22px;
+    }
+}
+
+@media (max-width: 420px) {
+    .insert-category-page h2 {
+        font-size: 1.5rem;
+    }
+}

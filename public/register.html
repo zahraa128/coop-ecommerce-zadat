@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Customer Registration</title>
+
+  <link rel="stylesheet" href="styles/header.css">
+  <link rel="stylesheet" href="styles/footer.css">
+  <link rel="stylesheet" href="styles/auth.css">
+</head>
+
+<body>
+
+  <div class="auth-container">
+    <h2>Register</h2>
+
+    <p id="msg"></p>
+
+    <form id="registerForm">
+      <label>Full Name:</label><br>
+      <input type="text" id="full_name" required><br><br>
+
+      <label>Phone:</label><br>
+      <input type="text" id="phone" required><br><br>
+
+      <label>Email:</label><br>
+      <input type="email" id="email" required><br><br>
+
+      <label>Address:</label><br>
+      <textarea id="address" required></textarea><br><br>
+
+      <label>Password:</label><br>
+      <input type="password" id="password" required>
+      <button type="button" class="toggle-btn" data-target="password">Show</button>
+      <br><br>
+
+      <label>Confirm Password:</label><br>
+      <input type="password" id="confirm_password" required>
+      <button type="button" class="toggle-btn" data-target="confirm_password">Show</button>
+      <br><br>
+
+      <button type="submit">Register</button>
+    </form>
+
+    <p>
+      Already have an account?
+      <a href="login_user.html">Login here</a>.
+    </p>
+
+    <p>
+      Or continue with
+      <button id="googleRegisterBtn" type="button" class="google-btn">
+        Google
+      </button>
+    </p>
+  </div>
+
+  <script src="js/register.js"></script>
+</body>
+</html>

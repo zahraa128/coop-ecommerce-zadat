@@ -1,0 +1,135 @@
+/* =========================
+   ADMIN LOGIN PAGE
+   ========================= */
+
+body {
+    background-color: #DAD7CD; /* light natural background */
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #344E41;
+}
+
+/* =========================
+   TITLE
+   ========================= */
+h3 {
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #3A5A40; /* strong title */
+    text-align: center;
+}
+
+/* =========================
+   LOGIN FORM CARD
+   ========================= */
+form {
+    background-color: #A3B18A; /* soft green card */
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(52, 78, 65, 0.3);
+    width: 320px;
+    box-sizing: border-box;
+}
+
+/* =========================
+   LABELS
+   ========================= */
+form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #344E41;
+}
+
+/* =========================
+   INPUTS
+   ========================= */
+form input[type="text"],
+form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1.5px solid #3A5A40;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.password-field {
+    position: relative;
+}
+
+.password-field input {
+    padding-right: 44px;
+}
+
+.toggle-pass {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: #3A5A40;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.toggle-pass:hover {
+    color: #344E41;
+}
+
+/* Focus effect */
+form input[type="text"]:focus,
+form input[type="password"]:focus {
+    border-color: #344E41;
+    box-shadow: 0 0 6px rgba(58, 90, 64, 0.6);
+    outline: none;
+}
+
+/* =========================
+   SUBMIT BUTTON
+   ========================= */
+form input[type="submit"] {
+    width: 100%;
+    padding: 12px 0;
+    background-color: #3A5A40; /* main button */
+    border: none;
+    color: #DAD7CD;            /* text on dark */
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover */
+form input[type="submit"]:hover {
+    background-color: #344E41;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 16px;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    form {
+        width: 100%;
+        max-width: 360px;
+        padding: 24px 22px;
+    }
+}
+
+@media (max-width: 420px) {
+    h3 {
+        font-size: 1.4rem;
+    }
+}

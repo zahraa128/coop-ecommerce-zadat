@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>View Categories</title>
+
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/pagesstyle.css">
+<script>
+  // redirect to login if admin not logged in
+  if (!localStorage.getItem("adminLoggedIn")) {
+    window.location.href = "login.html";
+  }
+</script>
+
+</head>
+
+<body>
+
+  <!-- ADMIN HEADER -->
+  <div id="admin-header"></div>
+
+  <h2>Categories List</h2>
+
+  <table id="categoriesTable" border="1">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="js/adminHeader.js"></script>
+  <script src="js/categoriesView.js"></script>
+</body>
+</html>

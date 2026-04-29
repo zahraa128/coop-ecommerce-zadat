@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Product Details</title>
+
+  <link rel="stylesheet" href="styles/header.css">
+  <link rel="stylesheet" href="styles/product.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+
+  <div id="header"></div>
+
+  <div id="notification" class="notification"></div>
+
+  <main>
+
+    <div class="product-details">
+      <h2 id="productName"></h2>
+      <img id="productImage" width="300">
+      <p><strong>Price:</strong> $<span id="productPrice"></span></p>
+      <p><strong>Description:</strong></p>
+      <p id="productDescription"></p>
+
+      <label>
+        Quantity:
+        <input type="number" id="quantity" value="1" min="1">
+      </label>
+
+      <br><br>
+      <button id="addToCartBtn">Add to Cart</button>
+    </div>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="js/product.js"></script>
+  <script src="js/layout.js"></script>
+</body>
+</html>

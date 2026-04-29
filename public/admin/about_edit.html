@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Edit About Us</title>
+
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/editaboutus.css">
+<script>
+  // redirect to login if admin not logged in
+  if (!localStorage.getItem("adminLoggedIn")) {
+    window.location.href = "login.html";
+  }
+</script>
+
+</head>
+
+<body>
+
+  <!-- ADMIN HEADER -->
+<div id="admin-header"></div>
+
+  <div class="about-page">
+    <div class="container">
+      <h2>Edit About Us</h2>
+
+      <p id="message"></p>
+
+      <form id="aboutForm" class="edit-form">
+        <textarea id="content" rows="10"></textarea><br><br>
+        <button type="submit" class="edit-button">Update</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/adminHeader.js"></script>
+  <script src="js/aboutEdit.js"></script>
+</body>
+</html>
