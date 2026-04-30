@@ -26,9 +26,6 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api", require("./routes/customerAuth"));
 app.use("/api", require("./routes/customerOrders"));
 app.use("/api", require("./routes/visits"));
-app.use("/api", require("./routes/orders"));
-app.use("/api", require("./routes/ordersuccess"));
-app.use("/api", require("./routes/MyOrders"));
 
 /* ===== START SERVER ===== */
 const PORT = process.env.PORT || 10000;
@@ -36,4 +33,3 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-module.exports = router;
