@@ -3,6 +3,7 @@ const supabase = require("../supabase");
 
 const router = express.Router();
 
+/* ===== REGISTER ===== */
 router.post("/register", async (req, res) => {
   const {
     full_name,
@@ -24,26 +25,37 @@ router.post("/register", async (req, res) => {
   try {
     const { data: existing, error: existingError } = await supabase
       .from("customers")
-      .select("c_id")
+      .select("id")
       .eq("email", email)
       .limit(1);
 
     if (existingError) throw existingError;
+
     if (existing.length > 0) {
       return res.status(400).json({ message: "Email already registered" });
     }
 
     const { error } = await supabase
       .from("customers")
-      .insert({ full_name, phone, email, address, password });
+      .insert([{
+        full_name,
+        phone,
+        email,
+        address,
+        password
+      }]);
 
     if (error) throw error;
+
     res.json({ message: "Registration successful" });
-  } catch {
+
+  } catch (err) {
+    console.error("REGISTER ERROR:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
 
+/* ===== LOGIN ===== */
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -54,22 +66,25 @@ router.post("/login", async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("customers")
-      .select("c_id, full_name")
+      .select("id, full_name")
       .eq("email", email)
       .eq("password", password)
       .limit(1);
 
     if (error) throw error;
-    if (data.length === 0) {
+
+    if (!data || data.length === 0) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
     res.json({
       message: "Login successful",
-      customer_id: data[0].c_id,
+      customer_id: data[0].id,
       customer_name: data[0].full_name
     });
-  } catch {
+
+  } catch (err) {
+    console.error("LOGIN ERROR:", err);
     res.status(500).json({ message: "Server error" });
   }
 });

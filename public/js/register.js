@@ -66,8 +66,11 @@ document.getElementById("registerForm").addEventListener("submit", e => {
       }
 
       msg.style.color = "green";
-      msg.innerHTML = "Registration successful. <a href='login_user.html'>Login now</a>.";
-      document.getElementById("registerForm").reset();
+      msg.textContent = "Registration successful. Redirecting to login...";
+
+      setTimeout(() => {
+       window.location.href = "login_user.html";
+      }, 1500);
     })
     .catch(() => {
       msg.style.color = "red";
