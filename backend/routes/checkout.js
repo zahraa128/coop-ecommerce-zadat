@@ -7,6 +7,8 @@
 const express = require("express");
 const router = express.Router();
 const supabase = require("../supabase");
+console.log("CHECKOUT HIT");
+console.log(req.body);
 
 router.post("/checkout", async (req, res) => {
   const { customer, cart, customer_id } = req.body || {};
