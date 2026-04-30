@@ -31,3 +31,4 @@ fetch(`${API_URL}/api/my-orders/${customerId}`)
     document.getElementById("ordersContainer").innerHTML =
       "<p>Failed to load orders</p>";
   });
+  module.exports = router;
