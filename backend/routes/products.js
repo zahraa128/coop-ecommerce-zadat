@@ -12,13 +12,19 @@ router.get("/products", async (req, res) => {
       .select("*")
       .order("id", { ascending: false });
 
+    // ✅ Flexible filtering (handles spaces + case)
     if (category) {
-      query = query.eq("category", category);
+      const clean = category.trim();
+      console.log("Filtering by category:", clean);
+
+      query = query.ilike("category", `%${clean}%`);
     }
 
     const { data, error } = await query;
 
     if (error) throw error;
+
+    console.log("Products found:", data);
 
     res.json(data);
 
