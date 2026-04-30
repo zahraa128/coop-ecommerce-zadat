@@ -32,23 +32,24 @@
     });
 
   /* ===== LOAD PRODUCT ===== */
-  fetch(`${API_URL}/api/admin/products/${productId}`)
-    .then(res => res.json())
-    .then(p => {
-      document.getElementById("name").value = p.name;
-      document.getElementById("price").value = p.price;
-      document.getElementById("description").value = p.description;
+ fetch(`${API_URL}/api/admin/products/${productId}`)
+  .then(res => res.json())
+  .then(p => {
+    console.log("Loaded product:", p);
 
-      // ✅ FIX CATEGORY
-      categorySelect.value = p.category;
+    document.getElementById("name").value = p.name || "";
+    document.getElementById("price").value = p.price || "";
+    document.getElementById("description").value = p.description || "";
 
-      // ✅ FIX IMAGE PATH
-      document.getElementById("currentImage").src =
-        `${API_URL}/product/${p.image}`;
-    })
-    .catch(err => {
-      console.error("Product load error:", err);
-    });
+    // ✅ category fix
+    document.getElementById("categorySelect").value = p.category || "";
+
+    // ✅ image preview fix
+    if (p.image) {
+      document.getElementById("currentImage").src = p.image;
+    }
+  })
+  .catch(err => console.error("Load product error:", err));
 
   /* ===== UPDATE PRODUCT ===== */
   document.getElementById("editProductForm").addEventListener("submit", async (e) => {
