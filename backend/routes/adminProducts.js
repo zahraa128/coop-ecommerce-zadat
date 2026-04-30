@@ -5,91 +5,98 @@ const supabase = require("../supabase");
 const router = express.Router();
 const upload = multer({ dest: "public/product" });
 
+/* ================= GET ALL PRODUCTS ================= */
 router.get("/products", async (req, res) => {
   try {
-    const { data: products, error: productsError } = await supabase
+    const { data, error } = await supabase
       .from("products")
       .select("*")
-      .order("p_id", { ascending: false });
+      .order("id", { ascending: false });
 
-    if (productsError) throw productsError;
+    if (error) throw error;
 
-    const categoryIds = [...new Set(products.map(p => p.category_id).filter(Boolean))];
-    let categoryById = {};
-
-    if (categoryIds.length > 0) {
-      const { data: categories, error: categoriesError } = await supabase
-        .from("categories")
-        .select("ca_id, name")
-        .in("ca_id", categoryIds);
-
-      if (categoriesError) throw categoriesError;
-      categoryById = Object.fromEntries(categories.map(c => [c.ca_id, c.name]));
-    }
-
-    res.json(products.map(product => ({
-      ...product,
-      category_name: categoryById[product.category_id] || null
-    })));
-  } catch {
+    res.json(data);
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Failed to fetch products." });
   }
 });
 
+/* ================= GET ONE PRODUCT ================= */
 router.get("/products/:id", async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("products")
       .select("*")
-      .eq("p_id", req.params.id)
+      .eq("id", req.params.id)
       .maybeSingle();
 
     if (error) throw error;
+
     if (!data) {
       return res.status(404).json({ message: "Product not found." });
     }
+
     res.json(data);
-  } catch {
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Failed to fetch product." });
   }
 });
 
+/* ================= INSERT PRODUCT ================= */
 router.post("/products", upload.single("image"), async (req, res) => {
-  const { name, price, description, category_id } = req.body;
-  const image = req.file ? req.file.filename : null;
-
-  if (!name || !price || !description) {
-    return res.status(400).json({ message: "Missing required fields." });
-  }
-
   try {
-    const { error } = await supabase
-      .from("products")
-      .insert({
-        name,
-        price,
-        description,
-        category_id: category_id || null,
-        image
-      });
+    const { name, price, description, category } = req.body;
+    const image = req.file ? req.file.filename : null;
 
-    if (error) throw error;
-    res.json({ message: "Product inserted successfully." });
-  } catch {
-    res.status(500).json({ message: "Product insert failed." });
+    if (!name || !price) {
+      return res.status(400).json({
+        message: "Name and price are required"
+      });
+    }
+
+    const { data, error } = await supabase
+      .from("products")
+      .insert([{
+        name: name.trim(),
+        description: description || "",
+        price: Number(price),
+        image,
+        category: category || ""
+      }])
+      .select();
+
+    if (error) {
+      console.error("Insert error:", error);
+      return res.status(500).json({
+        message: "Product insert failed",
+        error: error.message
+      });
+    }
+
+    res.json({
+      success: true,
+      product: data[0]
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
+/* ================= UPDATE PRODUCT ================= */
 router.put("/products/:id", upload.single("image"), async (req, res) => {
-  const { name, price, description, category_id } = req.body;
-  const image = req.file ? req.file.filename : null;
-
   try {
+    const { name, price, description, category } = req.body;
+    const image = req.file ? req.file.filename : null;
+
     const updates = {
       name,
-      price,
       description,
-      category_id: category_id || null
+      price: Number(price),
+      category
     };
 
     if (image) {
@@ -99,25 +106,32 @@ router.put("/products/:id", upload.single("image"), async (req, res) => {
     const { error } = await supabase
       .from("products")
       .update(updates)
-      .eq("p_id", req.params.id);
+      .eq("id", req.params.id);
 
     if (error) throw error;
+
     res.json({ message: "Product updated successfully." });
-  } catch {
+
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Product update failed." });
   }
 });
 
+/* ================= DELETE PRODUCT ================= */
 router.delete("/products/:id", async (req, res) => {
   try {
     const { error } = await supabase
       .from("products")
       .delete()
-      .eq("p_id", req.params.id);
+      .eq("id", req.params.id);
 
     if (error) throw error;
+
     res.json({ message: "Product deleted successfully." });
-  } catch {
+
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Product delete failed." });
   }
 });
