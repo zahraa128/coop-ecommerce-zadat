@@ -1,3 +1,12 @@
+const express = require("express");
+const multer = require("multer");
+const supabase = require("../supabase");
+const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
+
+const router = express.Router();
+const upload = multer({ dest: "public/product" });
+
 router.put("/products/:id", upload.single("image"), async (req, res) => {
   try {
     const { name, price, description, category } = req.body;
@@ -51,3 +60,4 @@ router.put("/products/:id", upload.single("image"), async (req, res) => {
     res.status(500).json({ message: "Product update failed." });
   }
 });
+module.exports = router;
