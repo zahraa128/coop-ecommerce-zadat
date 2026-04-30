@@ -49,5 +49,22 @@ router.get("/products/:id", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+/* ===== GET CATEGORIES ===== */
+router.get("/categories", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("categories")
+      .select("*")
+      .order("name", { ascending: true });
+
+    if (error) throw error;
+
+    res.json(data);
+
+  } catch (err) {
+    console.error("Categories error:", err);
+    res.status(500).json({ message: "Failed to fetch categories" });
+  }
+});
 
 module.exports = router;
