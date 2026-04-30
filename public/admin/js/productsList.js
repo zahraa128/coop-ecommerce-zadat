@@ -1,67 +1,62 @@
-(() => {
-/**
- * productsList.js
- * ----------------
- * List & delete products (admin)
- */
-const adminToken = localStorage.getItem("token");
+const API_URL = "https://coop-backend-hecq.onrender.com";
 
-if (!adminToken) {
-  window.location.href = "/admin/login.html";
-}
+const tableBody = document.querySelector("tbody");
 
-const tableBody = document.querySelector("#productsTable tbody");
-const message = document.getElementById("message");
+async function loadProducts() {
+  try {
+    const res = await fetch(`${API_URL}/api/admin/products`);
+    const products = await res.json();
 
-// Success message after edit
-if (new URLSearchParams(window.location.search).get("updated") === "true") {
-  message.style.color = "green";
-  message.textContent = "✅ Product updated successfully.";
-}
-
-// Load products
-fetch(`${API_URL}/api/admin/products`)
-  .then(res => res.json())
-  .then(products => {
     tableBody.innerHTML = "";
 
-    products.forEach(p => {
+    products.forEach(product => {
       const row = document.createElement("tr");
 
       row.innerHTML = `
-        <td>${p.p_id}</td>
-        <td>${p.name}</td>
-        <td>${p.category_name ?? "-"}</td>
-        <td>${p.price}</td>
+        <td>${product.id}</td>
+        <td>${product.name}</td>
+        <td>${product.price}</td>
+        <td>${product.category || "-"}</td>
         <td>
-          <img src="/product/${p.image}" width="80">
-        </td>
-        <td>${p.description}</td>
-        <td>
-          <a href="products_edit.html?id=${p.p_id}">Edit</a>
+          <img src="${API_URL}/product/${product.image}" width="60" />
         </td>
         <td>
-          <a href="#" onclick="deleteProduct(${p.p_id})">Delete</a>
+          <a href="products_edit.html?id=${product.id}">Edit</a> |
+          <button onclick="deleteProduct(${product.id})">Delete</button>
         </td>
       `;
 
       tableBody.appendChild(row);
     });
-  });
 
-// Delete product
-function deleteProduct(id) {
-  if (!confirm("Are you sure?")) return;
-
-  fetch(`${API_URL}/api/admin/products/${id}`, {
-    method: "DELETE"
-  })
-    .then(res => res.json())
-    .then(data => {
-      alert(data.message);
-      location.reload();
-    });
+  } catch (err) {
+    console.error(err);
+    alert("Failed to load products");
+  }
 }
 
-window.deleteProduct = deleteProduct;
-})();
+async function deleteProduct(id) {
+  if (!confirm("Delete this product?")) return;
+
+  try {
+    const res = await fetch(`${API_URL}/api/admin/products/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": localStorage.getItem("token")
+      }
+    });
+
+    if (res.ok) {
+      alert("Deleted successfully");
+      loadProducts();
+    } else {
+      alert("Delete failed");
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+}
+
+loadProducts();

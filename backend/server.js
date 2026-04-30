@@ -7,6 +7,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use("/product", express.static("public/product"));
+
+// routes
+app.use("/api/admin", require("./routes/adminProducts"));
+app.use("/api/admin", require("./routes/adminCategories"));
+app.use("/api", require("./routes/products"));
+
+const PORT = process.env.PORT || 10000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 // routes
 app.use("/api/admin", require("./routes/adminAuth"));
 app.use("/api/admin", require("./routes/adminProducts"));
