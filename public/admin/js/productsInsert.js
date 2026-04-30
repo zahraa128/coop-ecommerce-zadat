@@ -1,56 +1,61 @@
 (() => {
-/**
- * productsInsert.js
- * ------------------
- * Insert product (admin)
- */
-const adminToken = localStorage.getItem("token");
+  const API_URL = "https://coop-backend-hecq.onrender.com";
 
-if (!adminToken) {
-  window.location.href = "/admin/login.html";
-}
+  const adminToken = localStorage.getItem("token");
 
-const form = document.getElementById("productForm");
-const message = document.getElementById("message");
-const categorySelect = document.getElementById("categorySelect");
+  if (!adminToken) {
+    window.location.href = "/admin/login.html";
+  }
 
-// Load categories
-fetch(`${API_URL}/api/admin/categories-list`)
-  .then(res => res.json())
-  .then(categories => {
-    categories.forEach(cat => {
-      const opt = document.createElement("option");
-      opt.value = cat.id;
-      opt.textContent = cat.name;
-      categorySelect.appendChild(opt);
-    });
-  });
+  const form = document.getElementById("productForm");
+  const message = document.getElementById("message");
+  const categorySelect = document.getElementById("categorySelect");
 
-// Submit product
-form.addEventListener("submit", e => {
-  e.preventDefault();
-
-  const formData = new FormData(form);
-
-  fetch(`${API_URL}/api/admin/products`, {
-    method: "POST",
-    body: formData
-  })
+  /* ===== LOAD CATEGORIES ===== */
+  fetch(`${API_URL}/api/admin/categories`)
     .then(res => res.json())
-    .then(data => {
-      if (!data.message.includes("success")) {
+    .then(categories => {
+      categories.forEach(cat => {
+        const opt = document.createElement("option");
+        opt.value = cat.name;   // IMPORTANT: use name (not id)
+        opt.textContent = cat.name;
+        categorySelect.appendChild(opt);
+      });
+    })
+    .catch(err => {
+      console.error("Category load error:", err);
+    });
+
+  /* ===== SUBMIT PRODUCT ===== */
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    try {
+      const res = await fetch(`${API_URL}/api/admin/products`, {
+        method: "POST",
+        headers: {
+          "Authorization": adminToken
+        },
+        body: formData
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        message.style.color = "green";
+        message.textContent = "✅ Product inserted successfully.";
+        form.reset();
+      } else {
         message.style.color = "red";
-        message.textContent = data.message;
-        return;
+        message.textContent = data.message || "Insert failed";
       }
 
-      message.style.color = "green";
-      message.textContent = "✅ Product inserted successfully.";
-      form.reset();
-    })
-    .catch(() => {
+    } catch (err) {
+      console.error(err);
       message.style.color = "red";
       message.textContent = "Server error.";
-    });
-});
+    }
+  });
 })();
