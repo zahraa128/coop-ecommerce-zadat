@@ -124,30 +124,24 @@ router.put("/products/:id", upload.single("image"), async (req, res) => {
 });
 
 /* ===== DELETE PRODUCT ===== */
-async function deleteProduct(id) {
-  if (!confirm("Are you sure?")) return;
-
+router.delete("/products/:id", async (req, res) => {
   try {
-    const res = await fetch(`${API_URL}/api/admin/products/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Authorization": localStorage.getItem("token")
-      }
-    });
+    const { error } = await supabase
+      .from("products")
+      .delete()
+      .eq("id", req.params.id);
 
-    const data = await res.json();
-
-    if (res.ok) {
-      alert("Deleted successfully");
-      location.reload();
-    } else {
-      alert(data.message || "Delete failed");
+    if (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Delete failed" });
     }
+
+    res.json({ success: true });
 
   } catch (err) {
     console.error(err);
-    alert("Server error");
+    res.status(500).json({ message: "Server error" });
   }
-}
+});
 
 module.exports = router;

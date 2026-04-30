@@ -54,18 +54,24 @@ async function deleteProduct(id) {
   if (!confirm("Delete this product?")) return;
 
   try {
+    const token = localStorage.getItem("token");
+
     const res = await fetch(`${API_URL}/api/admin/products/${id}`, {
       method: "DELETE",
       headers: {
-        "Authorization": localStorage.getItem("token")
+        "Authorization": `Bearer ${token}`   // ✅ IMPORTANT
       }
     });
 
+    const data = await res.json();
+
+    console.log("Delete response:", data);
+
     if (res.ok) {
-      alert("Deleted");
+      alert("Deleted successfully");
       loadProducts();
     } else {
-      alert("Delete failed");
+      alert(data.message || "Delete failed");
     }
 
   } catch (err) {
