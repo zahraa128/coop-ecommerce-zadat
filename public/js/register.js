@@ -3,6 +3,32 @@
  * ------------
  * Handles customer registration
  */
+router.post("/register", async (req, res) => {
+  const { full_name, phone, email, address, password } = req.body;
+
+  if (!full_name || !phone || !email || !address || !password) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    const { error } = await supabase
+      .from("customers")
+      .insert([{
+        full_name,
+        phone,
+        email,
+        address,
+        password
+      }]);
+
+    if (error) throw error;
+
+    res.json({ message: "Registration successful" });
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 document.getElementById("registerForm").addEventListener("submit", e => {
   e.preventDefault();
@@ -49,12 +75,7 @@ document.getElementById("registerForm").addEventListener("submit", e => {
     });
 });
 
-const googleRegisterBtn = document.getElementById("googleRegisterBtn");
-if (googleRegisterBtn) {
-  googleRegisterBtn.addEventListener("click", () => {
-    alert("Google login is not configured yet.");
-  });
-}
+
 
 document.querySelectorAll(".toggle-btn").forEach(btn => {
   btn.addEventListener("click", () => {
