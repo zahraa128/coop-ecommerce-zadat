@@ -7,6 +7,8 @@
 
   <link rel="stylesheet" href="styles/contactus.css">
   <link rel="stylesheet" href="styles/header.css">
+
+  <!-- Icons -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -21,28 +23,27 @@
   <main class="contact-container">
     <h2>Contact Us</h2>
 
-<a id="whatsapp">WhatsApp</a>
-<a id="instagram">Instagram</a>
-<a id="messenger">Messenger</a>
+    <div class="contact-buttons">
+      <a id="whatsapp" class="contact-btn whatsapp" target="_blank">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+      </a>
 
-    <!-- Formspree form (unchanged) -->
-    <form action="https://formspree.io/f/mblyevzp" method="POST">
-      <label for="email">Your Email:</label><br>
-      <input type="email" id="email" name="email" required><br><br>
+      <a id="instagram" class="contact-btn instagram" target="_blank">
+        <i class="fab fa-instagram"></i> Instagram
+      </a>
 
-      <label for="message">Your Message:</label><br>
-      <textarea id="message" name="message" rows="6" required></textarea><br><br>
-
-      <button type="submit">Send</button>
-    </form>
+      <a id="messenger" class="contact-btn messenger" target="_blank">
+        <i class="fab fa-facebook-messenger"></i> Messenger
+      </a>
+    </div>
   </main>
 
   <!-- FOOTER -->
   <div id="footer"></div>
 
   <script src="js/config.js"></script>
-<script src="js/contuct.js"></script>
-
+  <script src="js/contact.js"></script> <!-- ✅ FIXED NAME -->
   <script src="js/layout.js"></script>
+
 </body>
 </html>
