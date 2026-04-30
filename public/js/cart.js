@@ -132,22 +132,46 @@ function saveCart() {
 
 // Submit order directly from cart
 function submitOrder() {
-  const customerId = localStorage.getItem("customer_id");
-  if (!customerId) {
-    alert("Please login first to place your order.");
+  const customer_id = localStorage.getItem("customer_id");
+
+  if (!customer_id) {
+    alert("Please login first.");
     window.location.href = "login_user.html";
     return;
   }
 
+  const items = Object.values(cart);
+
+  if (items.length === 0) {
+    alert("Cart is empty");
+    return;
+  }
+
+  const total = items.reduce((sum, item) =>
+    sum + item.price * item.quantity, 0
+  );
+
+  const address = prompt("Enter your delivery address:");
+  if (!address) return;
+
   fetch(`${API_URL}/api/checkout`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ customer_id: customerId, cart })
+    body: JSON.stringify({
+      customer_id,
+      items,
+      total,
+      address
+    })
   })
     .then(res => res.json())
-    .then(() => {
+    .then(data => {
+      if (data.message !== "Order placed successfully") {
+        alert(data.message || "Order failed");
+        return;
+      }
+
       localStorage.removeItem("cart");
-      localStorage.setItem("flash_message", "Order placed successfully!");
       window.location.href = "ordersuccess.html";
     })
     .catch(() => alert("Checkout failed"));

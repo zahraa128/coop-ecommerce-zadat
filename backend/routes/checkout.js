@@ -1,16 +1,4 @@
-/**
- * checkout.js
- * ------------
- * Handles order placement
- */
-
-const express = require("express");
-const router = express.Router();
-const supabase = require("../supabase");
 router.post("/checkout", async (req, res) => {
-  console.log("CHECKOUT HIT");
-  console.log(req.body);  // ✅ inside route
-
   try {
     const { customer_id, items, total, address } = req.body;
 
@@ -18,6 +6,7 @@ router.post("/checkout", async (req, res) => {
       return res.status(400).json({ message: "Missing order data" });
     }
 
+    // INSERT ORDER
     const { data: order, error: orderError } = await supabase
       .from("orders")
       .insert([{
@@ -31,6 +20,7 @@ router.post("/checkout", async (req, res) => {
 
     if (orderError) throw orderError;
 
+    // INSERT ORDER ITEMS
     const orderItems = items.map(item => ({
       order_id: order.id,
       product_id: item.id,
@@ -51,5 +41,3 @@ router.post("/checkout", async (req, res) => {
     res.status(500).json({ message: "Failed to place order" });
   }
 });
-
-module.exports = router;
