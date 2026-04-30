@@ -147,3 +147,11 @@ body {
     font-size: 1.5rem;
   }
 }
+.edit-button {
+  background: #28a745;
+  color: white;          
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}

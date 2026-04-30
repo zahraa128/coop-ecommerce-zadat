@@ -1,5 +1,3 @@
-
-
 const tableBody = document.getElementById("productsBody");
 
 async function loadProducts() {
@@ -28,7 +26,7 @@ async function loadProducts() {
         <td>${product.price}</td>
         <td>
           ${product.image 
-            ? `<img src="${API_URL}/product/${product.image}" width="60"/>`
+            ? `<img src="${product.image}"" width="60"/>`
             : "-"
           }
         </td>

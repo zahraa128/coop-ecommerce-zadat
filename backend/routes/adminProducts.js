@@ -1,6 +1,8 @@
 const express = require("express");
 const multer = require("multer");
 const supabase = require("../supabase");
+const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
 
 const router = express.Router();
 const upload = multer({ dest: "public/product" });
@@ -50,7 +52,27 @@ router.post("/products", upload.single("image"), async (req, res) => {
     console.log("Incoming body:", req.body);
 
     const { name, price, description, category } = req.body;
-    const image = req.file ? req.file.filename : null;
+    let imageUrl = null;
+
+if (req.file) {
+  const file = req.file;
+  const fileName = `${uuidv4()}-${file.originalname}`;
+
+  const fileBuffer = fs.readFileSync(file.path);
+
+  const { error } = await supabase.storage
+    .from("products")   // bucket name
+    .upload(fileName, fileBuffer, {
+      contentType: file.mimetype
+    });
+
+  if (error) {
+    console.error("Upload error:", error);
+    return res.status(500).json({ message: "Image upload failed" });
+  }
+
+  imageUrl = `${process.env.SUPABASE_URL}/storage/v1/object/public/products/${fileName}`;
+}
 
     if (!name || !price) {
       return res.status(400).json({
@@ -64,7 +86,7 @@ router.post("/products", upload.single("image"), async (req, res) => {
         name: name.trim(),
         description: description || "",
         price: Number(price),
-        image,
+        image: imageUrl
         category: category || ""
       }])
       .select();
