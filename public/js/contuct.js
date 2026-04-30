@@ -1,15 +1,11 @@
-/**
- * contact.js
- * -----------
- * Loads header and footer for Contact Us page
- */
-
-// Load header
-fetch("header.html")
-  .then(res => res.text())
-  .then(data => document.getElementById("header").innerHTML = data);
-
-// Load footer
-fetch("footer.html")
-  .then(res => res.text())
-  .then(data => document.getElementById("footer").innerHTML = data);
+fetch(`${API_URL}/api/admin/contact`)
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("phone").textContent = data.phone || "";
+    document.getElementById("whatsapp").href = data.whatsapp || "#";
+    document.getElementById("instagram").href = data.instagram || "#";
+    document.getElementById("messenger").href = data.messenger || "#";
+  })
+  .catch(() => {
+    console.error("Failed to load contact info");
+  });

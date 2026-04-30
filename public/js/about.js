@@ -1,15 +1,10 @@
-/**
- * about.js
- * ---------
- * Loads header and footer for About Us page
- */
+const container = document.getElementById("aboutContent");
 
-// Load header
-fetch("header.html")
-  .then(res => res.text())
-  .then(data => document.getElementById("header").innerHTML = data);
-
-// Load footer
-fetch("footer.html")
-  .then(res => res.text())
-  .then(data => document.getElementById("footer").innerHTML = data);
+fetch(`${API_URL}/api/admin/about`)
+  .then(res => res.json())
+  .then(data => {
+    container.textContent = data.content || "No content available.";
+  })
+  .catch(() => {
+    container.textContent = "Failed to load content.";
+  });
