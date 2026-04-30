@@ -72,7 +72,7 @@ function renderCart() {
 
     html += `
       <tr>
-        <td><img src="/product/${item.image}" width="80"></td>
+        <td><img src="${item.image}" width="80"></td>
         <td>${item.name}</td>
         <td>$${price.toFixed(2)}</td>
         <td>

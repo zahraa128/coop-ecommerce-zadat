@@ -46,5 +46,30 @@ router.get("/categories", async (req, res) => {
     res.status(500).json({ message: "Failed to load categories" });
   }
 });
+function addToCart(product) {
+  if (!localStorage.getItem("customer_id")) {
+    alert("Please login first");
+    return;
+  }
 
+  const qty = parseInt(document.getElementById("quantity").value);
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || {};
+
+  if (cart[product.id]) {
+    cart[product.id].quantity += qty;
+  } else {
+    cart[product.id] = {
+      id: product.id,
+      name: product.name,
+      price: Number(product.price),
+      image: product.image,
+      quantity: qty
+    };
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  alert("Added to cart");
+}
 module.exports = router;
