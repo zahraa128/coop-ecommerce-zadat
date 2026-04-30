@@ -1,49 +1,52 @@
-(() => {
-/**
- * aboutEdit.js
- * -------------
- * Edit About Us content (admin)
- */
-
-const contentField = document.getElementById("content");
+const textarea = document.getElementById("content");
 const message = document.getElementById("message");
 
-const adminToken = localStorage.getItem("token");
+/* ===== LOAD ABOUT ===== */
+async function loadAbout() {
+  try {
+    const res = await fetch(`${API_URL}/api/admin/about`);
+    const data = await res.json();
 
-if (!adminToken) {
-  window.location.href = "/admin/login.html";
+    console.log("About data:", data);
+
+    textarea.value = data?.content || "";
+  } catch (err) {
+    console.error(err);
+  }
 }
 
-// Load existing content
-fetch(`${API_URL}/api/admin/about`)
-  .then(res => res.json())
-  .then(data => {
-    contentField.value = data.content;
-  })
-  .catch(() => {
-    message.style.color = "red";
-    message.textContent = "Failed to load content.";
-  });
+loadAbout();
 
-// Update content
-document.getElementById("aboutForm").addEventListener("submit", e => {
+/* ===== SAVE ===== */
+document.getElementById("aboutForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  fetch(`${API_URL}/api/admin/about`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      content: contentField.value
-    })
-  })
-    .then(res => res.json())
-    .then(data => {
-      message.style.color = "green";
-      message.textContent = "✅ About Us updated successfully.";
-    })
-    .catch(() => {
-      message.style.color = "red";
-      message.textContent = "Update failed.";
+  try {
+    const res = await fetch(`${API_URL}/api/admin/about`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      },
+      body: JSON.stringify({
+        content: textarea.value
+      })
     });
+
+    const data = await res.json();
+
+    console.log("Save response:", data);
+
+    if (res.ok) {
+      message.style.color = "green";
+      message.textContent = "Saved successfully";
+    } else {
+      message.style.color = "red";
+      message.textContent = data.message || "Save failed";
+    }
+
+  } catch (err) {
+    console.error(err);
+    message.textContent = "Server error";
+  }
 });
-})();

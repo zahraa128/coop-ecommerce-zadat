@@ -1,23 +1,18 @@
-(() => {
-/**
- * aboutView.js
- * -------------
- * Loads About Us content for admin
- */
-const adminToken = localStorage.getItem("token");
+const aboutContent = document.getElementById("aboutContent");
 
-if (!adminToken) {
-  window.location.href = "/admin/login.html";
+async function loadAbout() {
+  try {
+    const res = await fetch(`${API_URL}/api/admin/about`);
+    const data = await res.json();
+
+    console.log("About view:", data);
+
+    aboutContent.textContent = data?.content || "No content yet.";
+
+  } catch (err) {
+    console.error(err);
+    aboutContent.textContent = "Failed to load content.";
+  }
 }
 
-fetch(`${API_URL}/api/admin/about`)
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("aboutContent").innerHTML =
-      data.content.replace(/\n/g, "<br>");
-  })
-  .catch(() => {
-    document.getElementById("aboutContent").textContent =
-      "Failed to load content.";
-  });
-})();
+loadAbout();
