@@ -1,58 +1,30 @@
-const express = require("express");
-const router = express.Router();
-const supabase = require("../supabase");
-
-/* ===== GET PRODUCTS ===== */
 router.get("/products", async (req, res) => {
   try {
-    const { data, error } = await supabase
+    const { category } = req.query;
+
+    console.log("Incoming category:", category);
+
+    let query = supabase
       .from("products")
       .select("*")
       .order("id", { ascending: false });
 
-    if (error) throw error;
+    // 🔥 IMPORTANT FIX
+    if (category && category !== "null" && category !== "undefined") {
+      query = query.eq("category", category.trim());
+    }
 
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+    const { data, error } = await query;
 
-/* ===== GET PRODUCT BY ID ===== */
-router.get("/products/:id", async (req, res) => {
-  try {
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .eq("id", req.params.id)
-      .maybeSingle();
-
-    if (error) throw error;
-
-    if (!data) {
-      return res.status(404).json({ message: "Product not found" });
+    if (error) {
+      console.error("Supabase error:", error);
+      return res.status(500).json({ error: error.message });
     }
 
     res.json(data);
+
   } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-/* ===== GET CATEGORIES ===== */
-router.get("/categories", async (req, res) => {
-  try {
-    const { data, error } = await supabase
-      .from("categories")
-      .select("*")
-      .order("name", { ascending: true });
-
-    if (error) throw error;
-
-    res.json(data);
-  } catch (err) {
+    console.error("Server error:", err);
     res.status(500).json({ error: err.message });
   }
 });
-
-module.exports = router;
