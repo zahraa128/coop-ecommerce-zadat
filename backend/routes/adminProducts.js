@@ -67,24 +67,26 @@ router.post("/products", upload.single("image"), async (req, res) => {
       }])
       .select();
 
-    if (error) {
-      console.error("Insert error:", error);
-      return res.status(500).json({
-        message: "Product insert failed",
-        error: error.message
-      });
-    }
+      if (error) {
+  console.error("Supabase insert product error:", error);
+  return res.status(500).json({
+    message: "Product insert failed",
+    error: error.message
+  });
+}
 
     res.json({
       success: true,
       product: data[0]
     });
 
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
-  }
-});
+} catch (err) {
+  console.error("SERVER ERROR:", err);
+  res.status(500).json({
+    message: "Server error",
+    error: err.message
+  });
+}
 
 /* ================= UPDATE PRODUCT ================= */
 router.put("/products/:id", upload.single("image"), async (req, res) => {
