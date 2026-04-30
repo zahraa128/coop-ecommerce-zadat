@@ -1,47 +1,75 @@
-/**
- * orders.js
- * ----------
- * Shows customer orders and status
- */
+document.getElementById("placeOrderBtn")?.addEventListener("click", async () => {
+  const customer_id = localStorage.getItem("customer_id");
 
-const tableBody = document.querySelector("#ordersTable tbody");
-const customerId = localStorage.getItem("customer_id");
+  if (!customer_id) {
+    alert("Please login first");
+    window.location.href = "login_user.html";
+    return;
+  }
 
-if (!customerId) {
-  tableBody.innerHTML =
-    "<tr><td colspan=\"7\">Please login to view your orders.</td></tr>";
-} else {
-  fetch(`${API_URL}/api/orders?customer_id=${customerId}`)
-    .then(res => res.json())
-    .then(orders => {
-      tableBody.innerHTML = "";
+  const cart = JSON.parse(localStorage.getItem("cart")) || {};
 
-      if (orders.length === 0) {
-        tableBody.innerHTML =
-          "<tr><td colspan=\"7\">No orders found.</td></tr>";
-        return;
-      }
+  const items = Object.values(cart);
 
-      orders.forEach(o => {
-        const price = Number(o.price) || 0;
-        const total = (price * o.quantity).toFixed(2);
-        const status = o.status || "submitted";
+  if (items.length === 0) {
+    alert("Cart is empty");
+    return;
+  }
 
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${o.o_id}</td>
-          <td>${o.product_name}</td>
-          <td>$${price.toFixed(2)}</td>
-          <td>${o.quantity}</td>
-          <td>$${total}</td>
-          <td class="status ${status}">${status}</td>
-          <td>${new Date(o.order_date).toLocaleString()}</td>
-        `;
-        tableBody.appendChild(row);
-      });
-    })
-    .catch(() => {
-      tableBody.innerHTML =
-        "<tr><td colspan=\"7\">Failed to load orders.</td></tr>";
+  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const address = prompt("Enter your delivery address:");
+  if (!address) return;
+
+  try {
+    const res = await fetch(`${API_URL}/api/checkout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        customer_id,
+        items,
+        total,
+        address
+      })
     });
-}
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.message || "Order failed");
+      return;
+    }
+
+    // ✅ clear cart
+    localStorage.removeItem("cart");
+
+    // ✅ go to success page
+    window.location.href = "orders_success.html";
+
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+});
+/* ===== GET CLIENT ORDERS ===== */
+router.get("/my-orders/:customer_id", async (req, res) => {
+  try {
+    const { customer_id } = req.params;
+
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*")
+      .eq("customer_id", customer_id)
+      .order("id", { ascending: false });
+
+    if (error) throw error;
+
+    res.json(data);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to load orders" });
+  }
+});
