@@ -1,3 +1,8 @@
+const express = require("express");
+const router = express.Router();
+const supabase = require("../supabase");
+
+/* ===== GET PRODUCTS (WITH CATEGORY FILTER) ===== */
 router.get("/products", async (req, res) => {
   try {
     const { category } = req.query;
@@ -9,7 +14,6 @@ router.get("/products", async (req, res) => {
       .select("*")
       .order("id", { ascending: false });
 
-    // 🔥 IMPORTANT FIX
     if (category && category !== "null" && category !== "undefined") {
       query = query.eq("category", category.trim());
     }
@@ -28,3 +32,22 @@ router.get("/products", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+/* ===== GET SINGLE PRODUCT ===== */
+router.get("/products/:id", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("id", req.params.id)
+      .maybeSingle();
+
+    if (error) throw error;
+
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+module.exports = router;
