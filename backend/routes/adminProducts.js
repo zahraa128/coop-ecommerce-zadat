@@ -5,7 +5,7 @@ const supabase = require("../supabase");
 const router = express.Router();
 const upload = multer({ dest: "public/product" });
 
-/* ================= GET ALL PRODUCTS ================= */
+/* ===== GET PRODUCTS ===== */
 router.get("/products", async (req, res) => {
   try {
     const { data, error } = await supabase
@@ -22,7 +22,7 @@ router.get("/products", async (req, res) => {
   }
 });
 
-/* ================= GET ONE PRODUCT ================= */
+/* ===== GET PRODUCT BY ID ===== */
 router.get("/products/:id", async (req, res) => {
   try {
     const { data, error } = await supabase
@@ -44,9 +44,11 @@ router.get("/products/:id", async (req, res) => {
   }
 });
 
-/* ================= INSERT PRODUCT ================= */
+/* ===== INSERT PRODUCT ===== */
 router.post("/products", upload.single("image"), async (req, res) => {
   try {
+    console.log("Incoming product:", req.body);
+
     const { name, price, description, category } = req.body;
     const image = req.file ? req.file.filename : null;
 
@@ -67,28 +69,29 @@ router.post("/products", upload.single("image"), async (req, res) => {
       }])
       .select();
 
-      if (error) {
-  console.error("Supabase insert product error:", error);
-  return res.status(500).json({
-    message: "Product insert failed",
-    error: error.message
-  });
-}
+    if (error) {
+      console.error("Supabase insert product error:", error);
+      return res.status(500).json({
+        message: "Product insert failed",
+        error: error.message
+      });
+    }
 
     res.json({
       success: true,
       product: data[0]
     });
 
-} catch (err) {
-  console.error("SERVER ERROR:", err);
-  res.status(500).json({
-    message: "Server error",
-    error: err.message
-  });
-}
+  } catch (err) {
+    console.error("SERVER ERROR:", err);
+    res.status(500).json({
+      message: "Server error",
+      error: err.message
+    });
+  }
+});
 
-/* ================= UPDATE PRODUCT ================= */
+/* ===== UPDATE PRODUCT ===== */
 router.put("/products/:id", upload.single("image"), async (req, res) => {
   try {
     const { name, price, description, category } = req.body;
@@ -120,7 +123,7 @@ router.put("/products/:id", upload.single("image"), async (req, res) => {
   }
 });
 
-/* ================= DELETE PRODUCT ================= */
+/* ===== DELETE PRODUCT ===== */
 router.delete("/products/:id", async (req, res) => {
   try {
     const { error } = await supabase
