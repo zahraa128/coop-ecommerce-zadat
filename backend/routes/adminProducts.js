@@ -7,6 +7,23 @@ const { v4: uuidv4 } = require("uuid");
 const router = express.Router();
 const upload = multer({ dest: "public/product" });
 
+router.get("/products", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .order("id", { ascending: false });
+
+    if (error) throw error;
+
+    res.json(data);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch products." });
+  }
+});
+
 router.put("/products/:id", upload.single("image"), async (req, res) => {
   try {
     const { name, price, description, category } = req.body;
