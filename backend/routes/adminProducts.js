@@ -5,7 +5,7 @@ const supabase = require("../supabase");
 const router = express.Router();
 const upload = multer({ dest: "public/product" });
 
-/* ===== GET PRODUCTS ===== */
+/* ===== GET ALL PRODUCTS ===== */
 router.get("/products", async (req, res) => {
   try {
     const { data, error } = await supabase
@@ -17,7 +17,7 @@ router.get("/products", async (req, res) => {
 
     res.json(data);
   } catch (err) {
-    console.error(err);
+    console.error("GET PRODUCTS ERROR:", err);
     res.status(500).json({ message: "Failed to fetch products." });
   }
 });
@@ -39,7 +39,7 @@ router.get("/products/:id", async (req, res) => {
 
     res.json(data);
   } catch (err) {
-    console.error(err);
+    console.error("GET ONE PRODUCT ERROR:", err);
     res.status(500).json({ message: "Failed to fetch product." });
   }
 });
@@ -47,7 +47,7 @@ router.get("/products/:id", async (req, res) => {
 /* ===== INSERT PRODUCT ===== */
 router.post("/products", upload.single("image"), async (req, res) => {
   try {
-    console.log("Incoming product:", req.body);
+    console.log("Incoming body:", req.body);
 
     const { name, price, description, category } = req.body;
     const image = req.file ? req.file.filename : null;
@@ -69,26 +69,27 @@ router.post("/products", upload.single("image"), async (req, res) => {
       }])
       .select();
 
-if (error) {
-  console.error("FULL SUPABASE ERROR:", JSON.stringify(error, null, 2));
-  return res.status(500).json({
-    message: "Product insert failed",
-    error: error.message,
-    details: error
-  });
-}
+    if (error) {
+      console.error("SUPABASE ERROR:", error);
+      return res.status(500).json({
+        message: "Product insert failed",
+        error: error.message
+      });
+    }
+
     res.json({
       success: true,
       product: data[0]
     });
 
-} catch (err) {
-  console.error("SERVER ERROR:", err);
-  res.status(500).json({
-    message: "Server error",
-    error: err.message
-  });
-}
+  } catch (err) {
+    console.error("SERVER ERROR:", err);
+    res.status(500).json({
+      message: "Server error",
+      error: err.message
+    });
+  }
+});
 
 /* ===== UPDATE PRODUCT ===== */
 router.put("/products/:id", upload.single("image"), async (req, res) => {
@@ -117,7 +118,7 @@ router.put("/products/:id", upload.single("image"), async (req, res) => {
     res.json({ message: "Product updated successfully." });
 
   } catch (err) {
-    console.error(err);
+    console.error("UPDATE ERROR:", err);
     res.status(500).json({ message: "Product update failed." });
   }
 });
@@ -135,7 +136,7 @@ router.delete("/products/:id", async (req, res) => {
     res.json({ message: "Product deleted successfully." });
 
   } catch (err) {
-    console.error(err);
+    console.error("DELETE ERROR:", err);
     res.status(500).json({ message: "Product delete failed." });
   }
 });
