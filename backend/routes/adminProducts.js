@@ -45,7 +45,15 @@ router.get("/products/:id", async (req, res) => {
 /* ===== INSERT ===== */
 router.post("/products", upload.single("image"), async (req, res) => {
   try {
-    const { name, price, description, category } = req.body;
+    console.log("Incoming product:", req.body);
+
+    const { name, price, description, category_id } = req.body;
+
+    if (!name || !price) {
+      return res.status(400).json({
+        message: "Name and price are required"
+      });
+    }
 
     let imageUrl = null;
 
@@ -68,28 +76,34 @@ router.post("/products", upload.single("image"), async (req, res) => {
     const { data, error } = await supabase
       .from("products")
       .insert([{
-        name,
-        description,
+        name: name.trim(),
+        description: description || "",
         price: Number(price),
-        image: imageUrl,
-        category
+        image: imageUrl || "",
+        category_id: category_id || null
       }])
       .select();
 
-    if (error) throw error;
+    if (error) {
+      console.error("Supabase insert product error:", error);
+      return res.status(500).json({
+        message: "Insert failed",
+        error: error.message
+      });
+    }
 
     res.json({ success: true, product: data[0] });
 
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Insert failed" });
+    console.error("Server error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
 /* ===== UPDATE ===== */
 router.put("/products/:id", upload.single("image"), async (req, res) => {
   try {
-    const { name, price, description, category } = req.body;
+    const { name, price, description, category_id } = req.body;
 
     let imageUrl = null;
 
@@ -113,7 +127,7 @@ router.put("/products/:id", upload.single("image"), async (req, res) => {
       name,
       description,
       price: Number(price),
-      category
+      category_id: category_id || null
     };
 
     if (imageUrl) updates.image = imageUrl;

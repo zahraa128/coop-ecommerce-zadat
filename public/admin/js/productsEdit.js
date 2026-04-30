@@ -22,7 +22,7 @@
     .then(categories => {
       categories.forEach(cat => {
         const opt = document.createElement("option");
-        opt.value = cat.name;   // ✅ IMPORTANT
+        opt.value = cat.id;
         opt.textContent = cat.name;
         categorySelect.appendChild(opt);
       });
@@ -42,7 +42,7 @@
     document.getElementById("description").value = p.description || "";
 
     // ✅ category fix
-    document.getElementById("categorySelect").value = p.category || "";
+    document.getElementById("categorySelect").value = p.category_id || "";
 
     // ✅ image preview fix
     if (p.image) {

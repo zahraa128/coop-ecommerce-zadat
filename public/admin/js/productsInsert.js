@@ -17,7 +17,7 @@
     .then(categories => {
       categories.forEach(cat => {
         const opt = document.createElement("option");
-        opt.value = cat.name;   // IMPORTANT: use name (not id)
+        opt.value = cat.id;
         opt.textContent = cat.name;
         categorySelect.appendChild(opt);
       });
