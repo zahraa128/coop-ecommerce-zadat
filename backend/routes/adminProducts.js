@@ -86,7 +86,7 @@ if (req.file) {
         name: name.trim(),
         description: description || "",
         price: Number(price),
-        image: imageUrl
+        image: imageUrl,
         category: category || ""
       }])
       .select();
