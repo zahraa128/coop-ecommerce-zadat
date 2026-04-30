@@ -1,32 +1,29 @@
 /**
- * shop.js (FINAL CLEAN VERSION)
+ * shop.js (FINAL - category_id version)
  */
 
-// ===== LOAD HEADER / FOOTER =====
+// ===== HEADER / FOOTER =====
 const headerEl = document.getElementById("header");
 const footerEl = document.getElementById("footer");
 
 if (headerEl) {
   fetch("header.html").then(r => r.text()).then(d => headerEl.innerHTML = d);
 }
-
 if (footerEl) {
   fetch("footer.html").then(r => r.text()).then(d => footerEl.innerHTML = d);
 }
 
-// ===== GET CATEGORY FROM URL =====
+// ===== GET CATEGORY ID FROM URL =====
 const params = new URLSearchParams(window.location.search);
-const category = params.get("category");
+const categoryId = params.get("category_id");
 
-console.log("URL category:", category);
-
-// ===== ACTIVE BUTTON STYLE =====
-const setActiveFilter = (activeCategory) => {
+// ===== ACTIVE BUTTON =====
+const setActiveFilter = (activeId) => {
   const filter = document.getElementById("categoryFilter");
   if (!filter) return;
 
   [...filter.querySelectorAll(".filter-btn")].forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.category === activeCategory);
+    btn.classList.toggle("active", btn.dataset.id === activeId);
   });
 };
 
@@ -39,54 +36,46 @@ fetch(`${API_URL}/api/categories`)
 
     filter.innerHTML = "";
 
-    // ✅ ALL BUTTON
+    // ALL BUTTON
     const allBtn = document.createElement("button");
     allBtn.className = "filter-btn";
-    allBtn.dataset.category = "";
+    allBtn.dataset.id = "";
     allBtn.textContent = "All";
 
-    allBtn.addEventListener("click", () => {
+    allBtn.onclick = () => {
       window.location.href = "shop.html";
-    });
+    };
 
     filter.appendChild(allBtn);
 
-    // ✅ CATEGORY BUTTONS
+    // CATEGORY BUTTONS
     categories.forEach(cat => {
       const btn = document.createElement("button");
       btn.className = "filter-btn";
-      btn.dataset.category = cat.name;
+      btn.dataset.id = cat.id;
       btn.textContent = cat.name;
 
-      btn.addEventListener("click", () => {
-        const selected = cat.name.trim();
-        console.log("Clicked category:", selected);
-
-        window.location.href = `shop.html?category=${encodeURIComponent(selected)}`;
-      });
+      btn.onclick = () => {
+        window.location.href = `shop.html?category_id=${cat.id}`;
+      };
 
       filter.appendChild(btn);
     });
 
-    setActiveFilter(category || "");
-  })
-  .catch(err => {
-    console.error("Category load error:", err);
+    setActiveFilter(categoryId || "");
   });
 
 // ===== LOAD PRODUCTS =====
-let productUrl = `${API_URL}/api/products`;
+let url = `${API_URL}/api/products`;
 
-if (category) {
-  productUrl += `?category=${encodeURIComponent(category)}`;
+if (categoryId) {
+  url += `?category_id=${categoryId}`;
 }
 
-fetch(productUrl)
+fetch(url)
   .then(res => res.json())
   .then(products => {
     const container = document.getElementById("productContainer");
-
-    if (!container) return;
 
     if (!products.length) {
       container.innerHTML = "<p>No products found.</p>";
@@ -100,15 +89,12 @@ fetch(productUrl)
       card.className = "product-card";
 
       card.innerHTML = `
-        <img src="${p.image}" alt="${p.name}" width="300">
+        <img src="${p.image}" width="300">
         <h3>${p.name}</h3>
-        <p>Price: $${p.price}</p>
-        <a href="product.html?id=${p.id}" class="details-btn">View Details</a>
+        <p>$${p.price}</p>
+        <a href="product.html?id=${p.id}">View</a>
       `;
 
       container.appendChild(card);
     });
-  })
-  .catch(err => {
-    console.error("Shop load error:", err);
   });
