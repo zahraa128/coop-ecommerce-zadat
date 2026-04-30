@@ -58,8 +58,8 @@ fetch(`${API_URL}/api/categories`)
     categories.forEach(cat => {
       const btn = document.createElement("button");
       btn.className = "filter-btn";
-      btn.dataset.category = cat.name;
-      btn.textContent = cat.name;
+      btn.dataset.category = cat.name || "";
+      btn.textContent = cat.name || "Unnamed";
 
       btn.addEventListener("click", () => {
         const url = `shop.html?category=${encodeURIComponent(cat.name)}`;

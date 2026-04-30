@@ -2,6 +2,24 @@ const express = require("express");
 const router = express.Router();
 const supabase = require("../supabase");
 
+/* ===== GET CATEGORIES ===== */
+router.get("/categories", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("categories")
+      .select("*")
+      .order("name", { ascending: true });
+
+    if (error) throw error;
+
+    res.json(data);
+
+  } catch (err) {
+    console.error("CATEGORIES ERROR:", err);
+    res.status(500).json({ message: "Failed to load categories" });
+  }
+});
+
 router.get("/products", async (req, res) => {
   try {
     const { category } = req.query;
