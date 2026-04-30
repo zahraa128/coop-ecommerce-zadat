@@ -1,11 +1,12 @@
+(() => {
 /**
  * orders.js
  * ----------
  * Handles admin orders view, search & sort
  */
-const token = localStorage.getItem("token");
+const adminToken = localStorage.getItem("token");
 
-if (!token) {
+if (!adminToken) {
   window.location.href = "/admin/login.html";
 }
 
@@ -98,3 +99,4 @@ form.addEventListener("submit", e => {
   e.preventDefault();
   loadOrders();
 });
+})();

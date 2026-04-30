@@ -1,11 +1,12 @@
+(() => {
 /**
  * aboutView.js
  * -------------
  * Loads About Us content for admin
  */
-const token = localStorage.getItem("token");
+const adminToken = localStorage.getItem("token");
 
-if (!token) {
+if (!adminToken) {
   window.location.href = "/admin/login.html";
 }
 
@@ -19,3 +20,4 @@ fetch(`${API_URL}/api/admin/about`)
     document.getElementById("aboutContent").textContent =
       "Failed to load content.";
   });
+})();

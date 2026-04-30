@@ -1,11 +1,12 @@
+(() => {
 /**
  * categoriesEdit.js
  * ------------------
  * Edit category (admin)
  */
-const token = localStorage.getItem("token");
+const adminToken = localStorage.getItem("token");
 
-if (!token) {
+if (!adminToken) {
   window.location.href = "/admin/login.html";
 }
 
@@ -55,3 +56,4 @@ document.getElementById("editCategoryForm").addEventListener("submit", e => {
       msg.textContent = "Server error.";
     });
 });
+})();

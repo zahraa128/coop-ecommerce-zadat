@@ -1,11 +1,12 @@
+(() => {
 /**
  * productsEdit.js
  * ----------------
  * Edit product (admin)
  */
-const token = localStorage.getItem("token");
+const adminToken = localStorage.getItem("token");
 
-if (!token) {
+if (!adminToken) {
   window.location.href = "/admin/login.html";
 }
 
@@ -24,7 +25,7 @@ fetch(`${API_URL}/api/admin/categories-list`)
     const select = document.getElementById("categorySelect");
     categories.forEach(cat => {
       const opt = document.createElement("option");
-      opt.value = cat.ca_id;
+      opt.value = cat.id;
       opt.textContent = cat.name;
       select.appendChild(opt);
     });
@@ -62,3 +63,4 @@ document.getElementById("editProductForm").addEventListener("submit", e => {
       message.textContent = "Update failed.";
     });
 });
+})();

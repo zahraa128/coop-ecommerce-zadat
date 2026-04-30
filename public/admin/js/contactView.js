@@ -1,11 +1,12 @@
+(() => {
 /**
  * contactView.js
  * ----------------
  * Loads contact info for admin
  */
-const token = localStorage.getItem("token");
+const adminToken = localStorage.getItem("token");
 
-if (!token) {
+if (!adminToken) {
   window.location.href = "/admin/login.html";
 }
 
@@ -25,3 +26,4 @@ fetch(`${API_URL}/api/admin/contact`)
     document.querySelector(".contact-links").textContent =
       "Failed to load contact info.";
   });
+})();

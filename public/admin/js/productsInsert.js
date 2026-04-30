@@ -1,11 +1,12 @@
+(() => {
 /**
  * productsInsert.js
  * ------------------
  * Insert product (admin)
  */
-const token = localStorage.getItem("token");
+const adminToken = localStorage.getItem("token");
 
-if (!token) {
+if (!adminToken) {
   window.location.href = "/admin/login.html";
 }
 
@@ -19,7 +20,7 @@ fetch(`${API_URL}/api/admin/categories-list`)
   .then(categories => {
     categories.forEach(cat => {
       const opt = document.createElement("option");
-      opt.value = cat.ca_id;
+      opt.value = cat.id;
       opt.textContent = cat.name;
       categorySelect.appendChild(opt);
     });
@@ -52,3 +53,4 @@ form.addEventListener("submit", e => {
       message.textContent = "Server error.";
     });
 });
+})();

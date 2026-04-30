@@ -1,11 +1,12 @@
+(() => {
 /**
  * productsList.js
  * ----------------
  * List & delete products (admin)
  */
-const token = localStorage.getItem("token");
+const adminToken = localStorage.getItem("token");
 
-if (!token) {
+if (!adminToken) {
   window.location.href = "/admin/login.html";
 }
 
@@ -61,3 +62,6 @@ function deleteProduct(id) {
       location.reload();
     });
 }
+
+window.deleteProduct = deleteProduct;
+})();

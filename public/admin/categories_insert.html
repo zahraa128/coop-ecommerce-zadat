@@ -26,17 +26,72 @@
 
     <p id="message"></p>
 
-    <form id="categoryForm">
-      <label for="category_name">Category Name:</label>
-      <input type="text" id="category_name" required><br><br>
+    <form id="categoryForm" onsubmit="return false;">
+      <label for="categoryName">Category Name:</label>
+      <input type="text" id="categoryName" required><br><br>
 
-      <button type="submit">Insert Category</button>
+      <button type="button" id="addCategoryBtn">Add Category</button>
     </form>
   </div>
 
   <script src="../js/config.js"></script>
   <script src="js/adminHeader.js"></script>
-  <script src="js/categoriesInsert.js"></script>
-  <script src="js/auth.js"></script>
+  <script src="js/auth.js?v=3"></script>
+  <script>
+    (function () {
+      const form = document.getElementById("categoryForm");
+      const button = document.getElementById("addCategoryBtn");
+      const input = document.getElementById("categoryName");
+
+      if (!form || !button || !input) {
+        console.error("Category form elements not found");
+        return;
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      });
+
+      button.addEventListener("click", async function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("CATEGORY BUTTON CLICKED");
+
+        const name = input.value.trim();
+        const token = localStorage.getItem("token");
+
+        if (!name) {
+          alert("Category name is required");
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API_URL}/api/admin/categories`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": token || ""
+            },
+            body: JSON.stringify({ name })
+          });
+
+          const data = await res.json();
+          console.log("CATEGORY INSERT RESPONSE:", data);
+
+          if (data.success) {
+            alert("Category added successfully");
+            window.location.href = "/admin/categories.html";
+          } else {
+            alert(data.error || data.message || "Insert failed");
+          }
+        } catch (err) {
+          console.error("Category insert failed:", err);
+          alert("Server error");
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

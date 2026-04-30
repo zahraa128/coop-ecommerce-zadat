@@ -8,11 +8,19 @@ router.get("/categories", async (req, res) => {
     const { data, error } = await supabase
       .from("categories")
       .select("*")
-      .order("ca_id", { ascending: true });
+      .order("name", { ascending: true });
 
-    if (error) throw error;
+    if (error) {
+      console.error("Supabase fetch categories error:", error);
+      return res.status(500).json({
+        message: "Failed to fetch categories.",
+        error: error.message
+      });
+    }
+
     res.json(data);
-  } catch {
+  } catch (err) {
+    console.error("Server fetch categories error:", err);
     res.status(500).json({ message: "Failed to fetch categories." });
   }
 });
@@ -21,12 +29,20 @@ router.get("/categories-list", async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("categories")
-      .select("ca_id, name")
+      .select("*")
       .order("name", { ascending: true });
 
-    if (error) throw error;
+    if (error) {
+      console.error("Supabase fetch categories list error:", error);
+      return res.status(500).json({
+        message: "Failed to fetch categories.",
+        error: error.message
+      });
+    }
+
     res.json(data);
-  } catch {
+  } catch (err) {
+    console.error("Server fetch categories list error:", err);
     res.status(500).json({ message: "Failed to fetch categories." });
   }
 });
@@ -36,7 +52,7 @@ router.get("/categories/:id", async (req, res) => {
     const { data, error } = await supabase
       .from("categories")
       .select("*")
-      .eq("ca_id", req.params.id)
+      .eq("id", req.params.id)
       .maybeSingle();
 
     if (error) throw error;
@@ -54,9 +70,17 @@ router.post("/categories", async (req, res) => {
     console.log("Category insert body:", req.body);
 
     const { name } = req.body;
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!name || name.trim() === "") {
       return res.status(400).json({ message: "Category name is required" });
+    }
+
+    if (!serviceRoleKey || serviceRoleKey.includes("YOUR_SUPABASE")) {
+      return res.status(500).json({
+        message: "Supabase service role key is not configured",
+        error: "Set SUPABASE_SERVICE_ROLE_KEY in backend/.env or Render environment variables"
+      });
     }
 
     const { data, error } = await supabase
@@ -93,7 +117,7 @@ router.put("/categories/:id", async (req, res) => {
     const { error } = await supabase
       .from("categories")
       .update({ name: name.trim() })
-      .eq("ca_id", req.params.id);
+      .eq("id", req.params.id);
 
     if (error) throw error;
     res.json({ message: "Category updated successfully." });
@@ -107,7 +131,7 @@ router.delete("/categories/:id", async (req, res) => {
     const { error } = await supabase
       .from("categories")
       .delete()
-      .eq("ca_id", req.params.id);
+      .eq("id", req.params.id);
 
     if (error) throw error;
     res.json({ message: "Category deleted successfully." });

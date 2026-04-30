@@ -1,11 +1,12 @@
+(() => {
 /**
  * dashboard.js
  * -------------
  * Displays admin name on dashboard
  */
-const token = localStorage.getItem("token");
+const adminToken = localStorage.getItem("token");
 
-if (!token) {
+if (!adminToken) {
   window.location.href = "/admin/login.html";
 }
 
@@ -24,3 +25,4 @@ fetch(`${API_URL}/api/admin/visit-stats`)
     if (monthEl) monthEl.textContent = stats.month;
   })
   .catch(() => {});
+})();

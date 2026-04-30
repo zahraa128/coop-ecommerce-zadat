@@ -1,11 +1,12 @@
+(() => {
 /**
  * adminHeader.js
  * ----------------
  * Protects admin pages + handles logout
  */
-const token = localStorage.getItem("token");
+const adminToken = localStorage.getItem("token");
 
-if (!token) {
+if (!adminToken) {
   window.location.href = "/admin/login.html";
 }
 // Protect admin pages
@@ -44,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         localStorage.removeItem("adminLoggedIn");
         localStorage.removeItem("admin_username");
+        localStorage.removeItem("token");
 
         window.location.href = "login.html";
       });
@@ -63,3 +65,4 @@ document.addEventListener("DOMContentLoaded", () => {
       bindLogout();
     });
 });
+})();

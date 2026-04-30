@@ -1,3 +1,4 @@
+(() => {
 /**
  * aboutEdit.js
  * -------------
@@ -7,9 +8,9 @@
 const contentField = document.getElementById("content");
 const message = document.getElementById("message");
 
-const token = localStorage.getItem("token");
+const adminToken = localStorage.getItem("token");
 
-if (!token) {
+if (!adminToken) {
   window.location.href = "/admin/login.html";
 }
 
@@ -45,3 +46,4 @@ document.getElementById("aboutForm").addEventListener("submit", e => {
       message.textContent = "Update failed.";
     });
 });
+})();

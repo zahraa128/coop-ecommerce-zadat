@@ -1,11 +1,12 @@
+(() => {
 /**
  * deliveredOrders.js
  * -------------------
  * Displays delivered orders
  */
-const token = localStorage.getItem("token");
+const adminToken = localStorage.getItem("token");
 
-if (!token) {
+if (!adminToken) {
   window.location.href = "/admin/login.html";
 }
 
@@ -48,3 +49,4 @@ function loadDeliveredOrders() {
 }
 
 loadDeliveredOrders();
+})();

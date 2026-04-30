@@ -1,11 +1,12 @@
+(() => {
 /**
  * categoriesView.js
  * ------------------
  * Displays & deletes categories (admin)
  */
-const token = localStorage.getItem("token");
+const adminToken = localStorage.getItem("token");
 
-if (!token) {
+if (!adminToken) {
   window.location.href = "/admin/login.html";
 }
 
@@ -21,11 +22,11 @@ fetch(`${API_URL}/api/admin/categories`)
       const row = document.createElement("tr");
 
       row.innerHTML = `
-        <td>${cat.ca_id}</td>
+        <td>${cat.id}</td>
         <td>${cat.name}</td>
         <td>
-          <a href="categories_edit.html?id=${cat.ca_id}">Edit</a> |
-          <a href="#" onclick="deleteCategory(${cat.ca_id})">Delete</a>
+          <a href="categories_edit.html?id=${cat.id}">Edit</a> |
+          <a href="#" onclick="deleteCategory(${cat.id})">Delete</a>
         </td>
       `;
 
@@ -47,3 +48,6 @@ function deleteCategory(id) {
     })
     .catch(() => alert("Failed to delete category."));
 }
+
+window.deleteCategory = deleteCategory;
+})();

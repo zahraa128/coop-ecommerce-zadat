@@ -1,11 +1,12 @@
+(() => {
 /**
  * contactEdit.js
  * ----------------
  * Edit contact info (admin)
  */
-const token = localStorage.getItem("token");
+const adminToken = localStorage.getItem("token");
 
-if (!token) {
+if (!adminToken) {
   window.location.href = "/admin/login.html";
 }
 
@@ -50,3 +51,4 @@ document.getElementById("contactForm").addEventListener("submit", e => {
       message.textContent = "❌ Update failed.";
     });
 });
+})();
