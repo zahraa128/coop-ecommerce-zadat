@@ -1,6 +1,6 @@
 const API_URL = "https://coop-backend-hecq.onrender.com";
 
-const tableBody = document.querySelector("tbody");
+const tableBody = document.getElementById("productsBody");
 
 async function loadProducts() {
   try {
@@ -14,7 +14,7 @@ async function loadProducts() {
     tableBody.innerHTML = "";
 
     if (!products.length) {
-      tableBody.innerHTML = "<tr><td colspan='6'>No products found</td></tr>";
+      tableBody.innerHTML = "<tr><td colspan='8'>No products found</td></tr>";
       return;
     }
 
@@ -24,16 +24,19 @@ async function loadProducts() {
       row.innerHTML = `
         <td>${product.id}</td>
         <td>${product.name}</td>
-        <td>${product.price}</td>
         <td>${product.category || "-"}</td>
+        <td>${product.price}</td>
         <td>
           ${product.image 
             ? `<img src="${API_URL}/product/${product.image}" width="60"/>`
             : "-"
           }
         </td>
+        <td>${product.description || "-"}</td>
         <td>
-          <a href="products_edit.html?id=${product.id}">Edit</a> |
+          <a href="products_edit.html?id=${product.id}">Edit</a>
+        </td>
+        <td>
           <button onclick="deleteProduct(${product.id})">Delete</button>
         </td>
       `;
