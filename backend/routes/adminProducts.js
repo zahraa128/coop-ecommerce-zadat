@@ -24,6 +24,62 @@ router.get("/products", async (req, res) => {
   }
 });
 
+
+/* ===== INSERT PRODUCT ===== */
+router.post("/products", upload.single("image"), async (req, res) => {
+  try {
+    const { name, price, description, category } = req.body;
+
+    let imageUrl = null;
+
+    /* ===== HANDLE IMAGE UPLOAD ===== */
+    if (req.file) {
+      const file = req.file;
+      const fileName = `${uuidv4()}-${file.originalname}`;
+      const fileBuffer = fs.readFileSync(file.path);
+
+      const { error } = await supabase.storage
+        .from("products")
+        .upload(fileName, fileBuffer, {
+          contentType: file.mimetype
+        });
+
+      if (error) {
+        console.error("Upload error:", error);
+        return res.status(500).json({ message: "Image upload failed" });
+      }
+
+      imageUrl = `${process.env.SUPABASE_URL}/storage/v1/object/public/products/${fileName}`;
+    }
+
+    if (!name || !price) {
+      return res.status(400).json({ message: "Name and price are required" });
+    }
+
+    const { data, error } = await supabase
+      .from("products")
+      .insert([{
+        name: name.trim(),
+        description: description || "",
+        price: Number(price),
+        image: imageUrl,          // ✅ IMPORTANT
+        category: category || ""
+      }])
+      .select();
+
+    if (error) {
+      console.error("INSERT ERROR:", error);
+      return res.status(500).json({ message: "Insert failed" });
+    }
+
+    res.json({ success: true, product: data[0] });
+
+  } catch (err) {
+    console.error("SERVER ERROR:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 router.put("/products/:id", upload.single("image"), async (req, res) => {
   try {
     const { name, price, description, category } = req.body;
