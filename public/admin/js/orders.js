@@ -3,6 +3,11 @@
  * ----------
  * Handles admin orders view, search & sort
  */
+const token = localStorage.getItem("token");
+
+if (!token) {
+  window.location.href = "/admin/login.html";
+}
 
 const tableBody = document.querySelector("#ordersTable tbody");
 const form = document.getElementById("filterForm");

@@ -3,6 +3,11 @@
  * --------------------
  * Inserts a new category (admin)
  */
+const token = localStorage.getItem("token");
+
+if (!token) {
+  window.location.href = "/admin/login.html";
+}
 
 document.getElementById("categoryForm").addEventListener("submit", e => {
   e.preventDefault();
@@ -17,14 +22,14 @@ document.getElementById("categoryForm").addEventListener("submit", e => {
   })
     .then(res => res.json())
     .then(data => {
-      if (data.message !== "Category inserted successfully.") {
+      if (!data.success) {
         msg.style.color = "red";
-        msg.textContent = data.message;
+        msg.textContent = data.error || data.message || "Failed to insert category";
         return;
       }
 
       msg.style.color = "green";
-      msg.textContent = "✅ Category inserted successfully.";
+      msg.textContent = "Category inserted successfully.";
       document.getElementById("categoryForm").reset();
     })
     .catch(() => {

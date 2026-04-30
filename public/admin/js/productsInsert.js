@@ -3,6 +3,11 @@
  * ------------------
  * Insert product (admin)
  */
+const token = localStorage.getItem("token");
+
+if (!token) {
+  window.location.href = "/admin/login.html";
+}
 
 const form = document.getElementById("productForm");
 const message = document.getElementById("message");

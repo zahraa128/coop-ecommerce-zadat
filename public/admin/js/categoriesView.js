@@ -3,6 +3,11 @@
  * ------------------
  * Displays & deletes categories (admin)
  */
+const token = localStorage.getItem("token");
+
+if (!token) {
+  window.location.href = "/admin/login.html";
+}
 
 const tableBody = document.querySelector("#categoriesTable tbody");
 

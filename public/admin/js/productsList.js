@@ -3,6 +3,11 @@
  * ----------------
  * List & delete products (admin)
  */
+const token = localStorage.getItem("token");
+
+if (!token) {
+  window.location.href = "/admin/login.html";
+}
 
 const tableBody = document.querySelector("#productsTable tbody");
 const message = document.getElementById("message");

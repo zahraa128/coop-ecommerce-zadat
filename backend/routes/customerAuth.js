@@ -1,5 +1,5 @@
 const express = require("express");
-const pool = require("../db");
+const supabase = require("../supabase");
 
 const router = express.Router();
 
@@ -22,17 +22,22 @@ router.post("/register", async (req, res) => {
   }
 
   try {
-    const existing = await pool.query("SELECT c_id FROM customers WHERE email = $1 LIMIT 1", [email]);
-    if (existing.rows.length > 0) {
+    const { data: existing, error: existingError } = await supabase
+      .from("customers")
+      .select("c_id")
+      .eq("email", email)
+      .limit(1);
+
+    if (existingError) throw existingError;
+    if (existing.length > 0) {
       return res.status(400).json({ message: "Email already registered" });
     }
 
-    await pool.query(
-      `INSERT INTO customers (full_name, phone, email, address, password)
-       VALUES ($1, $2, $3, $4, $5)`,
-      [full_name, phone, email, address, password]
-    );
+    const { error } = await supabase
+      .from("customers")
+      .insert({ full_name, phone, email, address, password });
 
+    if (error) throw error;
     res.json({ message: "Registration successful" });
   } catch {
     res.status(500).json({ message: "Server error" });
@@ -47,19 +52,22 @@ router.post("/login", async (req, res) => {
   }
 
   try {
-    const result = await pool.query(
-      "SELECT c_id, full_name FROM customers WHERE email = $1 AND password = $2 LIMIT 1",
-      [email, password]
-    );
+    const { data, error } = await supabase
+      .from("customers")
+      .select("c_id, full_name")
+      .eq("email", email)
+      .eq("password", password)
+      .limit(1);
 
-    if (result.rows.length === 0) {
+    if (error) throw error;
+    if (data.length === 0) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
     res.json({
       message: "Login successful",
-      customer_id: result.rows[0].c_id,
-      customer_name: result.rows[0].full_name
+      customer_id: data[0].c_id,
+      customer_name: data[0].full_name
     });
   } catch {
     res.status(500).json({ message: "Server error" });

@@ -3,6 +3,11 @@
  * ----------------
  * Edit product (admin)
  */
+const token = localStorage.getItem("token");
+
+if (!token) {
+  window.location.href = "/admin/login.html";
+}
 
 const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");

@@ -3,7 +3,11 @@
  * ----------------
  * Protects admin pages + handles logout
  */
+const token = localStorage.getItem("token");
 
+if (!token) {
+  window.location.href = "/admin/login.html";
+}
 // Protect admin pages
 if (localStorage.getItem("adminLoggedIn") !== "true") {
   window.location.href = "login.html";

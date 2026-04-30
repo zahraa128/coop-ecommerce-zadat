@@ -6,28 +6,36 @@
 
 const express = require("express");
 const router = express.Router();
-const pool = require("../db");
+const supabase = require("../supabase");
 
-router.get("/admin/contact", async (req, res) => {
+router.get("/contact", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM contact_info LIMIT 1");
-    if (result.rows.length === 0) {
+    const { data, error } = await supabase
+      .from("contact_info")
+      .select("*")
+      .limit(1)
+      .maybeSingle();
+
+    if (error) throw error;
+    if (!data) {
       return res.status(404).json({ message: "Contact info not found." });
     }
-    res.json(result.rows[0]);
+    res.json(data);
   } catch {
     res.status(500).json({ message: "Failed to fetch contact info." });
   }
 });
 
-router.put("/admin/contact", async (req, res) => {
+router.put("/contact", async (req, res) => {
   const { whatsapp, instagram, messenger } = req.body;
 
   try {
-    await pool.query(
-      "UPDATE contact_info SET whatsapp = $1, instagram = $2, messenger = $3",
-      [whatsapp, instagram, messenger]
-    );
+    const { error } = await supabase
+      .from("contact_info")
+      .update({ whatsapp, instagram, messenger })
+      .neq("id", 0);
+
+    if (error) throw error;
     res.json({ message: "Contact info updated successfully." });
   } catch {
     res.status(500).json({ message: "Failed to update contact info." });

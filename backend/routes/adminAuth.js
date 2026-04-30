@@ -4,8 +4,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const supabase = require("../supabase");
 
-// POST /api/admin/auth/login
-app.post("/api/login", async (req, res) => {
+// POST /api/admin/login
+router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -26,7 +26,7 @@ app.post("/api/login", async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: data.id, username: data.username },
+      { id: data.id || data.a_id, username: data.username },
       "SECRET_KEY_123",
       { expiresIn: "1d" }
     );
@@ -35,7 +35,7 @@ app.post("/api/login", async (req, res) => {
       success: true,
       token,
       user: {
-        id: data.id,
+        id: data.id || data.a_id,
         username: data.username
       }
     });

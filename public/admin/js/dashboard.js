@@ -3,6 +3,11 @@
  * -------------
  * Displays admin name on dashboard
  */
+const token = localStorage.getItem("token");
+
+if (!token) {
+  window.location.href = "/admin/login.html";
+}
 
 const adminName = localStorage.getItem("admin_username");
 

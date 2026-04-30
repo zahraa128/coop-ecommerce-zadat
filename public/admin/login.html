@@ -42,7 +42,7 @@
       errorMessage.textContent = "";
 
       try {
-        const res = await fetch(`${API_URL}/api/admin/auth/login`, {
+        const res = await fetch(`${API_URL}/api/admin/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, password })
@@ -54,6 +54,7 @@
           // save admin session in browser
           localStorage.setItem("adminLoggedIn", "true");
           localStorage.setItem("admin_username", username);
+          localStorage.setItem("token", data.token);
           // go to dashboard
           window.location.href = "dashboard.html";
         } else {

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../db");
+const supabase = require("../supabase");
 
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
@@ -10,7 +10,11 @@ router.post("/register", async (req, res) => {
   }
 
   try {
-    await pool.query("INSERT INTO admins (username, password) VALUES ($1, $2)", [username, password]);
+    const { error } = await supabase
+      .from("admins")
+      .insert({ username, password });
+
+    if (error) throw error;
     res.json({ success: true });
   } catch (err) {
     console.error(err);
@@ -22,12 +26,16 @@ router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const result = await pool.query(
-      "SELECT * FROM admins WHERE username = $1 AND password = $2 LIMIT 1",
-      [username, password]
-    );
+    const { data, error } = await supabase
+      .from("admins")
+      .select("*")
+      .eq("username", username)
+      .eq("password", password)
+      .limit(1);
 
-    if (result.rows.length === 1) {
+    if (error) throw error;
+
+    if (data.length === 1) {
       res.json({ success: true });
     } else {
       res.json({ success: false, message: "Invalid credentials" });

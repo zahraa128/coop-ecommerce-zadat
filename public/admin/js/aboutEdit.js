@@ -7,6 +7,12 @@
 const contentField = document.getElementById("content");
 const message = document.getElementById("message");
 
+const token = localStorage.getItem("token");
+
+if (!token) {
+  window.location.href = "/admin/login.html";
+}
+
 // Load existing content
 fetch(`${API_URL}/api/admin/about`)
   .then(res => res.json())

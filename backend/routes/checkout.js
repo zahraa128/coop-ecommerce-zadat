@@ -6,7 +6,7 @@
 
 const express = require("express");
 const router = express.Router();
-const pool = require("../db");
+const supabase = require("../supabase");
 
 router.post("/checkout", async (req, res) => {
   const { customer, cart, customer_id } = req.body || {};
@@ -24,57 +24,56 @@ router.post("/checkout", async (req, res) => {
     return res.status(400).json({ message: "Invalid order data" });
   }
 
-  const client = await pool.connect();
-
   try {
-    await client.query("BEGIN");
-
     let customerId = customer_id;
 
     if (customerId) {
-      const existing = await client.query(
-        "SELECT c_id FROM customers WHERE c_id = $1 LIMIT 1",
-        [customerId]
-      );
+      const { data: existing, error: existingError } = await supabase
+        .from("customers")
+        .select("c_id")
+        .eq("c_id", customerId)
+        .maybeSingle();
 
-      if (existing.rows.length === 0) {
-        await client.query("ROLLBACK");
+      if (existingError) throw existingError;
+      if (!existing) {
         return res.status(404).json({ message: "Customer not found" });
       }
     } else {
       if (!customer) {
-        await client.query("ROLLBACK");
         return res.status(400).json({ message: "Missing customer data" });
       }
 
       const { full_name, phone, address } = customer;
       if (!full_name || !phone || !address) {
-        await client.query("ROLLBACK");
         return res.status(400).json({ message: "Missing customer data" });
       }
 
-      const inserted = await client.query(
-        "INSERT INTO customers (full_name, phone, address) VALUES ($1, $2, $3) RETURNING c_id",
-        [full_name, phone, address]
-      );
-      customerId = inserted.rows[0].c_id;
+      const { data: inserted, error: insertCustomerError } = await supabase
+        .from("customers")
+        .insert({ full_name, phone, address })
+        .select("c_id")
+        .single();
+
+      if (insertCustomerError) throw insertCustomerError;
+      customerId = inserted.c_id;
     }
 
-    for (const id of Object.keys(cartData)) {
-      await client.query(
-        `INSERT INTO orders (customers_id, product_id, quantity, order_date, status)
-         VALUES ($1, $2, $3, NOW(), $4)`,
-        [customerId, id, cartData[id].quantity, "submitted"]
-      );
-    }
+    const orderRows = Object.keys(cartData).map(id => ({
+      customers_id: customerId,
+      product_id: id,
+      quantity: cartData[id].quantity,
+      order_date: new Date().toISOString(),
+      status: "submitted"
+    }));
 
-    await client.query("COMMIT");
+    const { error: insertOrdersError } = await supabase
+      .from("orders")
+      .insert(orderRows);
+
+    if (insertOrdersError) throw insertOrdersError;
     res.json({ message: "Order placed successfully" });
   } catch (err) {
-    await client.query("ROLLBACK");
     res.status(500).json({ message: err.message });
-  } finally {
-    client.release();
   }
 });
 

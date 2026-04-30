@@ -3,63 +3,81 @@
  * ---------------
  * Admin view orders with search & sort
  */
-
 const express = require("express");
 const router = express.Router();
-const pool = require("../db");
+const supabase = require("../supabase");
 
-router.get("/admin/orders", async (req, res) => {
-  const sort = req.query.sort === "oldest" ? "ASC" : "DESC";
-  const search = req.query.search || "";
+async function getOrders({ status, search, ascending }) {
+  let query = supabase
+    .from("orders")
+    .select("*")
+    .order("order_date", { ascending });
 
-  const params = [];
-  let where = "";
-
-  if (search) {
-    params.push(`%${search}%`);
-    where = "WHERE customers.full_name ILIKE $1";
+  if (status) {
+    query = query.eq("status", status);
   }
 
-  const sql = `
-    SELECT orders.o_id, orders.quantity, orders.order_date, orders.status,
-           customers.full_name, customers.phone,
-           products.name AS product_name, products.price
-    FROM orders
-    JOIN customers ON orders.customers_id = customers.c_id
-    JOIN products ON orders.product_id = products.p_id
-    ${where}
-    ORDER BY orders.order_date ${sort}
-  `;
+  const { data: orders, error: ordersError } = await query;
+  if (ordersError) throw ordersError;
+  if (orders.length === 0) return [];
+
+  const customerIds = [...new Set(orders.map(o => o.customers_id).filter(Boolean))];
+  const productIds = [...new Set(orders.map(o => o.product_id).filter(Boolean))];
+
+  const [{ data: customers, error: customersError }, { data: products, error: productsError }] =
+    await Promise.all([
+      customerIds.length
+        ? supabase.from("customers").select("c_id, full_name, phone").in("c_id", customerIds)
+        : Promise.resolve({ data: [], error: null }),
+      productIds.length
+        ? supabase.from("products").select("p_id, name, price").in("p_id", productIds)
+        : Promise.resolve({ data: [], error: null })
+    ]);
+
+  if (customersError) throw customersError;
+  if (productsError) throw productsError;
+
+  const customerById = Object.fromEntries(customers.map(c => [c.c_id, c]));
+  const productById = Object.fromEntries(products.map(p => [p.p_id, p]));
+
+  return orders
+    .map(order => {
+      const customer = customerById[order.customers_id] || {};
+      const product = productById[order.product_id] || {};
+
+      return {
+        ...order,
+        full_name: customer.full_name || null,
+        phone: customer.phone || null,
+        product_name: product.name || null,
+        price: product.price || null
+      };
+    })
+    .filter(order => !search || (order.full_name || "").toLowerCase().includes(search.toLowerCase()));
+}
+
+router.get("/orders", async (req, res) => {
+  const ascending = req.query.sort === "oldest";
+  const search = req.query.search || "";
 
   try {
-    const result = await pool.query(sql, params);
-    res.json(result.rows);
+    const orders = await getOrders({ search, ascending });
+    res.json(orders);
   } catch {
     res.status(500).json({ message: "Failed to fetch orders." });
   }
 });
 
-router.get("/admin/orders/delivered", async (req, res) => {
-  const sql = `
-    SELECT orders.o_id, orders.quantity, orders.order_date, orders.status,
-           customers.full_name, customers.phone,
-           products.name AS product_name, products.price
-    FROM orders
-    JOIN customers ON orders.customers_id = customers.c_id
-    JOIN products ON orders.product_id = products.p_id
-    WHERE orders.status = 'delivered'
-    ORDER BY orders.order_date DESC
-  `;
-
+router.get("/orders/delivered", async (req, res) => {
   try {
-    const result = await pool.query(sql);
-    res.json(result.rows);
+    const orders = await getOrders({ status: "delivered", ascending: false });
+    res.json(orders);
   } catch {
     res.status(500).json({ message: "Failed to fetch delivered orders." });
   }
 });
 
-router.put("/admin/orders/:id/status", async (req, res) => {
+router.put("/orders/:id/status", async (req, res) => {
   const { status } = req.body;
   const allowed = ["submitted", "shipping", "delivered", "cancelled"];
 
@@ -68,16 +86,26 @@ router.put("/admin/orders/:id/status", async (req, res) => {
   }
 
   try {
-    await pool.query("UPDATE orders SET status = $1 WHERE o_id = $2", [status, req.params.id]);
+    const { error } = await supabase
+      .from("orders")
+      .update({ status })
+      .eq("o_id", req.params.id);
+
+    if (error) throw error;
     res.json({ message: "Status updated." });
   } catch {
     res.status(500).json({ message: "Failed to update status." });
   }
 });
 
-router.delete("/admin/orders/:id", async (req, res) => {
+router.delete("/orders/:id", async (req, res) => {
   try {
-    await pool.query("DELETE FROM orders WHERE o_id = $1", [req.params.id]);
+    const { error } = await supabase
+      .from("orders")
+      .delete()
+      .eq("o_id", req.params.id);
+
+    if (error) throw error;
     res.json({ message: "Order deleted." });
   } catch {
     res.status(500).json({ message: "Failed to delete order." });

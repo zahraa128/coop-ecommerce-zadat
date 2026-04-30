@@ -3,6 +3,11 @@
  * ------------------
  * Edit category (admin)
  */
+const token = localStorage.getItem("token");
+
+if (!token) {
+  window.location.href = "/admin/login.html";
+}
 
 const params = new URLSearchParams(window.location.search);
 const categoryId = params.get("id");

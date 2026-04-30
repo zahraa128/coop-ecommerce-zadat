@@ -3,6 +3,11 @@
  * -------------------
  * Displays delivered orders
  */
+const token = localStorage.getItem("token");
+
+if (!token) {
+  window.location.href = "/admin/login.html";
+}
 
 const tableBody = document.querySelector("#deliveredOrdersTable tbody");
 

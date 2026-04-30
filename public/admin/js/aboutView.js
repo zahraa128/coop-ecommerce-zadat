@@ -3,6 +3,11 @@
  * -------------
  * Loads About Us content for admin
  */
+const token = localStorage.getItem("token");
+
+if (!token) {
+  window.location.href = "/admin/login.html";
+}
 
 fetch(`${API_URL}/api/admin/about`)
   .then(res => res.json())

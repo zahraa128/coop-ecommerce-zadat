@@ -1,52 +1,29 @@
 const express = require("express");
 const cors = require("cors");
-const path = require("path");
 require("dotenv").config();
-const pool = require("./db"); // Initialize PostgreSQL connection
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// static files if needed
-app.use("/product", express.static("public/product"));
-app.use(express.static(path.join(__dirname, "..", "public")));
-
 // routes
-const adminAuthRoutes = require("./routes/adminAuth");
-const adminProductsRoutes = require("./routes/adminProducts");
-const adminCategoriesRoutes = require("./routes/adminCategories");
-const adminAboutRoutes = require("./routes/adminAbout");
-const adminContactRoutes = require("./routes/adminContact");
-const adminOrdersRoutes = require("./routes/adminOrders");
-const productsRoutes = require("./routes/products");
-const checkoutRoutes = require("./routes/checkout");
-const cartRoutes = require("./routes/cart");
-const authRoutes = require("./routes/auth");
-const customerAuthRoutes = require("./routes/customerAuth");
-const customerOrdersRoutes = require("./routes/customerOrders");
-const visitsRoutes = require("./routes/visits");
+app.use("/api/admin", require("./routes/adminAuth"));
+app.use("/api/admin", require("./routes/adminProducts"));
+app.use("/api/admin", require("./routes/adminCategories"));
+app.use("/api/admin", require("./routes/adminAbout"));
+app.use("/api/admin", require("./routes/adminContact"));
+app.use("/api/admin", require("./routes/adminOrders"));
+app.use("/api", require("./routes/products"));
+app.use("/api", require("./routes/checkout"));
+app.use("/api", require("./routes/cart"));
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api", require("./routes/customerAuth"));
+app.use("/api", require("./routes/customerOrders"));
+app.use("/api", require("./routes/visits"));
 
-app.use("/api/admin/auth", adminAuthRoutes);
-app.use("/api", adminProductsRoutes);
-app.use("/api", adminCategoriesRoutes);
-app.use("/api", adminAboutRoutes);
-app.use("/api", adminContactRoutes);
-app.use("/api", adminOrdersRoutes);
-app.use("/api", productsRoutes);
-app.use("/api", checkoutRoutes);
-app.use("/api", cartRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api", customerAuthRoutes);
-app.use("/api", customerOrdersRoutes);
-app.use("/api", visitsRoutes);
+const PORT = process.env.PORT || 10000;
 
-// Fallback to frontend
-app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
-});
-
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`Server running on port ${process.env.PORT || 3000}`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
