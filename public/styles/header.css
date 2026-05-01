@@ -57,7 +57,21 @@ header.simple-header .header-row {
   justify-content: center;
   gap: 20px;
 }
+.cart-icon {
+  position: relative;
+  font-size: 22px;
+}
 
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background: #5B7917;
+  color: white;
+  border-radius: 50%;
+  padding: 3px 7px;
+  font-size: 12px;
+}
 .sidebar-toggle {
   display: inline-flex;
   align-items: center;

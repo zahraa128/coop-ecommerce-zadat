@@ -13,11 +13,24 @@ router.post("/checkout", async (req, res) => {
       return res.status(400).json({ message: "Missing order data" });
     }
 
-    // 1. Insert order
+    // ✅ 1. GET CUSTOMER INFO
+    const { data: customer, error: customerError } = await supabase
+      .from("customers")
+      .select("full_name, phone")
+      .eq("id", customer_id)
+      .single();
+
+    if (customerError || !customer) {
+      throw new Error("Customer not found");
+    }
+
+    // ✅ 2. INSERT ORDER (WITH NAME + PHONE)
     const { data: order, error: orderError } = await supabase
       .from("orders")
       .insert([{
         customer_id,
+        customer_name: customer.full_name,
+        phone: customer.phone,
         total,
         address,
         status: "pending"
@@ -27,7 +40,7 @@ router.post("/checkout", async (req, res) => {
 
     if (orderError) throw orderError;
 
-    // 2. Insert order items
+    // ✅ 3. INSERT ORDER ITEMS
     const orderItems = items.map(item => ({
       order_id: order.id,
       product_id: item.id,

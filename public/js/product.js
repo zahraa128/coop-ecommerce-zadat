@@ -1,5 +1,5 @@
 /**
- * product.js (FINAL FIXED)
+ * product.js (FINAL CLEAN VERSION)
  */
 
 // ===== LOAD HEADER / FOOTER =====
@@ -9,7 +9,6 @@ const footerEl = document.getElementById("footer");
 if (headerEl) {
   fetch("header.html").then(r => r.text()).then(d => headerEl.innerHTML = d);
 }
-
 if (footerEl) {
   fetch("footer.html").then(r => r.text()).then(d => footerEl.innerHTML = d);
 }
@@ -19,7 +18,6 @@ const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");
 
 if (!productId) {
-  alert("No product selected");
   window.location.href = "shop.html";
 }
 
@@ -27,8 +25,6 @@ if (!productId) {
 fetch(`${API_URL}/api/products/${productId}`)
   .then(res => res.json())
   .then(product => {
-    console.log("Loaded product:", product);
-
     document.getElementById("productName").textContent = product.name;
     document.getElementById("productImage").src = product.image;
     document.getElementById("productPrice").textContent = `$${product.price}`;
@@ -39,7 +35,7 @@ fetch(`${API_URL}/api/products/${productId}`)
     };
   })
   .catch(() => {
-    alert("Failed to load product");
+    showMessage("Failed to load product");
   });
 
 // ===== ADD TO CART =====
@@ -47,7 +43,7 @@ function addToCart(product) {
   const customer_id = localStorage.getItem("customer_id");
 
   if (!customer_id) {
-    alert("Please login first");
+    showMessage("Please login first");
     window.location.href = "login_user.html";
     return;
   }
@@ -68,7 +64,27 @@ function addToCart(product) {
     };
   }
 
+  // ✅ Save cart once
   localStorage.setItem("cart", JSON.stringify(cart));
 
-  alert("Product added to cart successfully!");
+  // ✅ Update cart icon
+  if (typeof updateCartCount === "function") {
+    updateCartCount();
+  }
+
+  // ✅ Show message
+  showMessage("Product added to cart successfully!");
+}
+
+// ===== SHOW MESSAGE =====
+function showMessage(text) {
+  const msg = document.getElementById("cartMessage");
+  if (!msg) return;
+
+  msg.textContent = text;
+  msg.style.display = "block";
+
+  setTimeout(() => {
+    msg.style.display = "none";
+  }, 2000);
 }

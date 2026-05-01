@@ -200,3 +200,21 @@ a.remove-btn:hover {
     text-align: center;
   }
 }
+.checkout-box {
+  margin-top: 20px;
+}
+
+.checkout-box input {
+  padding: 10px;
+  width: 300px;
+  margin-right: 10px;
+}
+
+.cart-message {
+  display: none;
+  background: #5B7917;
+  color: white;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
+}

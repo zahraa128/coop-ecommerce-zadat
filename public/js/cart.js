@@ -135,15 +135,14 @@ function submitOrder() {
   const customer_id = localStorage.getItem("customer_id");
 
   if (!customer_id) {
-    alert("Please login first.");
-    window.location.href = "login_user.html";
+    showOrderMessage("Please login first");
     return;
   }
 
   const items = Object.values(cart);
 
   if (items.length === 0) {
-    alert("Cart is empty");
+    showOrderMessage("Cart is empty");
     return;
   }
 
@@ -151,12 +150,18 @@ function submitOrder() {
     sum + item.price * item.quantity, 0
   );
 
-  const address = prompt("Enter your delivery address:");
-  if (!address) return;
+  const address = document.getElementById("addressInput").value.trim();
+
+  if (!address) {
+    showOrderMessage("Please enter your address");
+    return;
+  }
 
   fetch(`${API_URL}/api/checkout`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({
       customer_id,
       items,
@@ -167,14 +172,25 @@ function submitOrder() {
     .then(res => res.json())
     .then(data => {
       if (data.message !== "Order placed successfully") {
-        alert(data.message || "Order failed");
+        showOrderMessage(data.message);
         return;
       }
 
       localStorage.removeItem("cart");
-      window.location.href = "ordersuccess.html";
+      updateCartCount();
+      showOrderMessage("Order placed successfully!");
+
+      setTimeout(() => {
+        window.location.href = "ordersuccess.html";
+      }, 1500);
     })
-    .catch(() => alert("Checkout failed"));
+    .catch(() => showOrderMessage("Server error"));
+}
+
+function showOrderMessage(text) {
+  const msg = document.getElementById("orderMessage");
+  msg.textContent = text;
+  msg.style.display = "block";
 }
 
 // Initial render

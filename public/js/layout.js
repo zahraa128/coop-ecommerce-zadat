@@ -98,7 +98,15 @@ document.addEventListener("DOMContentLoaded", () => {
         footerEl.innerHTML = footerFallback;
       });
   }
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || {};
+  const count = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
 
+  const el = document.getElementById("cartCount");
+  if (el) el.textContent = count;
+}
+
+updateCartCount();
   // Track visit once per day per client
   const today = new Date().toISOString().slice(0, 10);
   const lastVisit = localStorage.getItem("last_visit_date");

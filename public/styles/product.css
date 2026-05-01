@@ -120,3 +120,11 @@ main {
     box-shadow: 0 0 10px #859864;
     display: none;
 }
+.cart-message {
+  display: none;
+  background: #5B7917;
+  color: white;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+}

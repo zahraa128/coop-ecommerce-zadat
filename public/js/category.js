@@ -30,9 +30,7 @@ fetch(`${API_URL}/api/categories`)
 
       card.innerHTML = `
         <h3>${cat.name}</h3>
-        <a href="shop.html?category=${encodeURIComponent(cat.name)}">
-          Browse Products
-        </a>
+        <a href="shop.html?category_id=${cat.id}">Browse products</a>
       `;
 
       container.appendChild(card);
