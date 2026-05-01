@@ -1,4 +1,4 @@
-/* ===== ORDER DETAILS PAGE ===== */
+/* ===== PAGE ===== */
 .order-details-page {
   padding: 40px 20px;
   max-width: 1000px;
@@ -19,7 +19,7 @@
   margin: 8px 0;
 }
 
-/* ===== TABLE ===== */
+/* ===== TABLE (DESKTOP) ===== */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -47,55 +47,56 @@ tr:hover {
 }
 
 /* ========================= */
-/* 📱 MOBILE TRANSFORMATION */
+/* 📱 MOBILE (REAL FIX) */
 /* ========================= */
 
 @media (max-width: 600px) {
 
-  /* hide table header */
+  table {
+    box-shadow: none;
+    border: none;
+  }
+
   thead {
     display: none;
   }
 
-  table,
-  tbody,
-  tr,
-  td {
-    display: block;
-    width: 100%;
+  tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
   }
 
   tr {
-    margin-bottom: 16px;
+    display: block;
     background: #FFFFFF;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(133, 152, 100, 0.2);
-    padding: 12px;
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 6px 14px rgba(133, 152, 100, 0.2);
   }
 
   td {
-    text-align: left;
-    padding: 8px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 8px 0;
     border: none;
-    position: relative;
-    padding-left: 50%;
+    text-align: left;
+    font-size: 0.95rem;
   }
 
-  /* labels inside each cell */
+  /* label (left side) */
   td::before {
-    position: absolute;
-    left: 10px;
-    top: 8px;
-    font-weight: bold;
+    content: attr(data-label);
+    font-weight: 600;
     color: #5B7917;
-    white-space: nowrap;
   }
 
-  /* 🔥 map each column */
-  td:nth-child(1)::before { content: "Product"; }
-  td:nth-child(2)::before { content: "Quantity"; }
-  td:nth-child(3)::before { content: "Price"; }
-  td:nth-child(4)::before { content: "Total"; }
+  /* value (right side) */
+  td {
+    gap: 10px;
+  }
 
   #orderInfo {
     padding: 16px;

@@ -11,7 +11,7 @@ fetch(`${API_URL}/api/admin/orders/${orderId}`)
   .then(data => {
     const { order, items } = data;
 
-    // Order info
+    // ===== ORDER INFO =====
     document.getElementById("orderInfo").innerHTML = `
       <p><strong>Order ID:</strong> ${order.id}</p>
       <p><strong>Status:</strong> ${order.status}</p>
@@ -19,20 +19,23 @@ fetch(`${API_URL}/api/admin/orders/${orderId}`)
       <p><strong>Date:</strong> ${new Date(order.created_at).toLocaleString()}</p>
     `;
 
+    // ===== ITEMS TABLE =====
     const tbody = document.getElementById("itemsTable");
     tbody.innerHTML = "";
 
     items.forEach(i => {
       const total = i.quantity * i.price;
 
-      tbody.innerHTML += `
+      const row = `
         <tr>
-          <td>${i.product_name}</td>
-          <td>${i.quantity}</td>
-          <td>$${i.price}</td>
-          <td>$${total}</td>
+          <td data-label="Product">${i.product_name}</td>
+          <td data-label="Quantity">${i.quantity}</td>
+          <td data-label="Price">$${i.price}</td>
+          <td data-label="Total">$${total}</td>
         </tr>
       `;
+
+      tbody.innerHTML += row;
     });
   })
   .catch(() => {
