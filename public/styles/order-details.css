@@ -68,7 +68,7 @@
 }
 
 /* ===== DESKTOP ===== */
-@media (min-width: 768px) {
+@media (max-width: 520px) {
   .items-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
