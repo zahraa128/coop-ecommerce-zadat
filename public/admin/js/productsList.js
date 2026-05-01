@@ -1,13 +1,10 @@
 const tableBody = document.getElementById("productsBody");
 
-async function loadProducts() {
+// ===== LOAD PRODUCTS =====
+async function loadProducts(url = `${API_URL}/api/admin/products`) {
   try {
-    console.log("Fetching products...");
-
-    const res = await fetch(`${API_URL}/api/admin/products`);
+    const res = await fetch(url);
     const products = await res.json();
-
-    console.log("Products:", products);
 
     tableBody.innerHTML = "";
 
@@ -22,60 +19,66 @@ async function loadProducts() {
       row.innerHTML = `
         <td>${product.id}</td>
         <td>${product.name}</td>
-        <td>${product.category || "-"}</td>
+        <td>${product.categories?.name || "No category"}</td>
         <td>${product.price}</td>
         <td>
-          ${product.image 
-            ? `<img src="${product.image}"" width="60"/>`
-            : "-"
-          }
+          ${product.image ? `<img src="${product.image}" width="60"/>` : "-"}
         </td>
         <td>${product.description || "-"}</td>
-        <td>
-          <a href="products_edit.html?id=${product.id}">Edit</a>
-        </td>
-        <td>
-          <button onclick="deleteProduct(${product.id})">Delete</button>
-        </td>
+        <td><a href="products_edit.html?id=${product.id}">Edit</a></td>
+        <td><button onclick="deleteProduct(${product.id})">Delete</button></td>
       `;
 
       tableBody.appendChild(row);
     });
 
   } catch (err) {
-    console.error("Load error:", err);
+    console.error(err);
     alert("Failed to load products");
   }
 }
 
+// ===== DELETE =====
 async function deleteProduct(id) {
   if (!confirm("Delete this product?")) return;
 
   try {
-    const token = localStorage.getItem("token");
-
     const res = await fetch(`${API_URL}/api/admin/products/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Authorization": `Bearer ${token}`   // ✅ IMPORTANT
-      }
+      method: "DELETE"
     });
 
-    const data = await res.json();
+    if (!res.ok) throw new Error();
 
-    console.log("Delete response:", data);
+    alert("Deleted");
+    loadProducts();
 
-    if (res.ok) {
-      alert("Deleted successfully");
-      loadProducts();
-    } else {
-      alert(data.message || "Delete failed");
-    }
-
-  } catch (err) {
-    console.error(err);
-    alert("Server error");
+  } catch {
+    alert("Delete failed");
   }
 }
 
+// ===== LOAD CATEGORIES =====
+fetch(`${API_URL}/api/admin/categories`)
+  .then(res => res.json())
+  .then(categories => {
+    const select = document.getElementById("categoryFilter");
+
+    categories.forEach(c => {
+      select.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+    });
+  });
+
+// ===== FILTER =====
+document.getElementById("categoryFilter").addEventListener("change", function () {
+  const categoryId = this.value;
+
+  let url = `${API_URL}/api/admin/products`;
+  if (categoryId) {
+    url += `?category=${categoryId}`;
+  }
+
+  loadProducts(url);
+});
+
+// ===== INIT =====
 loadProducts();
