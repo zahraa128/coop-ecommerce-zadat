@@ -97,16 +97,24 @@ function loadOrders() {
 }
  // ===== Delete ORDER =====
 document.querySelectorAll(".delete-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
+  btn.addEventListener("click", async () => {
     const id = btn.dataset.id;
 
     if (!confirm("Delete this order?")) return;
 
-    fetch(`${API_URL}/api/admin/orders/${id}`, {
-      method: "DELETE"
-    })
-      .then(() => loadOrders())
-      .catch(() => alert("Delete failed"));
+    try {
+      const res = await fetch(`${API_URL}/api/admin/orders/${id}`, {
+        method: "DELETE"
+      });
+
+      if (!res.ok) throw new Error();
+
+      alert("Deleted successfully");
+      location.reload();
+
+    } catch {
+      alert("Delete failed");
+    }
   });
 });
 

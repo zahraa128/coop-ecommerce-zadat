@@ -184,10 +184,11 @@ body: JSON.stringify({
   return data;
 })
 .then(data => {
-      if (data.message !== "Order placed successfully") {
-        showOrderMessage(data.message);
-        return;
-      }
+  // ✅ ANY success response is OK
+  if (!data || !data.message) {
+    showOrderMessage("Something went wrong");
+    return;
+  }
 
       localStorage.removeItem("cart");
       updateCartCount();
