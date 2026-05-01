@@ -16,16 +16,13 @@ if (adminName) {
   document.getElementById("adminName").textContent = adminName;
 }
 
-// TODAY
-fetch(`${API_URL}/api/visits/today`)
+// ===== LOAD VISITS STATS =====
+fetch(`${API_URL}/api/visits/stats`)
   .then(res => res.json())
   .then(data => {
-    document.getElementById("visitsToday").textContent = data.count;
-  });
-
-// MONTH
-fetch(`${API_URL}/api/visits/month`)
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("visitsMonth").textContent = data.count;
+    document.getElementById("visitsToday").textContent = data.today || 0;
+    document.getElementById("visitsMonth").textContent = data.month || 0;
+  })
+  .catch(err => {
+    console.error("Failed to load visit stats:", err);
   });
