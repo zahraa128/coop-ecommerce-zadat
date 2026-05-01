@@ -189,8 +189,14 @@ function submitOrder() {
 
 function showOrderMessage(text) {
   const msg = document.getElementById("orderMessage");
+  if (!msg) return;
+
   msg.textContent = text;
   msg.style.display = "block";
+
+  setTimeout(() => {
+    msg.style.display = "none";
+  }, 2000);
 }
 
 // Initial render

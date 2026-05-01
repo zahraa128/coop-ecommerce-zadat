@@ -125,4 +125,6 @@
   } else {
     window.initSiteHeader();
   }
+  
 })();
+
