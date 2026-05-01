@@ -80,3 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, 300);
 });
+
+fetch(`${API_URL}/api/visits`, {
+  method: "POST"
+});

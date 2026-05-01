@@ -62,6 +62,13 @@ const footerFallback = `
   </footer>
 `;
 
+fetch(`${API_URL}/api/visits/stats`)
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("visitsToday").textContent = data.today;
+    document.getElementById("visitsMonth").textContent = data.month;
+  });
+  
 // Load footer
 fetch("footer.html")
   .then(res => res.text())

@@ -1,9 +1,10 @@
 const express = require("express");
 const cors = require("cors");
+
 require("dotenv").config();
 
 const app = express();
-
+const visitRoutes = require("./routes/visits");
 app.use(cors());
 app.use(express.json());
 
@@ -25,7 +26,7 @@ app.use("/api", require("./routes/cart"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api", require("./routes/customerAuth"));
 app.use("/api", require("./routes/customerOrders"));
-app.use("/api", require("./routes/visits"));
+app.use("/api/visits", visitRoutes);
 
 /* ===== START SERVER ===== */
 const PORT = process.env.PORT || 10000;
