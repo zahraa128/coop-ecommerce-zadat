@@ -6,9 +6,6 @@ if (!adminToken) {
 }
 
 const tableBody = document.querySelector("#ordersTable tbody");
-const form = document.getElementById("filterForm");
-const searchInput = document.getElementById("search");
-const sortSelect = document.getElementById("sort");
 
 function loadOrders() {
   fetch(`${API_URL}/api/admin/orders`)
@@ -29,17 +26,62 @@ function loadOrders() {
           <td>${o.id}</td>
           <td>${o.customer_name || ""}</td>
           <td>${o.phone || ""}</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
+
+          <!-- ✅ NUMBER OF PRODUCTS -->
+          <td>${o.products_count || 0} items</td>
+
+          <!-- ❌ removed unit price -->
+          <!-- ❌ removed quantity -->
+
           <td>${o.total}</td>
+
           <td>${new Date(o.created_at).toLocaleString()}</td>
-          <td>${o.status}</td>
-          <td>-</td>
+
+          <!-- ✅ STATUS CONTROL -->
+          <td>
+            <select class="status-select" data-id="${o.id}">
+              <option value="pending" ${o.status === "pending" ? "selected" : ""}>Pending</option>
+              <option value="shipping" ${o.status === "shipping" ? "selected" : ""}>Shipping</option>
+              <option value="delivered" ${o.status === "delivered" ? "selected" : ""}>Delivered</option>
+              <option value="cancelled" ${o.status === "cancelled" ? "selected" : ""}>Cancelled</option>
+            </select>
+          </td>
+
+          <!-- ✅ VIEW ORDER BUTTON -->
+          <td>
+            <button class="view-btn" data-id="${o.id}">View</button>
+          </td>
         `;
 
         tableBody.appendChild(row);
       });
+
+      // ===== STATUS UPDATE =====
+      document.querySelectorAll(".status-select").forEach(select => {
+        select.addEventListener("change", () => {
+          const id = select.dataset.id;
+          const status = select.value;
+
+          fetch(`${API_URL}/api/admin/orders/${id}/status`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status })
+          })
+          .then(() => {
+            // Optional: reload or just keep
+          })
+          .catch(() => alert("Failed to update status"));
+        });
+      });
+
+      // ===== VIEW ORDER =====
+      document.querySelectorAll(".view-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.dataset.id;
+          window.location.href = `order-details.html?id=${id}`;
+        });
+      });
+
     })
     .catch(() => {
       tableBody.innerHTML =
@@ -47,12 +89,6 @@ function loadOrders() {
     });
 }
 
-// Initial load
+// Load
 loadOrders();
-
-// Disable filter for now (since backend doesn’t support it yet)
-form.addEventListener("submit", e => {
-  e.preventDefault();
-  loadOrders();
-});
 })();

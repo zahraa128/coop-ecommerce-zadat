@@ -162,12 +162,12 @@ function submitOrder() {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      customer_id,
-      items,
-      total,
-      address
-    })
+   body: JSON.stringify({
+  customer_id,
+  items: Object.values(cart), // 🔥 FORCE correct format
+  total,
+  address
+})
   })
     .then(res => res.json())
     .then(data => {

@@ -10,7 +10,7 @@ router.get("/my-orders/:customer_id", async (req, res) => {
 
     const { data, error } = await supabase
       .from("orders")
-      .select("*")
+      .select("id, total, status, created_at")
       .eq("customer_id", customer_id)
       .order("id", { ascending: false });
 
@@ -19,7 +19,6 @@ router.get("/my-orders/:customer_id", async (req, res) => {
     res.json(data);
 
   } catch (err) {
-    console.error("MY ORDERS ERROR:", err);
     res.status(500).json({ message: "Failed to load orders" });
   }
 });
