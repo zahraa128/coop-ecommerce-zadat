@@ -17,9 +17,11 @@ table {
 th, td {
   padding: 10px;
   border-bottom: 1px solid #ddd;
+  text-align: center;
 }
 
 th {
   background: #5B7917;
   color: white;
+  text-align: center;
 }

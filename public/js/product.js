@@ -1,5 +1,5 @@
 /**
- * product.js (FINAL CLEAN VERSION)
+ * product.js (FINAL FIXED - ARRAY CART)
  */
 
 // ===== LOAD HEADER / FOOTER =====
@@ -38,7 +38,7 @@ fetch(`${API_URL}/api/products/${productId}`)
     showMessage("Failed to load product");
   });
 
-// ===== ADD TO CART =====
+// ===== ADD TO CART (ARRAY VERSION) =====
 function addToCart(product) {
   const customer_id = localStorage.getItem("customer_id");
 
@@ -50,33 +50,41 @@ function addToCart(product) {
 
   const qty = parseInt(document.getElementById("quantity").value) || 1;
 
-  let cart = JSON.parse(localStorage.getItem("cart")) || {};
+  // ✅ ALWAYS ARRAY
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  if (cart[product.id]) {
-    cart[product.id].quantity += qty;
+  // 🔥 FIX OLD DATA (object → array)
+  if (!Array.isArray(cart)) {
+    cart = Object.values(cart);
+  }
+
+  // ✅ CHECK IF EXISTS
+  const existing = cart.find(item => item.id === product.id);
+
+  if (existing) {
+    existing.quantity += qty;
   } else {
-    cart[product.id] = {
+    cart.push({
       id: product.id,
       name: product.name,
       price: Number(product.price),
       image: product.image,
       quantity: qty
-    };
+    });
   }
 
-  // ✅ Save cart once
+  // ✅ SAVE
   localStorage.setItem("cart", JSON.stringify(cart));
 
-  // ✅ Update cart icon
+  // ✅ UPDATE ICON
   if (typeof updateCartCount === "function") {
     updateCartCount();
   }
 
-  // ✅ Show message
   showMessage("Product added to cart successfully!");
 }
 
-// ===== SHOW MESSAGE =====
+// ===== MESSAGE =====
 function showMessage(text) {
   const msg = document.getElementById("cartMessage");
   if (!msg) return;

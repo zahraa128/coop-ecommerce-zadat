@@ -16,13 +16,16 @@ if (adminName) {
   document.getElementById("adminName").textContent = adminName;
 }
 
-fetch(`${API_URL}/api/admin/visit-stats`)
+// TODAY
+fetch(`${API_URL}/api/visits/today`)
   .then(res => res.json())
-  .then(stats => {
-    const todayEl = document.getElementById("visitsToday");
-    const monthEl = document.getElementById("visitsMonth");
-    if (todayEl) todayEl.textContent = stats.today;
-    if (monthEl) monthEl.textContent = stats.month;
-  })
-  .catch(() => {});
-})();
+  .then(data => {
+    document.getElementById("visitsToday").textContent = data.count;
+  });
+
+// MONTH
+fetch(`${API_URL}/api/visits/month`)
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("visitsMonth").textContent = data.count;
+  });

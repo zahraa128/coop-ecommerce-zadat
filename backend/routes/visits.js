@@ -1,54 +1,59 @@
 const express = require("express");
+const router = express.Router();
 const supabase = require("../supabase");
 
-const router = express.Router();
-
+/* ===== TRACK VISIT ===== */
 router.post("/track-visit", async (req, res) => {
   try {
-    const { error } = await supabase
-      .from("visits")
-      .insert({ visit_date: new Date().toISOString().slice(0, 10) });
+    const today = new Date().toISOString().slice(0, 10);
 
-    if (error) throw error;
-    res.json({ message: "Visit tracked." });
-  } catch {
-    res.status(500).json({ message: "Failed to track visit." });
+    await supabase.from("visits").insert([{ visit_date: today }]);
+
+    res.json({ message: "Visit tracked" });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to track visit" });
   }
 });
 
-router.get("/admin/visit-stats", async (req, res) => {
+/* ===== GET TODAY VISITS ===== */
+router.get("/visits/today", async (req, res) => {
+  try {
+    const today = new Date().toISOString().slice(0, 10);
+
+    const { count, error } = await supabase
+      .from("visits")
+      .select("*", { count: "exact", head: true })
+      .eq("visit_date", today);
+
+    if (error) throw error;
+
+    res.json({ count });
+  } catch {
+    res.status(500).json({ count: 0 });
+  }
+});
+
+/* ===== GET MONTH VISITS ===== */
+router.get("/visits/month", async (req, res) => {
   try {
     const now = new Date();
-    const todayDate = now.toISOString().slice(0, 10);
-    const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1))
-      .toISOString()
-      .slice(0, 10);
-    const nextMonthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1))
+    const start = new Date(now.getFullYear(), now.getMonth(), 1)
       .toISOString()
       .slice(0, 10);
 
-    const [{ count: today, error: todayError }, { count: month, error: monthError }] =
-      await Promise.all([
-        supabase
-          .from("visits")
-          .select("*", { count: "exact", head: true })
-          .eq("visit_date", todayDate),
-        supabase
-          .from("visits")
-          .select("*", { count: "exact", head: true })
-          .gte("visit_date", monthStart)
-          .lt("visit_date", nextMonthStart)
-      ]);
+    const end = new Date().toISOString().slice(0, 10);
 
-    if (todayError) throw todayError;
-    if (monthError) throw monthError;
+    const { count, error } = await supabase
+      .from("visits")
+      .select("*", { count: "exact", head: true })
+      .gte("visit_date", start)
+      .lte("visit_date", end);
 
-    res.json({
-      today: today || 0,
-      month: month || 0
-    });
+    if (error) throw error;
+
+    res.json({ count });
   } catch {
-    res.status(500).json({ message: "Failed to fetch stats." });
+    res.status(500).json({ count: 0 });
   }
 });
 
