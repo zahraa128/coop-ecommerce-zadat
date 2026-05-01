@@ -129,4 +129,29 @@ router.get("/orders/:id", async (req, res) => {
     res.status(500).json({ message: "Failed to load order details" });
   }
 });
+/* ===== DELETE ORDER ===== */
+router.delete("/orders/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // delete items first (important for FK)
+    await supabase
+      .from("order_items")
+      .delete()
+      .eq("order_id", id);
+
+    const { error } = await supabase
+      .from("orders")
+      .delete()
+      .eq("id", id);
+
+    if (error) throw error;
+
+    res.json({ message: "Order deleted" });
+
+  } catch (err) {
+    console.error("DELETE ERROR:", err);
+    res.status(500).json({ message: "Failed to delete order" });
+  }
+});
 module.exports = router;

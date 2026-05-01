@@ -1,6 +1,7 @@
 const customer_id = localStorage.getItem("customer_id");
 
 if (!customer_id) {
+  alert("Please login first");
   window.location.href = "login_user.html";
 }
 
@@ -10,23 +11,23 @@ fetch(`${API_URL}/api/my-orders/${customer_id}`)
     const container = document.getElementById("ordersContainer");
 
     if (!orders.length) {
-      container.innerHTML = "<p>No orders found.</p>";
+      container.innerHTML = "<p>No orders found</p>";
       return;
     }
 
-    orders.forEach(order => {
-      const div = document.createElement("div");
+    container.innerHTML = "";
 
-      div.innerHTML = `
-        <h3>Order #${order.id}</h3>
-        <p>Total: $${order.total}</p>
-        <p>Status: ${order.status}</p>
+    orders.forEach(o => {
+      container.innerHTML += `
+        <div class="order-card">
+          <p><strong>Order ID:</strong> ${o.id}</p>
+          <p><strong>Total:</strong> $${o.total}</p>
+          <p><strong>Status:</strong> ${o.status}</p>
+          <p><strong>Date:</strong> ${new Date(o.created_at).toLocaleString()}</p>
+        </div>
       `;
-
-      container.appendChild(div);
     });
   })
   .catch(() => {
-    document.getElementById("ordersContainer").innerHTML =
-      "<p>Failed to load orders</p>";
+    alert("Failed to load orders");
   });

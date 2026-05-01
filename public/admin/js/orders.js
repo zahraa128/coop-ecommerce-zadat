@@ -53,6 +53,10 @@ function loadOrders() {
       <button>View</button>
     </a>
   </td>
+  <!--delete button -->
+    <td>
+  <button class="delete-btn" data-id="${o.id}">Delete</button>
+</td>
 `;
 
 
@@ -91,6 +95,20 @@ function loadOrders() {
         `<tr><td colspan="10">Failed to load orders</td></tr>`;
     });
 }
+ // ===== Delete ORDER =====
+document.querySelectorAll(".delete-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const id = btn.dataset.id;
+
+    if (!confirm("Delete this order?")) return;
+
+    fetch(`${API_URL}/api/admin/orders/${id}`, {
+      method: "DELETE"
+    })
+      .then(() => loadOrders())
+      .catch(() => alert("Delete failed"));
+  });
+});
 
 // Load
 loadOrders();

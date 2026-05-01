@@ -174,8 +174,16 @@ body: JSON.stringify({
   address: address
 })
   })
-    .then(res => res.json())
-    .then(data => {
+    .then(async res => {
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Error");
+  }
+
+  return data;
+})
+.then(data => {
       if (data.message !== "Order placed successfully") {
         showOrderMessage(data.message);
         return;
