@@ -5,13 +5,50 @@ const supabase = require("../supabase");
 /* ===== GET ALL ORDERS ===== */
 router.get("/orders", async (req, res) => {
   try {
-    const { data: orders, error } = await supabase
-      .from("orders")
-      .select("*")
-      .order("id", { ascending: false });
+    const { search, sort } = req.query;
+
+    let query = supabase.from("orders").select("*");
+
+    // 🔍 SEARCH (name OR phone OR id)
+    if (search) {
+      query = query.or(
+        `customer_name.ilike.%${search}%,phone.ilike.%${search}%,id.eq.${search}`
+      );
+    }
+
+    // 🔽 SORT
+    if (sort === "oldest") {
+      query = query.order("id", { ascending: true });
+    } else {
+      query = query.order("id", { ascending: false }); // default newest
+    }
+
+    const { data: orders, error } = await query;
 
     if (error) throw error;
 
+    // count products
+    const ordersWithCount = await Promise.all(
+      orders.map(async (o) => {
+        const { count } = await supabase
+          .from("order_items")
+          .select("*", { count: "exact", head: true })
+          .eq("order_id", o.id);
+
+        return {
+          ...o,
+          products_count: count || 0
+        };
+      })
+    );
+
+    res.json(ordersWithCount);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch orders" });
+  }
+});
     // ✅ FIX: inside async function
     const ordersWithCount = await Promise.all(
       orders.map(async (o) => {

@@ -23,14 +23,16 @@
 
   <h2>Customer Orders</h2>
 
-  <form id="filterForm">
-    <input type="text" id="search" placeholder="Search by customer name">
-    <select id="sort">
-      <option value="newest">Newest First</option>
-      <option value="oldest">Oldest First</option>
-    </select>
-    <button type="submit">Filter</button>
-  </form>
+<form id="filterForm">
+  <input type="text" id="search" placeholder="Search by name, phone, or ID">
+  
+  <select id="sort">
+    <option value="newest">Newest First</option>
+    <option value="oldest">Oldest First</option>
+  </select>
+
+  <button type="submit">Filter</button>
+</form>
 
   <table border="1" id="ordersTable">
    <thead>

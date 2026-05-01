@@ -6,9 +6,22 @@ if (!adminToken) {
 }
 
 const tableBody = document.querySelector("#ordersTable tbody");
+const form = document.getElementById("filterForm");
+const searchInput = document.getElementById("search");
+const sortSelect = document.getElementById("sort");
 
+// 🔥 LOAD ORDERS WITH FILTER
 function loadOrders() {
-  fetch(`${API_URL}/api/admin/orders`)
+  const search = searchInput.value.trim();
+  const sort = sortSelect.value;
+
+  let url = `${API_URL}/api/admin/orders?sort=${sort}`;
+
+  if (search) {
+    url += `&search=${encodeURIComponent(search)}`;
+  }
+
+  fetch(url)
     .then(res => res.json())
     .then(orders => {
       tableBody.innerHTML = "";
@@ -53,7 +66,7 @@ function loadOrders() {
         tableBody.appendChild(row);
       });
 
-      // ✅ STATUS UPDATE
+      // STATUS UPDATE
       document.querySelectorAll(".status-select").forEach(select => {
         select.addEventListener("change", () => {
           fetch(`${API_URL}/api/admin/orders/${select.dataset.id}/status`, {
@@ -64,7 +77,7 @@ function loadOrders() {
         });
       });
 
-      // ✅ DELETE (FIXED)
+      // DELETE
       document.querySelectorAll(".delete-btn").forEach(btn => {
         btn.addEventListener("click", async () => {
           const id = btn.dataset.id;
@@ -78,8 +91,7 @@ function loadOrders() {
 
             if (!res.ok) throw new Error();
 
-            alert("Deleted successfully");
-            loadOrders(); // 🔥 refresh without reload
+            loadOrders();
 
           } catch {
             alert("Delete failed");
@@ -87,12 +99,15 @@ function loadOrders() {
         });
       });
 
-    })
-    .catch(() => {
-      tableBody.innerHTML =
-        `<tr><td colspan="9">Failed to load orders</td></tr>`;
     });
 }
 
+// 🔥 FILTER FORM
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  loadOrders();
+});
+
+// 🔥 INITIAL LOAD
 loadOrders();
 })();
