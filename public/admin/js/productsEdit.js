@@ -52,33 +52,40 @@
   .catch(err => console.error("Load product error:", err));
 
   /* ===== UPDATE PRODUCT ===== */
-  document.getElementById("editProductForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
+document.getElementById("editProductForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    const formData = new FormData(e.target);
+  const form = e.target;
+  const formData = new FormData();
 
-    try {
-      const res = await fetch(`${API_URL}/api/admin/products/${productId}`, {
-        method: "PUT",
-        headers: {
-          "Authorization": adminToken
-        },
-        body: formData
-      });
+  formData.append("name", form.name.value);
+  formData.append("price", form.price.value);
+  formData.append("description", form.description.value);
+  formData.append("category_id", form.categorySelect.value);
 
-      const data = await res.json();
+  // ✅ only append image if selected
+  const fileInput = form.querySelector('input[type="file"]');
+  if (fileInput.files[0]) {
+    formData.append("image", fileInput.files[0]);
+  }
 
-      if (res.ok) {
-        window.location.href = "products_list.html?updated=true";
-      } else {
-        message.style.color = "red";
-        message.textContent = data.message || "Update failed";
-      }
+  try {
+    const res = await fetch(`${API_URL}/api/admin/products/${productId}`, {
+      method: "PUT",
+      body: formData
+    });
 
-    } catch (err) {
-      console.error(err);
+    const data = await res.json();
+
+    if (res.ok) {
+      window.location.href = "products_list.html?updated=true";
+    } else {
       message.style.color = "red";
-      message.textContent = "Server error.";
+      message.textContent = data.message || "Update failed";
     }
-  });
-})();
+
+  } catch (err) {
+    console.error("UPDATE ERROR:", err);
+    message.textContent = "Server error.";
+  }
+});

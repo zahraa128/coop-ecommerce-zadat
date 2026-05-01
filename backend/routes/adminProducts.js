@@ -110,3 +110,68 @@ router.delete("/products/:id", async (req, res) => {
 });
 
 module.exports = router;
+/* ===== GET PRODUCT BY ID ===== */
+router.get("/products/:id", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("id", req.params.id)
+      .single();
+
+    if (error) throw error;
+
+    res.json(data);
+
+  } catch (err) {
+    console.error("GET PRODUCT ERROR:", err);
+    res.status(500).json({ message: "Failed to fetch product" });
+  }
+});
+/* ===== UPDATE PRODUCT ===== */
+router.put("/products/:id", upload.single("image"), async (req, res) => {
+  try {
+    const { name, price, description, category_id } = req.body;
+
+    if (!name || !price) {
+      return res.status(400).json({ message: "Missing data" });
+    }
+
+    let updates = {
+      name,
+      description: description || "",
+      price: Number(price),
+      category_id: category_id || null
+    };
+
+    // ✅ only update image if new one uploaded
+    if (req.file) {
+      const file = req.file;
+      const fileName = `${uuidv4()}-${file.originalname}`;
+      const fileBuffer = fs.readFileSync(file.path);
+
+      const { error } = await supabase.storage
+        .from("products")
+        .upload(fileName, fileBuffer, {
+          contentType: file.mimetype
+        });
+
+      if (error) throw error;
+
+      updates.image = `${process.env.SUPABASE_URL}/storage/v1/object/public/products/${fileName}`;
+    }
+
+    const { error } = await supabase
+      .from("products")
+      .update(updates)
+      .eq("id", req.params.id);
+
+    if (error) throw error;
+
+    res.json({ success: true });
+
+  } catch (err) {
+    console.error("UPDATE ERROR:", err);
+    res.status(500).json({ message: "Update failed" });
+  }
+});
