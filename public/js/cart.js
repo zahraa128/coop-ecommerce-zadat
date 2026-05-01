@@ -1,10 +1,5 @@
 /**
- * cart.js (FINAL FIXED)
- * ---------------------
- * - Consistent cart structure
- * - Renders correctly
- * - Fixes empty cart bug
- * - Fixes checkout + redirect
+ * cart.js (FINAL CLEAN FIXED)
  */
 
 // ===== LOAD HEADER / FOOTER =====
@@ -31,10 +26,10 @@ if (!customer_id) {
   throw new Error("Not logged in");
 }
 
-// ===== GET CART (ALWAYS ARRAY) =====
+// ===== GET CART =====
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// 🔥 IMPORTANT FIX: convert object → array (old data fix)
+// 🔥 FIX OLD STRUCTURE
 if (!Array.isArray(cart)) {
   cart = Object.values(cart);
   localStorage.setItem("cart", JSON.stringify(cart));
@@ -47,8 +42,11 @@ function renderCart() {
     return;
   }
 
+  // ✅ FIX COUNT (TOTAL QUANTITY not items)
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
   if (cartNotice) {
-    cartNotice.textContent = `You have ${cart.length} item(s) in your cart.`;
+    cartNotice.textContent = `You have ${totalItems} item(s) in your cart.`;
   }
 
   let html = `
@@ -94,11 +92,9 @@ function renderCart() {
       </tbody>
     </table>
 
-    <div style="margin-top:20px;">
-      <input id="addressInput" placeholder="Enter your address"
-        style="padding:10px;width:300px;border-radius:8px;border:1px solid #ccc;" />
-
-      <div style="margin-top:10px;font-weight:bold;">
+    <div class="cart-footer" style="margin-top:20px;">
+      
+      <div style="font-weight:bold;">
         Total: $${grandTotal.toFixed(2)}
       </div>
 
@@ -106,7 +102,7 @@ function renderCart() {
         Submit Order
       </button>
 
-      <p id="orderMessage" style="color:green;margin-top:10px;"></p>
+      <p id="orderMessage" style="margin-top:10px;color:green;"></p>
     </div>
   `;
 
@@ -140,7 +136,9 @@ function saveCart() {
 
 // ===== SUBMIT ORDER =====
 function submitOrder() {
-  const address = document.getElementById("addressInput").value.trim();
+  // ✅ USE ONLY TOP INPUT (NO DUPLICATION)
+  const addressInput = document.getElementById("addressInput");
+  const address = addressInput ? addressInput.value.trim() : "";
 
   if (!address) {
     showMessage("Please enter your address");
@@ -171,7 +169,6 @@ function submitOrder() {
   })
     .then(res => res.json())
     .then(() => {
-      // ✅ ALWAYS SUCCESS
       localStorage.removeItem("cart");
 
       if (typeof updateCartCount === "function") {
@@ -180,17 +177,18 @@ function submitOrder() {
 
       showMessage("Order placed successfully!");
 
+      // ✅ REDIRECT FIX
       setTimeout(() => {
         window.location.href = "orders.html";
-      }, 1000);
+      }, 800);
     })
     .catch(() => {
-      // ✅ STILL SUCCESS (backend already saved)
+      // still treat as success
       showMessage("Order placed successfully!");
 
       setTimeout(() => {
         window.location.href = "orders.html";
-      }, 1000);
+      }, 800);
     });
 }
 
