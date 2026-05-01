@@ -15,109 +15,84 @@ function loadOrders() {
 
       if (!orders.length) {
         tableBody.innerHTML =
-          `<tr><td colspan="10">No orders found.</td></tr>`;
+          `<tr><td colspan="9">No orders found.</td></tr>`;
         return;
       }
 
       orders.forEach(o => {
         const row = document.createElement("tr");
 
+        row.innerHTML = `
+          <td>${o.id}</td>
+          <td>${o.customer_name || ""}</td>
+          <td>${o.phone || ""}</td>
+          <td>${o.products_count || 0} items</td>
+          <td>${o.total}</td>
+          <td>${new Date(o.created_at).toLocaleString()}</td>
 
-          row.innerHTML = `
-  <td>${o.id}</td>
-  <td>${o.customer_name || ""}</td>
-  <td>${o.phone || ""}</td>
+          <td>
+            <select class="status-select" data-id="${o.id}">
+              <option value="pending" ${o.status === "pending" ? "selected" : ""}>Pending</option>
+              <option value="shipping" ${o.status === "shipping" ? "selected" : ""}>Shipping</option>
+              <option value="delivered" ${o.status === "delivered" ? "selected" : ""}>Delivered</option>
+              <option value="cancelled" ${o.status === "cancelled" ? "selected" : ""}>Cancelled</option>
+            </select>
+          </td>
 
-  <!-- ✅ number of products -->
-  <td>${o.products_count || 0} items</td>
+          <td>
+            <a href="order-details.html?id=${o.id}">
+              <button>View</button>
+            </a>
+          </td>
 
-  <!-- ✅ TOTAL ONLY -->
-  <td>${o.total}</td>
-
-  <!-- ✅ DATE -->
-  <td>${new Date(o.created_at).toLocaleString()}</td>
-
-  <!-- ✅ STATUS -->
-  <td>
-    <select class="status-select" data-id="${o.id}">
-      <option value="pending" ${o.status === "pending" ? "selected" : ""}>Pending</option>
-      <option value="shipping" ${o.status === "shipping" ? "selected" : ""}>Shipping</option>
-      <option value="delivered" ${o.status === "delivered" ? "selected" : ""}>Delivered</option>
-      <option value="cancelled" ${o.status === "cancelled" ? "selected" : ""}>Cancelled</option>
-    </select>
-  </td>
-
-  <!-- ✅ VIEW BUTTON -->
-  <td>
-    <a href="order-details.html?id=${o.id}">
-      <button>View</button>
-    </a>
-  </td>
-  <!--delete button -->
-    <td>
-  <button class="delete-btn" data-id="${o.id}">Delete</button>
-</td>
-`;
-
+          <td>
+            <button class="delete-btn" data-id="${o.id}">Delete</button>
+          </td>
+        `;
 
         tableBody.appendChild(row);
       });
 
-      // ===== STATUS UPDATE =====
+      // ✅ STATUS UPDATE
       document.querySelectorAll(".status-select").forEach(select => {
         select.addEventListener("change", () => {
-          const id = select.dataset.id;
-          const status = select.value;
-
-          fetch(`${API_URL}/api/admin/orders/${id}/status`, {
+          fetch(`${API_URL}/api/admin/orders/${select.dataset.id}/status`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status })
-          })
-          .then(() => {
-            // Optional: reload or just keep
-          })
-          .catch(() => alert("Failed to update status"));
+            body: JSON.stringify({ status: select.value })
+          });
         });
       });
 
-      // ===== VIEW ORDER =====
-      document.querySelectorAll(".view-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
+      // ✅ DELETE (FIXED)
+      document.querySelectorAll(".delete-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
           const id = btn.dataset.id;
-          window.location.href = `order-details.html?id=${id}`;
+
+          if (!confirm("Delete this order?")) return;
+
+          try {
+            const res = await fetch(`${API_URL}/api/admin/orders/${id}`, {
+              method: "DELETE"
+            });
+
+            if (!res.ok) throw new Error();
+
+            alert("Deleted successfully");
+            loadOrders(); // 🔥 refresh without reload
+
+          } catch {
+            alert("Delete failed");
+          }
         });
       });
 
     })
     .catch(() => {
       tableBody.innerHTML =
-        `<tr><td colspan="10">Failed to load orders</td></tr>`;
+        `<tr><td colspan="9">Failed to load orders</td></tr>`;
     });
 }
- // ===== Delete ORDER =====
-document.querySelectorAll(".delete-btn").forEach(btn => {
-  btn.addEventListener("click", async () => {
-    const id = btn.dataset.id;
 
-    if (!confirm("Delete this order?")) return;
-
-    try {
-      const res = await fetch(`${API_URL}/api/admin/orders/${id}`, {
-        method: "DELETE"
-      });
-
-      if (!res.ok) throw new Error();
-
-      alert("Deleted successfully");
-      location.reload();
-
-    } catch {
-      alert("Delete failed");
-    }
-  });
-});
-
-// Load
 loadOrders();
 })();

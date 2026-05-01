@@ -8,26 +8,29 @@ if (!customer_id) {
 fetch(`${API_URL}/api/my-orders/${customer_id}`)
   .then(res => res.json())
   .then(orders => {
-    const container = document.getElementById("ordersContainer");
+    const tbody = document.querySelector("#ordersTable tbody");
 
     if (!orders.length) {
-      container.innerHTML = "<p>No orders found</p>";
+      tbody.innerHTML = `<tr><td colspan="7">No orders found</td></tr>`;
       return;
     }
 
-    container.innerHTML = "";
+    tbody.innerHTML = "";
 
     orders.forEach(o => {
-      container.innerHTML += `
-        <div class="order-card">
-          <p><strong>Order ID:</strong> ${o.id}</p>
-          <p><strong>Total:</strong> $${o.total}</p>
-          <p><strong>Status:</strong> ${o.status}</p>
-          <p><strong>Date:</strong> ${new Date(o.created_at).toLocaleString()}</p>
-        </div>
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${o.id}</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>${o.total}</td>
+        <td>${o.status}</td>
+        <td>${new Date(o.created_at).toLocaleString()}</td>
       `;
+
+      tbody.appendChild(row);
     });
   })
-  .catch(() => {
-    alert("Failed to load orders");
-  });
+  .catch(() => alert("Failed to load orders"));
