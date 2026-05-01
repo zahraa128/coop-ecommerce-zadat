@@ -24,7 +24,7 @@ router.post("/checkout", async (req, res) => {
       throw new Error("Customer not found");
     }
 
-    // ✅ 2. INSERT ORDER (WITH NAME + PHONE)
+    // ✅ 2. INSERT ORDER
     const { data: order, error: orderError } = await supabase
       .from("orders")
       .insert([{
@@ -40,6 +40,9 @@ router.post("/checkout", async (req, res) => {
 
     if (orderError) throw orderError;
 
+    // ✅ DEBUG
+    console.log("ITEMS RECEIVED:", items);
+
     // ✅ 3. INSERT ORDER ITEMS
     const orderItems = items.map(item => ({
       order_id: order.id,
@@ -52,8 +55,12 @@ router.post("/checkout", async (req, res) => {
       .from("order_items")
       .insert(orderItems);
 
-    if (itemsError) throw itemsError;
+    if (itemsError) {
+      console.error("ITEM INSERT ERROR:", itemsError);
+      return res.status(500).json({ message: "Failed to save order items" });
+    }
 
+    // ✅ ✅ IMPORTANT FIX (YOU WERE MISSING THIS)
     res.json({ message: "Order placed successfully" });
 
   } catch (err) {

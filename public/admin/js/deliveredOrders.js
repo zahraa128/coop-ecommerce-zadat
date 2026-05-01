@@ -29,16 +29,15 @@ function loadDeliveredOrders() {
         const total = (price * o.quantity).toFixed(2);
 
         const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${o.o_id}</td>
-          <td>${o.full_name}</td>
-          <td>${o.phone}</td>
-          <td>${o.product_name}</td>
-          <td>${price.toFixed(2)}</td>
-          <td>${o.quantity}</td>
-          <td>${total}</td>
-          <td>${new Date(o.order_date).toLocaleString()}</td>
-        `;
+       row.innerHTML = `
+  <td>${o.id}</td>
+  <td>${o.customer_name || ""}</td>
+  <td>${o.phone || ""}</td>
+  <td>${o.products_count ?? 0} items</td>
+  <td>${o.total ?? 0}</td>
+  <td>${o.created_at ? new Date(o.created_at).toLocaleString() : ""}</td>
+  <td>${o.status || ""}</td>
+`;
         tableBody.appendChild(row);
       });
     })
