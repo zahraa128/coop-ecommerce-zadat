@@ -1,60 +1,88 @@
+/* ===== PAGE ===== */
+body {
+  background-color: #F6F1E6;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+}
+
+/* ===== BOX ===== */
+.success-box {
+  background: #FFFFFF;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(133, 152, 100, 0.4);
+
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+}
+
+/* ===== TITLE ===== */
+.success-box h2 {
+  color: #899D31;
+  margin-bottom: 16px;
+  font-size: 1.8rem;
+}
+
+/* ===== TEXT ===== */
+.success-box p {
+  font-size: 1.1rem;
+  color: #5B7917;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* ===== BUTTON ===== */
+.success-box a {
+  display: inline-block;
+  margin-top: 10px;
+
+  padding: 12px 28px;
+  background: #5B7917;
+  color: #FFFFFF;
+
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+
+  border-radius: 8px;
+  transition: all 0.25s ease;
+}
+
+/* HOVER */
+.success-box a:hover {
+  background: #899D31;
+  transform: translateY(-2px);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
   body {
-            background-color: #F6F1E6;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .success-box {
-            background: #FFFFFF;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 0 10px #859864;
-            text-align: center;
-        }
-        .success-box h2 {
-            color: #899D31;
-            margin-bottom: 20px;
-        }
-        .success-box p {
-            font-size: 18px;
-            color: #5B7917;
-        }
-        .success-box a {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 12px 30px;
-            background: #899D31;
-            color: #FFFFFF;
-            text-decoration: none;
-            font-size: 16px;
-            border-radius: 5px;
-        }
+    padding: 16px;
+    align-items: center;
+  }
 
-        @media (max-width: 700px) {
-            body {
-                padding: 16px;
-                height: auto;
-                min-height: 100vh;
-            }
+  .success-box {
+    padding: 28px 20px;
+  }
 
-            .success-box {
-                width: 100%;
-                max-width: 420px;
-                padding: 28px 22px;
-            }
+  .success-box h2 {
+    font-size: 1.5rem;
+  }
 
-            .success-box h2 {
-                font-size: 1.5rem;
-            }
+  .success-box p {
+    font-size: 1rem;
+  }
 
-            .success-box p {
-                font-size: 1rem;
-            }
-
-            .success-box a {
-                width: 100%;
-                text-align: center;
-            }
-        }
+  .success-box a {
+    width: 100%;
+    text-align: center;
+  }
+}

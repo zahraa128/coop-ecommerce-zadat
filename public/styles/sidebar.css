@@ -1,83 +1,109 @@
-/* Sidebar */
+/* ===== SIDEBAR ===== */
 .site-sidebar {
   position: fixed;
   top: 0;
   left: 0;
+
   width: min(280px, 82vw);
   height: 100vh;
   height: 100dvh;
+
   background-color: #899D31;
   color: #FFFFFF;
-  padding: 20px 16px;
-  box-shadow: 4px 0 12px #859864;
+
+  padding: 22px 16px;
+  box-shadow: 6px 0 18px rgba(133, 152, 100, 0.5);
+
   transform: translateX(-100%);
-  transition: transform 0.2s ease;
+  transition: transform 0.25s ease;
+
   z-index: 1200;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
+/* ===== TITLE ===== */
 .site-sidebar .sidebar-title {
   font-size: 18px;
   font-weight: 700;
-  margin-bottom: 16px;
-  color: #FFFFFF;
+  margin-bottom: 18px;
+  letter-spacing: 0.03em;
 }
 
+/* ===== LINKS ===== */
 .site-sidebar a {
   display: block;
   color: #FFFFFF;
   text-decoration: none;
-  padding: 10px 12px;
-  border-radius: 8px;
+
+  padding: 10px 14px;
+  border-radius: 10px;
   margin-bottom: 8px;
-  transition: background-color 0.2s ease, color 0.2s ease;
+
+  font-weight: 500;
+  transition: all 0.25s ease;
 }
 
+/* HOVER */
 .site-sidebar a:hover,
 .site-sidebar a:focus {
   background-color: #F6F1E6;
   color: #5B7917;
+  transform: translateX(4px);
 }
 
+/* ACTIVE LINK (optional enhancement) */
+.site-sidebar a.active {
+  background-color: #5B7917;
+  color: #FFFFFF;
+}
+
+/* ===== OPEN STATE ===== */
 .sidebar-open .site-sidebar {
   transform: translateX(0);
 }
 
+/* ===== OVERLAY ===== */
 .sidebar-open::after {
   content: "";
   position: fixed;
   inset: 0;
   background: rgba(25, 35, 14, 0.35);
+  backdrop-filter: blur(2px);
   z-index: 1100;
 }
 
+/* ===== SCROLLBAR (optional nice touch) ===== */
+.site-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.site-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.4);
+  border-radius: 10px;
+}
+
+/* ===== TABLET ===== */
 @media (max-width: 900px) {
   .site-sidebar {
-    width: min(260px, 84vw);
-    padding: 16px 12px;
+    width: min(260px, 85vw);
+    padding: 18px 14px;
   }
 }
 
-@media (max-width: 700px) {
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
   .site-sidebar {
-    width: min(250px, 86vw);
-    height: 100vh;
-    height: 100dvh;
-    position: fixed;
-    display: block;
+    width: min(240px, 88vw);
     padding: 16px 12px;
-    box-shadow: 4px 0 12px #859864;
-    border-bottom: none;
   }
 
   .site-sidebar .sidebar-title {
-    margin-bottom: 12px;
+    font-size: 16px;
   }
 
   .site-sidebar a {
-    margin-bottom: 8px;
-    padding: 10px 12px;
-    border: none;
+    font-size: 0.95rem;
+    padding: 9px 12px;
   }
 }

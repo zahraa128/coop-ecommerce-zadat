@@ -1,83 +1,110 @@
-/* category.css */
+/* ===== CATEGORY PAGE ===== */
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #F6F1E6;
-    margin: 0;
-    padding: 0;
-    color: #5B7917;
+  font-family: Arial, sans-serif;
+  background-color: #F6F1E6;
+  margin: 0;
+  padding: 0;
+  color: #5B7917;
 }
 
+/* ===== MAIN ===== */
 main {
-    padding: 20px;
+  padding: 30px 20px;
 }
 
+/* ===== TITLE ===== */
 h2 {
-    margin-top: 30px;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #899D31;
+  margin: 30px 0 20px;
+  text-align: center;
+  color: #899D31;
+  font-size: 2rem;
 }
 
+/* ===== GRID ===== */
 .category-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 22px;
+  padding: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
+/* ===== CARD ===== */
 .category-card {
-    background-color: #FFFFFF;
-    border: 1px solid #859864;
-    border-radius: 10px;
-    padding: 25px;
-    text-align: center;
-    box-shadow: 0 2px 8px #859864;
-    transition: 0.3s ease;
+  background-color: #FFFFFF;
+  border: 1px solid #859864;
+  border-radius: 14px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(133, 152, 100, 0.3);
+  transition: all 0.25s ease;
 }
 
+/* Hover effect */
 .category-card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 8px 20px rgba(133, 152, 100, 0.4);
 }
 
+/* ===== BUTTON ===== */
 .browse-btn {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 10px 18px;
-    background-color: #899D31;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: bold;
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 18px;
+  background-color: #899D31;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: all 0.25s ease;
 }
 
 .browse-btn:hover {
-    background-color: #5B7917;
+  background-color: #5B7917;
+  transform: translateY(-1px);
 }
 
-@media (max-width: 800px) {
-    main {
-        padding: 16px;
-    }
+/* ===== TABLET ===== */
+@media (max-width: 992px) {
+  h2 {
+    font-size: 1.8rem;
+  }
 
-    h2 {
-        font-size: 1.6rem;
-    }
+  .category-container {
+    gap: 18px;
+  }
 }
 
-@media (max-width: 520px) {
-    .category-container {
-        grid-template-columns: 1fr;
-        padding: 12px 0;
-    }
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  main {
+    padding: 20px 16px;
+  }
 
-    .category-card {
-        padding: 18px;
-    }
+  h2 {
+    font-size: 1.6rem;
+  }
 
-    .browse-btn {
-        width: 100%;
-        text-align: center;
-    }
+  .category-card {
+    padding: 20px;
+  }
+}
+
+/* ===== SMALL MOBILE ===== */
+@media (max-width: 480px) {
+  .category-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .category-card {
+    padding: 18px;
+  }
+
+  .browse-btn {
+    width: 100%;
+    text-align: center;
+  }
 }

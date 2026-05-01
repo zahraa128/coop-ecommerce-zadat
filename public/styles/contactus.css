@@ -1,19 +1,20 @@
-/* Container */
+/* ===== CONTACT PAGE ===== */
+
 .contact-container {
   text-align: center;
-  padding: 40px 20px;
+  padding: 50px 20px;
 }
 
-/* Buttons wrapper */
+/* ===== BUTTONS WRAPPER ===== */
 .contact-buttons {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 22px;
   flex-wrap: wrap;
   margin-top: 30px;
 }
 
-/* Box style */
+/* ===== CONTACT CARD ===== */
 .contact-btn {
   width: 120px;
   height: 120px;
@@ -30,22 +31,61 @@
   font-size: 14px;
   font-weight: bold;
 
-  transition: 0.3s;
+  box-shadow: 0 6px 14px rgba(91, 121, 23, 0.3);
+  transition: all 0.25s ease;
 }
 
-/* Icons */
+/* ===== ICON ===== */
 .contact-btn i {
   font-size: 28px;
   margin-bottom: 8px;
 }
 
-/* Hover effect */
+/* ===== HOVER ===== */
 .contact-btn:hover {
-  background: #4a6313;   /* darker */
-  transform: scale(1.05);
+  background: #4a6313;
+  transform: translateY(-4px) scale(1.03);
 }
 
-/* Click effect */
+/* ===== CLICK ===== */
 .contact-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.96);
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 768px) {
+  .contact-container {
+    padding: 40px 16px;
+  }
+
+  .contact-btn {
+    width: 110px;
+    height: 110px;
+    font-size: 13px;
+  }
+
+  .contact-btn i {
+    font-size: 24px;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 480px) {
+  .contact-buttons {
+    gap: 14px;
+  }
+
+  .contact-btn {
+    width: 100%;
+    height: 90px;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 14px;
+  }
+
+  .contact-btn i {
+    margin-bottom: 0;
+    font-size: 20px;
+  }
 }

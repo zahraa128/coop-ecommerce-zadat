@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cart = Object.values(cart);
     }
 
-    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
     const el = document.getElementById("cartCount");
     if (el) el.textContent = count;
@@ -41,15 +41,15 @@ document.addEventListener("DOMContentLoaded", () => {
       .then(async (html) => {
         headerEl.innerHTML = html;
 
-        // 🔥 ensure header.js loaded
+        // load header.js
         await loadHeaderScript();
 
-        // 🔥 initialize sidebar + auth
+        // initialize sidebar + login state
         if (typeof window.initSiteHeader === "function") {
           window.initSiteHeader();
         }
 
-        // 🔥 update cart AFTER header exists
+        // update cart AFTER header is ready
         window.updateCartCount();
       })
       .catch(() => {
@@ -66,7 +66,14 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // ===== EXTRA SAFETY (delayed update) =====
+  // ===== LIVE CART UPDATE (🔥 IMPORTANT FIX) =====
+  window.addEventListener("storage", () => {
+    if (typeof window.updateCartCount === "function") {
+      window.updateCartCount();
+    }
+  });
+
+  // ===== FORCE UPDATE (fallback) =====
   setTimeout(() => {
     if (typeof window.updateCartCount === "function") {
       window.updateCartCount();

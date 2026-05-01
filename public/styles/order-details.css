@@ -1,27 +1,94 @@
+/* ===== ORDER DETAILS PAGE ===== */
+
 .order-details-page {
-  padding: 30px;
+  padding: 40px 20px;
+  max-width: 1000px;
+  margin: auto;
 }
 
+/* ===== ORDER INFO BOX ===== */
 #orderInfo {
-  background: #f6f6f6;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  background: #FFFFFF;
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 25px;
+  box-shadow: 0 6px 14px rgba(133, 152, 100, 0.3);
+  border: 1px solid #859864;
 }
 
+#orderInfo p {
+  margin: 8px 0;
+  font-size: 1rem;
+}
+
+/* ===== TABLE ===== */
 table {
   width: 100%;
   border-collapse: collapse;
+  background: #FFFFFF;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 14px rgba(133, 152, 100, 0.3);
 }
 
-th, td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  text-align: center;
-}
-
+/* HEADER */
 th {
+  padding: 12px;
   background: #5B7917;
   color: white;
+  font-weight: 600;
   text-align: center;
+}
+
+/* CELLS */
+td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+
+/* ROW HOVER */
+tr:hover {
+  background: #F6F1E6;
+}
+
+/* ===== TOTAL ROW (optional if you add later) ===== */
+.total-row {
+  font-weight: bold;
+  background: #f2f2f2;
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 768px) {
+  .order-details-page {
+    padding: 30px 16px;
+  }
+
+  th, td {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  th, td {
+    white-space: nowrap;
+  }
+
+  #orderInfo {
+    padding: 16px;
+  }
+}
+
+/* ===== SMALL MOBILE ===== */
+@media (max-width: 400px) {
+  th, td {
+    font-size: 0.85rem;
+  }
 }
