@@ -54,14 +54,21 @@ header.simple-header .header-row {
 .header-row {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 20px;
+  width: 100%;
 }
 .cart-icon {
   position: relative;
   font-size: 22px;
+
 }
 
+.cart-icon a {
+  color: #5B7917;
+  text-decoration: none;
+  font-size: 24px;
+}
 .cart-count {
   position: absolute;
   top: -8px;
