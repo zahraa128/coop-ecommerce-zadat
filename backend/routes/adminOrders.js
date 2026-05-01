@@ -38,7 +38,7 @@ router.get("/orders", async (req, res) => {
 /* ===== DELIVERED ORDERS ===== */
 router.get("/orders/delivered", async (req, res) => {
   try {
-    const { data, error } = await supabase
+    const { data: orders, error } = await supabase
       .from("orders")
       .select("*")
       .eq("status", "delivered")
@@ -46,7 +46,21 @@ router.get("/orders/delivered", async (req, res) => {
 
     if (error) throw error;
 
-    res.json(data);
+    const ordersWithCount = await Promise.all(
+      orders.map(async (o) => {
+        const { count } = await supabase
+          .from("order_items")
+          .select("*", { count: "exact", head: true })
+          .eq("order_id", o.id);
+
+        return {
+          ...o,
+          products_count: count || 0
+        };
+      })
+    );
+
+    res.json(ordersWithCount);
 
   } catch (err) {
     res.status(500).json({ message: "Failed to load delivered orders" });
@@ -87,21 +101,32 @@ router.get("/orders/:id", async (req, res) => {
 
     const { data: items, error: itemsError } = await supabase
       .from("order_items")
-      .select(`
-        quantity,
-        price,
-        products ( name )
-      `)
+      .select("*")
       .eq("order_id", id);
 
     if (itemsError) throw itemsError;
 
-    res.json({ order, items });
+    // 🔥 GET PRODUCTS MANUALLY
+    const productIds = items.map(i => i.product_id);
+
+    const { data: products } = await supabase
+      .from("products")
+      .select("id, name")
+      .in("id", productIds);
+
+    const productMap = {};
+    products.forEach(p => productMap[p.id] = p.name);
+
+    const finalItems = items.map(i => ({
+      ...i,
+      product_name: productMap[i.product_id] || "-"
+    }));
+
+    res.json({ order, items: finalItems });
 
   } catch (err) {
     console.error("DETAIL ERROR:", err);
     res.status(500).json({ message: "Failed to load order details" });
   }
 });
-
 module.exports = router;

@@ -156,17 +156,22 @@ function submitOrder() {
     showOrderMessage("Please enter your address");
     return;
   }
-
+console.log("SENDING ORDER:", {
+  customer_id,
+  items: Object.values(cart),
+  total,
+  address
+});
   fetch(`${API_URL}/api/checkout`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-   body: JSON.stringify({
-  customer_id,
-  items: Object.values(cart), // 🔥 FORCE correct format
-  total,
-  address
+body: JSON.stringify({
+  customer_id: customer_id,
+  items: Object.values(cart), // 🔥 MUST be this
+  total: items.reduce((sum, i) => sum + i.price * i.quantity, 0),
+  address: address
 })
   })
     .then(res => res.json())

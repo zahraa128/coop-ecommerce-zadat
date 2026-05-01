@@ -25,7 +25,7 @@ fetch(`${API_URL}/api/admin/orders/${id}`)
 
       tbody.innerHTML += `
         <tr>
-          <td>${i.products?.name || "-"}</td>
+          <td>${i.product_name}</td>
           <td>${i.quantity}</td>
           <td>${i.price}</td>
           <td>${total}</td>
