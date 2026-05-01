@@ -22,36 +22,39 @@ function loadOrders() {
       orders.forEach(o => {
         const row = document.createElement("tr");
 
-        row.innerHTML = `
-          <td>${o.id}</td>
-          <td>${o.customer_name || ""}</td>
-          <td>${o.phone || ""}</td>
 
-          <!-- ✅ NUMBER OF PRODUCTS -->
-          <td>${o.products_count || 0} items</td>
+          row.innerHTML = `
+  <td>${o.id}</td>
+  <td>${o.customer_name || ""}</td>
+  <td>${o.phone || ""}</td>
 
-          <!-- ❌ removed unit price -->
-          <!-- ❌ removed quantity -->
+  <!-- ✅ number of products -->
+  <td>${o.products_count || 0} items</td>
 
-          <td>${o.total}</td>
+  <!-- ✅ TOTAL ONLY -->
+  <td>${o.total}</td>
 
-          <td>${new Date(o.created_at).toLocaleString()}</td>
+  <!-- ✅ DATE -->
+  <td>${new Date(o.created_at).toLocaleString()}</td>
 
-          <!-- ✅ STATUS CONTROL -->
-          <td>
-            <select class="status-select" data-id="${o.id}">
-              <option value="pending" ${o.status === "pending" ? "selected" : ""}>Pending</option>
-              <option value="shipping" ${o.status === "shipping" ? "selected" : ""}>Shipping</option>
-              <option value="delivered" ${o.status === "delivered" ? "selected" : ""}>Delivered</option>
-              <option value="cancelled" ${o.status === "cancelled" ? "selected" : ""}>Cancelled</option>
-            </select>
-          </td>
+  <!-- ✅ STATUS -->
+  <td>
+    <select class="status-select" data-id="${o.id}">
+      <option value="pending" ${o.status === "pending" ? "selected" : ""}>Pending</option>
+      <option value="shipping" ${o.status === "shipping" ? "selected" : ""}>Shipping</option>
+      <option value="delivered" ${o.status === "delivered" ? "selected" : ""}>Delivered</option>
+      <option value="cancelled" ${o.status === "cancelled" ? "selected" : ""}>Cancelled</option>
+    </select>
+  </td>
 
-          <!-- ✅ VIEW ORDER BUTTON -->
-          <td>
-            <button class="view-btn" data-id="${o.id}">View</button>
-          </td>
-        `;
+  <!-- ✅ VIEW BUTTON -->
+  <td>
+    <a href="order-details.html?id=${o.id}">
+      <button>View</button>
+    </a>
+  </td>
+`;
+
 
         tableBody.appendChild(row);
       });
