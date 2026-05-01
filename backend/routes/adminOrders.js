@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 const supabase = require("../supabase");
 
-/* ===== GET ALL ORDERS ===== */
+/* ===== GET ALL ORDERS (SEARCH + SORT) ===== */
 router.get("/orders", async (req, res) => {
   try {
     const { search, sort } = req.query;
 
     let query = supabase.from("orders").select("*");
 
-    // 🔍 SEARCH (name OR phone OR id)
+    // 🔍 SEARCH (name / phone / id)
     if (search) {
       query = query.or(
         `customer_name.ilike.%${search}%,phone.ilike.%${search}%,id.eq.${search}`
@@ -20,36 +20,13 @@ router.get("/orders", async (req, res) => {
     if (sort === "oldest") {
       query = query.order("id", { ascending: true });
     } else {
-      query = query.order("id", { ascending: false }); // default newest
+      query = query.order("id", { ascending: false });
     }
 
     const { data: orders, error } = await query;
-
     if (error) throw error;
 
-    // count products
-    const ordersWithCount = await Promise.all(
-      orders.map(async (o) => {
-        const { count } = await supabase
-          .from("order_items")
-          .select("*", { count: "exact", head: true })
-          .eq("order_id", o.id);
-
-        return {
-          ...o,
-          products_count: count || 0
-        };
-      })
-    );
-
-    res.json(ordersWithCount);
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Failed to fetch orders" });
-  }
-});
-    // ✅ FIX: inside async function
+    // ✅ COUNT PRODUCTS
     const ordersWithCount = await Promise.all(
       orders.map(async (o) => {
         const { count } = await supabase
@@ -100,15 +77,16 @@ router.get("/orders/delivered", async (req, res) => {
     res.json(ordersWithCount);
 
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Failed to load delivered orders" });
   }
 });
 
 /* ===== UPDATE STATUS ===== */
 router.put("/orders/:id/status", async (req, res) => {
-  const { status } = req.body;
-
   try {
+    const { status } = req.body;
+
     const { error } = await supabase
       .from("orders")
       .update({ status })
@@ -118,7 +96,7 @@ router.put("/orders/:id/status", async (req, res) => {
 
     res.json({ message: "Status updated" });
 
-  } catch {
+  } catch (err) {
     res.status(500).json({ message: "Failed to update status" });
   }
 });
@@ -143,7 +121,6 @@ router.get("/orders/:id", async (req, res) => {
 
     if (itemsError) throw itemsError;
 
-    // 🔥 GET PRODUCTS MANUALLY
     const productIds = items.map(i => i.product_id);
 
     const { data: products } = await supabase
@@ -166,12 +143,12 @@ router.get("/orders/:id", async (req, res) => {
     res.status(500).json({ message: "Failed to load order details" });
   }
 });
+
 /* ===== DELETE ORDER ===== */
 router.delete("/orders/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    // delete items first (important for FK)
     await supabase
       .from("order_items")
       .delete()
@@ -191,4 +168,5 @@ router.delete("/orders/:id", async (req, res) => {
     res.status(500).json({ message: "Failed to delete order" });
   }
 });
+
 module.exports = router;
