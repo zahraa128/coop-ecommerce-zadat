@@ -81,7 +81,16 @@ function addToCart(product) {
     updateCartCount();
   }
 
-  showMessage("Product added to cart successfully!");
+showMessage("Product added to cart successfully!");
+
+// 🔥 scroll to top so user sees message
+window.scrollTo({
+  top: 0,
+  behavior: "smooth"
+});
+if (typeof updateCartCount === "function") {
+  updateCartCount();
+}
 }
 
 // ===== MESSAGE =====

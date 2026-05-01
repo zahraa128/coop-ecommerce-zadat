@@ -35,12 +35,17 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch(() => {
         headerEl.innerHTML = "";
       })
-      .finally(() => {
-        ensureHeaderScript();
+      script.onload = () => {
+  if (typeof window.initSiteHeader === "function") {
+    window.initSiteHeader();
+  }
 
-        // ✅ IMPORTANT: wait for header render
-        setTimeout(updateCartCount, 300);
-      });
+  // 🔥 update cart AFTER header exists
+  if (typeof updateCartCount === "function") {
+    updateCartCount();
+  }
+};
+
   }
 
   if (footerEl) {
@@ -49,5 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
       .then(html => {
         footerEl.innerHTML = html;
       });
+  }
+});
+window.addEventListener("storage", () => {
+  if (typeof updateCartCount === "function") {
+    updateCartCount();
   }
 });
