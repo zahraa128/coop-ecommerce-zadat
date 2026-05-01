@@ -2,43 +2,17 @@ const express = require("express");
 const router = express.Router();
 const supabase = require("../supabase");
 
-/* ===== GET ALL ORDERS (WITH PRODUCT COUNT) ===== */
-router.get("/orders/:id", async (req, res) => {
+/* ===== GET ALL ORDERS ===== */
+router.get("/orders", async (req, res) => {
   try {
-    const { id } = req.params;
-
-    // 🔹 ORDER
-    const { data: order, error: orderError } = await supabase
+    const { data: orders, error } = await supabase
       .from("orders")
       .select("*")
-      .eq("id", id)
-      .single();
+      .order("id", { ascending: false });
 
-    if (orderError) throw orderError;
+    if (error) throw error;
 
-    // 🔹 ORDER ITEMS + PRODUCTS
-    const { data: items, error: itemsError } = await supabase
-      .from("order_items")
-      .select(`
-        quantity,
-        price,
-        products (
-          name
-        )
-      `)
-      .eq("order_id", id);
-
-    if (itemsError) throw itemsError;
-
-    res.json({ order, items });
-
-  } catch (err) {
-    console.error("DETAIL ERROR:", err);
-    res.status(500).json({ message: "Failed to load order details" });
-  }
-});
-
-    // 🔥 attach product count
+    // ✅ FIX: inside async function
     const ordersWithCount = await Promise.all(
       orders.map(async (o) => {
         const { count } = await supabase
@@ -56,8 +30,26 @@ router.get("/orders/:id", async (req, res) => {
     res.json(ordersWithCount);
 
   } catch (err) {
-    console.error(err);
+    console.error("ADMIN ORDERS ERROR:", err);
     res.status(500).json({ message: "Failed to fetch orders" });
+  }
+});
+
+/* ===== DELIVERED ORDERS ===== */
+router.get("/orders/delivered", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*")
+      .eq("status", "delivered")
+      .order("id", { ascending: false });
+
+    if (error) throw error;
+
+    res.json(data);
+
+  } catch (err) {
+    res.status(500).json({ message: "Failed to load delivered orders" });
   }
 });
 
@@ -75,48 +67,40 @@ router.put("/orders/:id/status", async (req, res) => {
 
     res.json({ message: "Status updated" });
 
-  } catch (err) {
+  } catch {
     res.status(500).json({ message: "Failed to update status" });
   }
 });
 
-/* ===== GET SINGLE ORDER DETAILS ===== */
+/* ===== ORDER DETAILS ===== */
 router.get("/orders/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    const { data: order } = await supabase
+    const { data: order, error: orderError } = await supabase
       .from("orders")
       .select("*")
       .eq("id", id)
       .single();
 
-    const { data: items } = await supabase
+    if (orderError) throw orderError;
+
+    const { data: items, error: itemsError } = await supabase
       .from("order_items")
-      .select("quantity, price, products(name, category_id)")
+      .select(`
+        quantity,
+        price,
+        products ( name )
+      `)
       .eq("order_id", id);
+
+    if (itemsError) throw itemsError;
 
     res.json({ order, items });
 
-  } catch {
-    res.status(500).json({ message: "Failed to load order" });
-  }
-});
-/* ===== GET DELIVERED ORDERS ===== */
-router.get("/orders/delivered", async (req, res) => {
-  try {
-    const { data, error } = await supabase
-      .from("orders")
-      .select("*")
-      .eq("status", "delivered")
-      .order("id", { ascending: false });
-
-    if (error) throw error;
-
-    res.json(data);
-
   } catch (err) {
-    res.status(500).json({ message: "Failed to load delivered orders" });
+    console.error("DETAIL ERROR:", err);
+    res.status(500).json({ message: "Failed to load order details" });
   }
 });
 
