@@ -1,0 +1,25 @@
+.order-details-page {
+  padding: 30px;
+}
+
+#orderInfo {
+  background: #f6f6f6;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background: #5B7917;
+  color: white;
+}
