@@ -5,9 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home | Cooperative</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/ihome.css">
   <link rel="stylesheet" href="styles/header.css">
   <link rel="stylesheet" href="styles/sidebar.css">
+  <link rel="stylesheet" href="styles/brochure.css">
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
@@ -27,6 +31,7 @@
     <a href="index.html">Home</a>
     <a href="shop.html">Shop</a>
     <a href="category.html">Categories</a>
+    <a href="brochure.html">Brochure</a>
     <a href="cart.html">Cart</a>
     <a href="orders.html">My Orders</a>
     <a href="Aboutus.html">About Us</a>
@@ -38,26 +43,77 @@
   <!-- FLASH MESSAGE -->
   <div id="flashMessage" class="flash-message"></div>
 
+  <main>
   <div class="page-shell">
     <section class="home-hero">
+      <div class="hero-leaf-accent hero-leaf-one" aria-hidden="true"></div>
+      <div class="hero-leaf-accent hero-leaf-two" aria-hidden="true"></div>
+
       <div class="hero-content">
-        <img src="logo.png" alt="Cooperative Logo" class="hero-logo">
+        <div class="hero-logo-wrap">
+          <img src="logo.png" alt="Zadat Al Khayrat Cooperative Logo" class="hero-logo">
+        </div>
 
         <!-- Welcome text handled by JavaScript -->
-        <h2 id="welcomeTitle">Welcome to our Cooperative!</h2>
-        <h4 id="welcomeSubtitle">Please login for better experience!</h4>
+        <span class="hero-eyebrow">Natural Cooperative Products</span>
+        <h1 class="hero-brand-name">Zadat Al Khayrat Cooperative</h1>
+        <h2 id="welcomeTitle" class="hero-welcome">Welcome to our Cooperative!</h2>
+        <h4 id="welcomeSubtitle" class="hero-subtitle">Please login for better experience!</h4>
 
-        <p>Natural handmade products made by women with love.</p>
-        <a href="shop.html" class="btn">Browse Products</a>
+        <p class="hero-description">Natural handmade products made by women with love.</p>
+
+        <div class="hero-actions">
+          <a href="shop.html" class="btn hero-primary-btn">
+            Browse Products
+            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </a>
+          <a href="brochure.html" class="hero-secondary-btn">View Brochure</a>
+        </div>
+
+        <a href="#homeBrochureTitle" class="hero-scroll-indicator" aria-label="Scroll to brochure section">
+          <span></span>
+        </a>
       </div>
     </section>
   </div>
+
+  <section class="brochure-section home-brochure-preview" aria-labelledby="homeBrochureTitle">
+    <div class="brochure-heading">
+      <span class="brochure-kicker">Premium Catalog</span>
+      <h2 id="homeBrochureTitle">Brochure</h2>
+      <p>Explore our products catalog</p>
+    </div>
+
+    <div class="brochure-viewer brochure-viewer-preview" aria-label="Brochure preview">
+      <div class="brochure-book">
+        <a class="brochure-page-image brochure-page-left" href="brochure.html" aria-label="Open brochure page">
+          <img
+            src="assets/brochure1.jpg"
+            alt="Brochure page 1"
+          >
+        </a>
+
+        <a class="brochure-page-image brochure-page-right" href="brochure.html" aria-label="Open brochure page">
+          <img
+            src="assets/brochure2.jpg"
+            alt="Brochure page 2"
+          >
+        </a>
+      </div>
+    </div>
+
+    <div class="home-brochure-action">
+      <a href="brochure.html" class="btn">View Brochure</a>
+    </div>
+  </section>
+  </main>
 
   <!-- FOOTER will be loaded here -->
   <div id="footer"></div>
 
   <script src="js/config.js"></script>
   <script src="js/home.js"></script>
+  <script src="js/brochure.js"></script>
   <script src="js/header.js"></script>
   <script src="js/layout.js"></script>
   <script type="module" src="js/speed-insights-init.js"></script>

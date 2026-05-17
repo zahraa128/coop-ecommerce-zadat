@@ -8,11 +8,11 @@
   height: 100vh;
   height: 100dvh;
 
-  background-color: #899D31;
+  background: linear-gradient(180deg, #899D31, #5B7917);
   color: #FFFFFF;
 
-  padding: 22px 16px;
-  box-shadow: 6px 0 18px rgba(133, 152, 100, 0.5);
+  padding: 24px 16px;
+  box-shadow: 10px 0 30px rgba(38, 52, 15, 0.22);
 
   transform: translateX(-100%);
   transition: transform 0.25s ease;
@@ -27,7 +27,7 @@
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 18px;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
 }
 
 /* ===== LINKS ===== */
@@ -36,26 +36,27 @@
   color: #FFFFFF;
   text-decoration: none;
 
-  padding: 10px 14px;
-  border-radius: 10px;
+  padding: 11px 13px;
+  border-radius: 12px;
   margin-bottom: 8px;
 
-  font-weight: 500;
-  transition: all 0.25s ease;
+  font-weight: 600;
+  transition: all 0.22s ease;
 }
 
 /* HOVER */
 .site-sidebar a:hover,
 .site-sidebar a:focus {
-  background-color: #F6F1E6;
+  background-color: rgba(255, 255, 255, 0.92);
   color: #5B7917;
   transform: translateX(4px);
 }
 
 /* ACTIVE LINK (optional enhancement) */
 .site-sidebar a.active {
-  background-color: #5B7917;
+  background-color: rgba(255, 255, 255, 0.18);
   color: #FFFFFF;
+  box-shadow: inset 3px 0 0 rgba(255, 255, 255, 0.82);
 }
 
 /* ===== OPEN STATE ===== */

@@ -1,19 +1,20 @@
 /* ===== CART CONTAINER ===== */
 .cart-container {
   max-width: 900px;
-  margin: 40px auto;
+  margin: 46px auto 72px;
   background: #FFFFFF;
-  padding: 30px 40px;
-  border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(133, 152, 100, 0.4);
+  padding: clamp(22px, 4vw, 38px);
+  border: 1px solid rgba(133, 152, 100, 0.22);
+  border-radius: 20px;
+  box-shadow: 0 18px 44px rgba(65, 83, 33, 0.14);
 }
 
 .cart-notice {
   background-color: #F6F1E6;
-  border: 1px solid #859864;
+  border: 1px solid rgba(133, 152, 100, 0.28);
   color: #5B7917;
   padding: 10px 14px;
-  border-radius: 8px;
+  border-radius: 12px;
   margin: 10px 0 20px;
   font-weight: 600;
 }
@@ -21,7 +22,7 @@
 /* ===== TITLE ===== */
 .cart-container h2 {
   font-weight: 700;
-  font-size: 2rem;
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
   margin-bottom: 25px;
   text-align: center;
   color: #5B7917;
@@ -33,6 +34,8 @@ table {
   border-collapse: collapse;
   margin-bottom: 25px;
   font-size: 0.95rem;
+  overflow: hidden;
+  border-radius: 14px;
 }
 
 thead th {
@@ -45,7 +48,8 @@ thead th {
 
 tbody td {
   padding: 15px;
-  border-bottom: 1px solid #859864;
+  border-bottom: 1px solid rgba(133, 152, 100, 0.2);
+  color: #607437;
 }
 
 tbody tr:hover {
@@ -53,17 +57,18 @@ tbody tr:hover {
 }
 
 tbody td img {
-  border-radius: 6px;
+  border-radius: 10px;
   width: 70px;
-  box-shadow: 0 2px 6px #859864;
+  background: #FBFAF5;
+  box-shadow: 0 8px 18px rgba(65, 83, 33, 0.12);
 }
 
 /* ===== INPUT ===== */
 input[type="number"] {
   width: 60px;
   padding: 6px;
-  border: 1.5px solid #859864;
-  border-radius: 6px;
+  border: 1px solid rgba(133, 152, 100, 0.32);
+  border-radius: 10px;
   text-align: center;
 }
 
@@ -121,16 +126,17 @@ button.remove-btn {
   padding: 25px;
   text-align: center;
   background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  border: 1px solid rgba(133, 152, 100, 0.22);
+  border-radius: 18px;
+  box-shadow: 0 18px 44px rgba(65, 83, 33, 0.12);
 }
 
 .checkout-box input {
   width: 100%;
   padding: 12px;
   margin: 12px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  border-radius: 12px;
+  border: 1px solid rgba(133, 152, 100, 0.28);
 }
 
 .checkout-box button {
@@ -153,7 +159,7 @@ button.remove-btn {
 /* ===== TABLET ===== */
 @media (max-width: 900px) {
   .cart-container {
-    margin: 30px 16px;
+  margin: 32px 16px 56px;
     padding: 24px;
   }
 }

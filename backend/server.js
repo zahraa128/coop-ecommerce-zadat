@@ -8,6 +8,10 @@ const visitRoutes = require("./routes/visits");
 app.use(cors());
 app.use(express.json());
 
+/* ===== STATIC FRONTEND ===== */
+app.use(express.static("public"));
+app.use("/src/assets", express.static("src/assets"));
+
 /* ===== SERVE IMAGES ===== */
 app.use("/product", express.static("public/product"));
 

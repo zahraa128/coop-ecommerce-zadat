@@ -2,7 +2,6 @@
 
 .checkout-page {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #F6F1E6;
   padding: 60px 20px;
   min-height: 100vh;
 }
@@ -13,8 +12,9 @@
   margin: auto;
   background-color: #FFFFFF;
   padding: 40px 30px;
-  border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(133, 152, 100, 0.4);
+  border: 1px solid rgba(133, 152, 100, 0.22);
+  border-radius: 20px;
+  box-shadow: 0 18px 44px rgba(65, 83, 33, 0.14);
 }
 
 /* ===== TITLE ===== */
@@ -22,7 +22,7 @@
   text-align: center;
   color: #5B7917;
   margin-bottom: 30px;
-  font-size: 1.8rem;
+  font-size: clamp(1.65rem, 3vw, 2.1rem);
 }
 
 /* ===== FORM ===== */
@@ -42,8 +42,8 @@
 .checkout-page input[type="text"],
 .checkout-page textarea {
   padding: 12px;
-  border: 1px solid #859864;
-  border-radius: 8px;
+  border: 1px solid rgba(133, 152, 100, 0.3);
+  border-radius: 12px;
   font-size: 15px;
   resize: vertical;
   transition: border 0.2s ease, box-shadow 0.2s ease;
@@ -53,7 +53,7 @@
 .checkout-page textarea:focus {
   outline: none;
   border-color: #5B7917;
-  box-shadow: 0 0 0 2px rgba(91, 121, 23, 0.2);
+  box-shadow: 0 0 0 4px rgba(91, 121, 23, 0.14);
 }
 
 .checkout-page textarea {
@@ -68,7 +68,7 @@
   padding: 14px;
   font-size: 16px;
   font-weight: bold;
-  border-radius: 10px;
+  border-radius: 999px;
   cursor: pointer;
   transition: all 0.25s ease;
 }
@@ -85,17 +85,17 @@
   padding: 25px;
   text-align: center;
   background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-  border: 1px solid #eee;
+  border-radius: 18px;
+  box-shadow: 0 18px 44px rgba(65, 83, 33, 0.12);
+  border: 1px solid rgba(133, 152, 100, 0.22);
 }
 
 .checkout-box input {
   width: 100%;
   padding: 12px;
   margin: 12px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  border-radius: 12px;
+  border: 1px solid rgba(133, 152, 100, 0.3);
 }
 
 .checkout-box button {
@@ -103,7 +103,7 @@
   background: #5B7917;
   color: white;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 999px;
 }
 
 /* ===== TABLET ===== */

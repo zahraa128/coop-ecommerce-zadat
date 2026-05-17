@@ -14,6 +14,13 @@ fetch("footer.html")
   .then(data => document.getElementById("footer").innerHTML = data);
 
 // Fetch categories from backend
+const escapeHtml = (value = "") => String(value)
+  .replaceAll("&", "&amp;")
+  .replaceAll("<", "&lt;")
+  .replaceAll(">", "&gt;")
+  .replaceAll('"', "&quot;")
+  .replaceAll("'", "&#039;");
+
 fetch(`${API_URL}/api/categories`)
   .then(res => res.json())
   .then(categories => {
@@ -26,11 +33,18 @@ fetch(`${API_URL}/api/categories`)
 
     categories.forEach(cat => {
       const card = document.createElement("div");
-      card.className = "category-card";
+      card.className = "category-card reveal-on-scroll is-visible";
+      const name = String(cat.name || "Category");
+      const initial = name.trim().charAt(0).toUpperCase() || "C";
 
       card.innerHTML = `
-        <h3>${cat.name}</h3>
-        <a href="shop.html?category_id=${cat.id}">Browse products</a>
+        <div class="category-icon" aria-hidden="true">${escapeHtml(initial)}</div>
+        <span class="category-label">Product Category</span>
+        <h3>${escapeHtml(name)}</h3>
+        <a class="browse-btn" href="shop.html?category_id=${encodeURIComponent(cat.id)}">
+          View Products
+          <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        </a>
       `;
 
       container.appendChild(card);

@@ -1,0 +1,413 @@
+:root {
+  --brochure-green: #5B7917;
+  --brochure-olive: #899D31;
+  --brochure-soft: #F6F1E6;
+  --brochure-line: rgba(133, 152, 100, 0.24);
+  --brochure-shadow: rgba(65, 83, 33, 0.18);
+}
+
+body {
+  margin: 0;
+  color: var(--brochure-green);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.brochure-page {
+  min-height: calc(100vh - 74px);
+  padding: 52px 20px 76px;
+}
+
+.brochure-section {
+  width: min(1160px, 100%);
+  margin: 0 auto;
+}
+
+.brochure-heading {
+  text-align: center;
+  margin: 0 auto 34px;
+  max-width: 620px;
+}
+
+.brochure-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--brochure-olive);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.brochure-kicker::before,
+.brochure-kicker::after {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--brochure-line);
+}
+
+.brochure-heading h1,
+.brochure-heading h2 {
+  margin: 0;
+  color: var(--brochure-green);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.brochure-heading h2 {
+  font-size: clamp(1.8rem, 3vw, 2.45rem);
+}
+
+.brochure-heading p {
+  margin: 12px 0 0;
+  color: #6D7D42;
+  font-size: 1.08rem;
+}
+
+.brochure-viewer {
+  position: relative;
+  padding: clamp(18px, 4vw, 42px);
+  border: 1px solid var(--brochure-line);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(137, 157, 49, 0.12), transparent 34%),
+    rgba(255, 255, 255, 0.88);
+  box-shadow: 0 24px 70px var(--brochure-shadow);
+  overflow: hidden;
+}
+
+.brochure-viewer-full {
+  padding-top: clamp(18px, 3vw, 28px);
+}
+
+.brochure-viewer::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 18px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(65, 83, 33, 0.13);
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+.brochure-toolbar {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 42px minmax(140px, 1fr) 42px;
+  align-items: center;
+  gap: 14px;
+  width: min(520px, 100%);
+  margin: 0 auto clamp(18px, 3vw, 28px);
+  padding: 8px;
+  border: 1px solid rgba(133, 152, 100, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 12px 28px rgba(65, 83, 33, 0.1);
+}
+
+.brochure-nav-btn {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--brochure-green);
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 22px rgba(91, 121, 23, 0.2);
+}
+
+.brochure-nav-btn:hover:not(:disabled),
+.brochure-nav-btn:focus-visible:not(:disabled) {
+  background: var(--brochure-olive);
+  transform: translateY(-1px);
+}
+
+.brochure-nav-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+  box-shadow: none;
+}
+
+.brochure-page-count {
+  color: var(--brochure-green);
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+.brochure-table {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  width: min(760px, 76%);
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(65, 83, 33, 0.12);
+  filter: blur(18px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.brochure-book {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0;
+  align-items: stretch;
+  perspective: 1800px;
+  border-radius: 18px;
+  overflow: visible;
+  z-index: 1;
+  width: min(980px, 100%);
+  margin: 0 auto;
+  transition: opacity 0.24s ease, transform 0.24s ease;
+}
+
+.brochure-book.is-turning-next {
+  animation: brochureTurnNext 0.34s ease both;
+}
+
+.brochure-book.is-turning-prev {
+  animation: brochureTurnPrev 0.34s ease both;
+}
+
+.brochure-book::before {
+  content: "";
+  position: absolute;
+  inset: 2% calc(50% - 13px);
+  width: 26px;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, rgba(45, 59, 22, 0.14), rgba(255, 255, 255, 0.72), rgba(45, 59, 22, 0.16));
+  box-shadow: 0 0 28px rgba(65, 83, 33, 0.22);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.brochure-page-image {
+  position: relative;
+  display: flex;
+  padding: clamp(10px, 1.7vw, 18px);
+  border: 0;
+  background: linear-gradient(180deg, #FFFFFF, #FBFAF5);
+  text-decoration: none;
+  cursor: zoom-in;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  min-width: 0;
+}
+
+.brochure-page-left {
+  border-radius: 18px 4px 4px 18px;
+  box-shadow: -18px 18px 42px rgba(65, 83, 33, 0.16);
+  transform-origin: right center;
+  animation: brochureOpenLeft 0.7s ease both;
+}
+
+.brochure-page-right {
+  border-radius: 4px 18px 18px 4px;
+  box-shadow: 18px 18px 42px rgba(65, 83, 33, 0.16);
+  transform-origin: left center;
+  animation: brochureOpenRight 0.7s ease both;
+}
+
+.brochure-page-single {
+  width: min(560px, 100%);
+  margin: 0 auto;
+  border-radius: 18px;
+  box-shadow: 0 18px 42px rgba(65, 83, 33, 0.16);
+  animation: brochureOpenRight 0.7s ease both;
+}
+
+.brochure-page-image:hover,
+.brochure-page-image:focus-visible {
+  z-index: 4;
+  transform: translateY(-5px) rotateY(0deg);
+  box-shadow: 0 24px 52px rgba(65, 83, 33, 0.24);
+  outline: none;
+}
+
+.brochure-page-image:focus-visible {
+  box-shadow: 0 0 0 4px rgba(137, 157, 49, 0.2), 0 24px 52px rgba(65, 83, 33, 0.24);
+}
+
+.brochure-page-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #FFFFFF;
+  box-shadow: inset 0 0 0 1px rgba(133, 152, 100, 0.12);
+  aspect-ratio: auto;
+}
+
+.brochure-page-image img.is-missing {
+  min-height: 420px;
+  border: 1px dashed var(--brochure-line);
+}
+
+.brochure-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: none;
+  place-items: center;
+  padding: 24px;
+  background: rgba(25, 35, 14, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.brochure-modal.is-open {
+  display: grid;
+}
+
+.brochure-modal img {
+  max-width: min(94vw, 980px);
+  max-height: 88vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 14px;
+  background: #FFFFFF;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+}
+
+.brochure-modal-close {
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--brochure-green);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@keyframes brochureOpenLeft {
+  from {
+    opacity: 0;
+    transform: rotateY(9deg) translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0deg) translateX(0);
+  }
+}
+
+@keyframes brochureOpenRight {
+  from {
+    opacity: 0;
+    transform: rotateY(-9deg) translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0deg) translateX(0);
+  }
+}
+
+@keyframes brochureTurnNext {
+  from {
+    opacity: 0.2;
+    transform: translateX(18px) rotateY(-3deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) rotateY(0deg);
+  }
+}
+
+@keyframes brochureTurnPrev {
+  from {
+    opacity: 0.2;
+    transform: translateX(-18px) rotateY(3deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) rotateY(0deg);
+  }
+}
+
+@media (max-width: 760px) {
+  .brochure-page {
+    padding: 34px 14px 54px;
+  }
+
+  .brochure-heading {
+    margin-bottom: 24px;
+  }
+
+  .brochure-viewer {
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .brochure-viewer-full {
+    padding-top: 14px;
+  }
+
+  .brochure-toolbar {
+    grid-template-columns: 38px minmax(110px, 1fr) 38px;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .brochure-nav-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .brochure-page-count {
+    font-size: 0.92rem;
+  }
+
+  .brochure-book {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .brochure-book::before {
+    display: none;
+  }
+
+  .brochure-page-left,
+  .brochure-page-right,
+  .brochure-page-single {
+    border-radius: 16px;
+    box-shadow: 0 16px 34px rgba(65, 83, 33, 0.18);
+  }
+
+  .brochure-page-image:hover,
+  .brochure-page-image:focus-visible {
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brochure-page-left,
+  .brochure-page-right {
+    animation: none;
+  }
+
+  .brochure-page-image {
+    transition: none;
+  }
+
+  .brochure-book.is-turning-next,
+  .brochure-book.is-turning-prev {
+    animation: none;
+  }
+}

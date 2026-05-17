@@ -84,6 +84,16 @@
       }
     }
 
+    if (sidebar) {
+      sidebar.querySelectorAll("a[href]").forEach((link) => {
+        const href = link.getAttribute("href")?.toLowerCase();
+        if (href && href === pageName) {
+          link.classList.add("active");
+          link.setAttribute("aria-current", "page");
+        }
+      });
+    }
+
     if (sidebarToggle && sidebarToggle.dataset.sidebarBound !== "true") {
       sidebarToggle.dataset.sidebarBound = "true";
       sidebarToggle.setAttribute("aria-expanded", "false");
@@ -127,4 +137,3 @@
   }
   
 })();
-

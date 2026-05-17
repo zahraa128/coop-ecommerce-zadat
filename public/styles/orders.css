@@ -2,7 +2,6 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #F6F1E6;
   color: #5B7917;
   margin: 0;
 }
@@ -10,7 +9,7 @@ body {
 /* ===== PAGE WRAPPER ===== */
 .orders-page {
   max-width: 1000px;
-  margin: 40px auto 60px;
+  margin: 46px auto 72px;
   padding: 0 20px;
 }
 
@@ -18,14 +17,14 @@ body {
 .orders-page h2 {
   text-align: center;
   margin-bottom: 6px;
-  font-size: 1.8rem;
+  font-size: clamp(1.8rem, 3vw, 2.35rem);
 }
 
 /* ===== SUBTITLE ===== */
 .orders-subtitle {
   text-align: center;
-  margin-bottom: 25px;
-  opacity: 0.85;
+  margin-bottom: 30px;
+  color: #607437;
 }
 
 /* ===== TABLE ===== */
@@ -35,7 +34,8 @@ table {
   background-color: #FFFFFF;
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 6px 16px rgba(133, 152, 100, 0.4);
+  border: 1px solid rgba(133, 152, 100, 0.22);
+  box-shadow: 0 18px 44px rgba(65, 83, 33, 0.14);
 }
 
 /* HEADER */
@@ -49,8 +49,9 @@ th {
 /* CELLS */
 td {
   padding: 12px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid rgba(133, 152, 100, 0.18);
   text-align: center;
+  color: #607437;
 }
 
 /* ROW HOVER */
@@ -63,7 +64,7 @@ tr:hover {
   font-weight: 600;
   text-transform: capitalize;
   padding: 4px 10px;
-  border-radius: 6px;
+  border-radius: 999px;
   display: inline-block;
 }
 
@@ -92,8 +93,8 @@ tr:hover {
 .view-btn {
   background: #5B7917;
   color: white;
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 7px 13px;
+  border-radius: 999px;
   text-decoration: none;
   font-size: 0.9rem;
   transition: 0.2s;
@@ -101,6 +102,7 @@ tr:hover {
 
 .view-btn:hover {
   background: #899D31;
+  transform: translateY(-1px);
 }
 
 /* ===== TABLET ===== */

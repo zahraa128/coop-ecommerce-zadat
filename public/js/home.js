@@ -23,6 +23,7 @@ const headerFallback = `
     <a href="index.html">Home</a>
     <a href="shop.html">Shop</a>
     <a href="category.html">Categories</a>
+    <a href="brochure.html">Brochure</a>
     <a href="cart.html">Cart</a>
     <a href="orders.html">My Orders</a>
     <a href="Aboutus.html">About Us</a>
@@ -32,12 +33,15 @@ const headerFallback = `
 `;
 
 // Load header
-fetch("header.html")
-  .then(res => res.text())
-  .then(data => document.getElementById("header").innerHTML = data)
-  .catch(() => {
-    document.getElementById("header").innerHTML = headerFallback;
-  });
+const headerTarget = document.getElementById("header");
+if (headerTarget) {
+  fetch("header.html")
+    .then(res => res.text())
+    .then(data => headerTarget.innerHTML = data)
+    .catch(() => {
+      headerTarget.innerHTML = headerFallback;
+    });
+}
 
 const footerFallback = `
   <link rel="stylesheet" href="styles/footer.css">

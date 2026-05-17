@@ -2,6 +2,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const headerEl = document.getElementById("header");
   const footerEl = document.getElementById("footer");
 
+  const initRevealAnimations = () => {
+    const targets = document.querySelectorAll(
+      "main, .home-hero, .brochure-section, .product-card, .category-card, .cart-container, .about-container, .contact-container, .checkout-box"
+    );
+
+    targets.forEach((target) => target.classList.add("reveal-on-scroll"));
+
+    if (!("IntersectionObserver" in window)) {
+      targets.forEach((target) => target.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12 });
+
+    targets.forEach((target) => observer.observe(target));
+  };
+
   // ===== GLOBAL CART COUNT =====
   window.updateCartCount = function () {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -79,6 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
       window.updateCartCount();
     }
   }, 300);
+
+  setTimeout(initRevealAnimations, 80);
 });
 
 fetch(`${API_URL}/api/visits`, {
